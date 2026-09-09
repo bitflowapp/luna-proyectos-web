@@ -1,0 +1,116 @@
+{
+  "capturedAt": "2026-09-09",
+  "bitFlow": "No source, screenshots, binary, client identity or private workflow included. Sale and exclusivity stated by owner.",
+  "assets": [
+    {
+      "file": "media/taba-desktop.webp",
+      "sourceHash": "a6a87712f6caa6cde06fcec792c6e960de67fd0229886a93eed92618f707407f",
+      "outputHash": "da41126f9932bb70c77e2ff16fedd8e6dca66a8eebb68a6514ed71c7e2c54d2b",
+      "width": 1440,
+      "height": 1000,
+      "bytes": 71168,
+      "provenance": "TABA local showcase, synthetic data, remote requests blocked",
+      "treatment": "Resize and WebP encoding only; no interface or data fabrication"
+    },
+    {
+      "file": "media/taba-mobile.webp",
+      "sourceHash": "faab4389814d0b8951a378ad62483438cdb624a1a9e6068df90df00ac31a8b04",
+      "outputHash": "cc713c44ded5978d65cfc5fb09ee9c94e213a20f1b193779742540a4bcdc175e",
+      "width": 390,
+      "height": 844,
+      "bytes": 38756,
+      "provenance": "TABA local showcase, synthetic data, remote requests blocked",
+      "treatment": "Resize and WebP encoding only; no interface or data fabrication"
+    },
+    {
+      "file": "media/taba-business.webp",
+      "sourceHash": "e7a5584789296f20ecbb670a2c7cc6a7f45ae75909e0360b720f245749cd436f",
+      "outputHash": "e1a1cd7c2ddddde80680a744f9d655f0af6d6b8598d18e6e6fd7863716306cbd",
+      "width": 1440,
+      "height": 1000,
+      "bytes": 57968,
+      "provenance": "TABA local showcase, synthetic data, remote requests blocked",
+      "treatment": "Resize and WebP encoding only; no interface or data fabrication"
+    },
+    {
+      "file": "media/taba-business-mobile.webp",
+      "sourceHash": "e9970bc07ec9dc9828ba9b6dcdd64c94447c529d9d6e13dba9bffd83001b8a7b",
+      "outputHash": "ff52a418c7a1e5c5a7781a2afbb8f10d7f1c9ebdc425c19e744103b4cf04d2b2",
+      "width": 390,
+      "height": 844,
+      "bytes": 29084,
+      "provenance": "TABA local showcase, synthetic data, remote requests blocked",
+      "treatment": "Resize and WebP encoding only; no interface or data fabrication"
+    },
+    {
+      "file": "media/taba-rider.webp",
+      "sourceHash": "b4236374b11dc49096fbee0a5bd6d50e9343ec5f38abf0e4cc9ecf19fa892a19",
+      "outputHash": "a04c82b0ec4261973a4dc6019a161e14c9e7ffbe5cdbde34aab2dac7e767c760",
+      "width": 1440,
+      "height": 1000,
+      "bytes": 38720,
+      "provenance": "TABA local showcase, synthetic data, remote requests blocked",
+      "treatment": "Resize and WebP encoding only; no interface or data fabrication"
+    },
+    {
+      "file": "media/taba-rider-mobile.webp",
+      "sourceHash": "125c4e326272854570b49a0ae6f92e9224471d48aed7702294ccf7defb666df8",
+      "outputHash": "10ba9b4ab3e70ace0a58cef26b31010f5c694e882da94f6d55646d12e498851d",
+      "width": 390,
+      "height": 844,
+      "bytes": 34254,
+      "provenance": "TABA local showcase, synthetic data, remote requests blocked",
+      "treatment": "Resize and WebP encoding only; no interface or data fabrication"
+    },
+    {
+      "file": "media/catalog-desktop.webp",
+      "sourceHash": "547fc9213e6c8cfeca302141c7faeab5803ce4182cb8897d4edf3e6b6061eb48",
+      "outputHash": "a853ddd38219b2def8438f572dcdaac7e038705b4be51a522853bb4142c2125e",
+      "width": 1440,
+      "height": 1000,
+      "bytes": 41810,
+      "provenance": "Public catalog demo, captured with Playwright",
+      "treatment": "Resize and WebP encoding only; no interface or data fabrication"
+    },
+    {
+      "file": "media/catalog-mobile.webp",
+      "sourceHash": "516a2d9d4085b3307af1a5f44c362cabda029715ab4e3668b40e6dc5b7ba0125",
+      "outputHash": "c220efa71f606d3a702e4301b398603310f59b417092ecd34821ec7f64793a45",
+      "width": 390,
+      "height": 844,
+      "bytes": 20114,
+      "provenance": "Public catalog demo, captured with Playwright",
+      "treatment": "Resize and WebP encoding only; no interface or data fabrication"
+    },
+    {
+      "file": "media/oficio-agenda.webp",
+      "sourceHash": "90c8317a9658b7b788a220fe9e1d67bed794bd1928f2762b8378cbf837d036ba",
+      "outputHash": "f1823638e1e3a7828acc9c30cf8f5171fd6ce7c7eaac5e894c3ae860befcab1f",
+      "width": 780,
+      "height": 1387,
+      "bytes": 49568,
+      "provenance": "OFICIO real Android capture; fictional seed data verified against source",
+      "treatment": "Resize and WebP encoding only; no interface or data fabrication"
+    },
+    {
+      "file": "media/oficio-presupuesto.webp",
+      "sourceHash": "634666f9c07aba88fb2665e5087d3fae3e673198792665fe167b463e861d6208",
+      "outputHash": "709612b4f9c5ccda6bb139832983bda7675677429f41b2ed0a95560541693cd2",
+      "width": 780,
+      "height": 1387,
+      "bytes": 40806,
+      "provenance": "OFICIO real Android capture; fictional seed data verified against source",
+      "treatment": "Resize and WebP encoding only; no interface or data fabrication"
+    },
+    {
+      "file": "media/oficio-cobros.webp",
+      "sourceHash": "a0de24a9b401272e3ec20c734b50f525bdc0008969cef1d5e212335fc37eebcc",
+      "outputHash": "4dfed3d950c853fbb6d5ee8b1e7c2a6858c3be3151ef9574f100a2c87f4fa260",
+      "width": 780,
+      "height": 1387,
+      "bytes": 27356,
+      "provenance": "OFICIO real Android capture; fictional seed data verified against source",
+      "treatment": "Resize and WebP encoding only; no interface or data fabrication"
+    }
+  ]
+}

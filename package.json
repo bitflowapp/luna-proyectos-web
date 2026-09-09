@@ -1,0 +1,38 @@
+{
+  "name": "luna-proyectos-web",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -b && vite build && node scripts/prerender.mjs",
+    "lint": "oxlint",
+    "preview": "vite preview",
+    "typecheck": "tsc -b --pretty false",
+    "test": "node scripts/run-tests.mjs",
+    "test:unit": "node --test tests/contracts.test.mjs"
+  },
+  "dependencies": {
+    "@fontsource-variable/manrope": "^5.3.0",
+    "@fontsource/instrument-serif": "^5.3.0",
+    "@fontsource/manrope": "^5.3.0",
+    "preact": "^10.29.8",
+    "preact-render-to-string": "^6.7.0",
+    "react": "^19.2.8",
+    "react-dom": "^19.2.8"
+  },
+  "devDependencies": {
+    "@axe-core/playwright": "^4.13.0",
+    "@playwright/test": "^1.60.0",
+    "@types/node": "^24.13.3",
+    "@types/react": "^19.2.18",
+    "@types/react-dom": "^19.2.4",
+    "@vitejs/plugin-react": "^6.1.0",
+    "lighthouse": "^13.4.1",
+    "oxlint": "^1.79.0",
+    "prettier": "^3.9.6",
+    "sharp": "^0.35.4",
+    "typescript": "~6.0.2",
+    "vite": "^8.2.2"
+  }
+}

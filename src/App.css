@@ -427,12 +427,16 @@ h2 em {
   font-size: 11px;
   font-weight: 650;
   padding: 10px 19px;
-  min-height: 42px;
+  min-height: 44px;
   border-radius: 3px;
   background: transparent;
   transition:
     background 0.2s,
-    color 0.2s;
+    color 0.2s,
+    transform 0.15s;
+}
+.view-controls button:active {
+  transform: scale(0.97);
 }
 .view-controls button[aria-pressed="true"] {
   background: var(--ink);
@@ -1321,7 +1325,7 @@ body:has(dialog[open]) {
     scroll-padding-top: 24px;
   }
   .nav-row {
-    min-height: 77px;
+    min-height: 64px;
   }
   .brand > span:first-child {
     font-size: 33px;
@@ -1348,11 +1352,11 @@ body:has(dialog[open]) {
   .navigation {
     display: none;
     position: absolute;
-    top: 77px;
+    top: 64px;
     left: 0;
     width: 100%;
     background: var(--paper);
-    padding: 20px;
+    padding: 20px 20px max(24px, env(safe-area-inset-bottom, 24px));
     border-bottom: 1px solid var(--line);
     box-shadow: 0 10px 20px #20211f0d;
   }
@@ -1372,9 +1376,9 @@ body:has(dialog[open]) {
     border: 0;
   }
   .hero {
-    padding-top: 34px;
-    gap: 31px;
-    padding-bottom: 32px;
+    padding-top: 20px;
+    gap: 22px;
+    padding-bottom: 24px;
   }
   .hero .eyebrow {
     font-size: 7px;
@@ -1385,7 +1389,7 @@ body:has(dialog[open]) {
     font-size: clamp(46px, 13vw, 56px);
     line-height: 1.03;
     letter-spacing: -2px;
-    margin-top: 23px;
+    margin-top: 14px;
   }
   .hero h1 em {
     letter-spacing: -2px;
@@ -1393,14 +1397,14 @@ body:has(dialog[open]) {
   .hero-description {
     font-size: 14px;
     line-height: 1.85;
-    margin-top: 21px;
+    margin-top: 14px;
     max-width: 355px;
   }
   .hero-actions {
     flex-direction: column;
     align-items: flex-start;
-    gap: 11px;
-    margin-top: 24px;
+    gap: 10px;
+    margin-top: 18px;
   }
   .button {
     min-height: 51px;
@@ -1413,7 +1417,7 @@ body:has(dialog[open]) {
     gap: 13px;
   }
   .hero-note {
-    margin-top: 11px;
+    margin-top: 10px;
     font-size: 10px;
     line-height: 1.75;
   }
@@ -1482,8 +1486,10 @@ body:has(dialog[open]) {
     font-size: 12px;
     letter-spacing: -0.35px;
     gap: 5px;
-    padding-top: 8px;
-    min-height: 35px;
+    padding: 6px 2px;
+    min-height: 44px;
+    display: flex;
+    align-items: center;
   }
   .project-index a span {
     font-size: 6px;
@@ -1571,7 +1577,7 @@ body:has(dialog[open]) {
     flex: 1;
     padding: 9px 11px;
     font-size: 10px;
-    min-height: 42px;
+    min-height: 44px;
   }
   .taba-screen picture {
     display: block;
@@ -1752,7 +1758,8 @@ body:has(dialog[open]) {
   .team-signature {
     width: calc(100% - 12px);
     margin-inline: auto;
-    min-height: 280px;
+    min-height: 240px;
+    padding: 38px 20px;
   }
   .team-signature > span:first-child {
     font-size: 62px;
@@ -1842,7 +1849,8 @@ body:has(dialog[open]) {
   .footer {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    padding-block: 30px;
+    padding-top: 30px;
+    padding-bottom: max(30px, env(safe-area-inset-bottom, 30px));
     gap: 25px;
   }
   .footer p {

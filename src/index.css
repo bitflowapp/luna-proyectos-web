@@ -93,6 +93,10 @@ h2,
 h3,
 h4 {
   font-weight: 550;
+  text-wrap: balance;
+}
+p {
+  text-wrap: pretty;
 }
 em {
   font-family: var(--serif);
@@ -120,8 +124,17 @@ button svg,
 a svg {
   transition: transform 0.2s ease;
 }
-a:hover > svg {
+a:hover > svg.is-diagonal,
+button:hover > svg.is-diagonal {
   transform: translate(2px, -2px);
+}
+a:hover > svg:not(.is-diagonal),
+button:hover > svg:not(.is-diagonal) {
+  transform: translateX(3px);
+}
+button:active,
+a.button:active {
+  transform: translateY(0);
 }
 @media (prefers-reduced-motion: reduce) {
   *,

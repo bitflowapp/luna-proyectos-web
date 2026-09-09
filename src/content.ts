@@ -1,5 +1,5 @@
 export const SITE = {
-  url: "https://marcoluna-nqn.github.io/luna-proyectos-web/",
+  url: "https://bitflowapp.github.io/luna-proyectos-web/",
   instagram: "https://www.instagram.com/lunaaproyectos",
   catalog: "https://bitflowapp.github.io/luna-catalogo-demo-preview/",
 } as const;

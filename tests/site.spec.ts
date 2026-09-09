@@ -98,7 +98,7 @@ test('SEO, canonical, manifest and social image exist', async ({ page, request }
   await page.goto('./')
   await expect(page).toHaveTitle(/LUNA Proyectos.*Neuquén/)
   await expect(page.locator('html')).toHaveAttribute('lang', 'es-AR')
-  await expect(page.locator('link[rel="canonical"]')).toHaveAttribute('href', 'https://marcoluna-nqn.github.io/luna-proyectos-web/')
+  await expect(page.locator('link[rel="canonical"]')).toHaveAttribute('href', 'https://bitflowapp.github.io/luna-proyectos-web/')
   const schema = JSON.parse((await page.locator('script[type="application/ld+json"]').textContent())!)
   expect(schema.name).toBe('LUNA Proyectos')
   for (const file of ['site.webmanifest', 'sitemap.xml', 'robots.txt', 'favicon.svg', 'icon-192.png', 'social/luna-og.jpg']) {

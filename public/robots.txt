@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://marcoluna-nqn.github.io/luna-proyectos-web/sitemap.xml
+Sitemap: https://bitflowapp.github.io/luna-proyectos-web/sitemap.xml

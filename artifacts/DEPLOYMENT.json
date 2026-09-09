@@ -1,0 +1,17 @@
+{
+  "status": "published",
+  "date": "2026-09-09",
+  "url": "https://bitflowapp.github.io/luna-proyectos-web/",
+  "repository": "https://github.com/bitflowapp/luna-proyectos-web",
+  "deployedCommit": "3e626cee8c9264469c2899cff5ebe42b7bbd03ef",
+  "workflow": "https://github.com/bitflowapp/luna-proyectos-web/actions/runs/34323310884",
+  "hosting": "GitHub Pages",
+  "paidServicesCreated": false,
+  "existingDeploymentsModified": false,
+  "ci": { "lint": "pass", "typecheck": "pass", "build": "pass", "contracts": "3/3", "playwright": "60/60", "deploy": "pass" },
+  "publicVerification": { "playwright": "60/60", "browsers": ["Chromium", "WebKit"], "viewports": ["360x800", "390x844", "430x932", "768x1024", "1440x1000"], "failures": 0, "skipped": 0 },
+  "bitFlowExclusivity": "pass",
+  "realSoftwareEvidence": "pass",
+  "commercialAudit": "pass - four simulated profiles, not a real user study",
+  "blockers": []
+}

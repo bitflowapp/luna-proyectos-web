@@ -67,3 +67,18 @@ Los bloqueos temporales de la máquina se resolvieron usando los navegadores ins
 - Consola, enlaces internos, imágenes, foco, teclado, contraste y SEO: PASS dentro del alcance probado.
 - Evidencia real y exclusividad de Bit Flow: PASS.
 - Auditoría comercial simulada: PASS, con los límites indicados en README-COMERCIAL.
+
+## Deployment y comprobación pública
+
+- URL: https://bitflowapp.github.io/luna-proyectos-web/
+- Repositorio nuevo: https://github.com/bitflowapp/luna-proyectos-web
+- Workflow verificado: https://github.com/bitflowapp/luna-proyectos-web/actions/runs/34323310884
+- Commit desplegado: `3e626cee8c9264469c2899cff5ebe42b7bbd03ef`.
+- CI en Linux: lint, typecheck, build, 3/3 contratos y 60/60 Playwright PASS; publicación PASS.
+- Comprobación de la URL pública: 60/60 Playwright PASS, cero fallos, cero skips, ambos navegadores y las cinco resoluciones.
+- `playwright-local.json` conserva la matriz local; `playwright-results.json` contiene la comprobación final del sitio público.
+- El catálogo público también se recorrió hasta agregar un producto a un carrito de consulta aislado, sin enviar consultas ni reservar/comprar productos; evidencia en `CATALOG-CHECK.json`.
+- La cuenta autenticada de GitHub se verificó mediante la API como `bitflowapp`. Canonical, sitemap, Open Graph, Twitter y datos estructurados usan la URL definitiva.
+- El commit de cierre solo agrega evidencia/documentación. El código servido corresponde al commit desplegado indicado arriba; las actualizaciones exclusivas de `artifacts/` no disparan deployments innecesarios.
+
+Estado final: PUBLICADO. Bloqueos reales: ninguno.

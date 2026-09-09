@@ -2,7 +2,12 @@
   "date": "2026-09-09",
   "url": "https://bitflowapp.github.io/luna-catalogo-demo-preview/",
   "http": 200,
-  "navigationAfterExplore": "https://bitflowapp.github.io/luna-catalogo-demo-preview/catalogo",
+  "verified": [
+    "Catalog navigation",
+    "Real product detail",
+    "Add product to local consultation cart"
+  ],
+  "finalRoute": "https://bitflowapp.github.io/luna-catalogo-demo-preview/carrito",
   "contactSent": false,
   "orderSubmitted": false
 }

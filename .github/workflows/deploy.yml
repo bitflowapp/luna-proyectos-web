@@ -3,6 +3,9 @@ name: Verify and publish LUNA
 on:
   push:
     branches: [main]
+    paths-ignore:
+      - 'artifacts/**'
+      - 'README.md'
   workflow_dispatch:
 
 permissions:

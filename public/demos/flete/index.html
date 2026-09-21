@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="es-AR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#263b35">
+<meta name="robots" content="noindex,nofollow">
+<meta name="referrer" content="no-referrer">
+<meta name="description" content="Demo interactiva de Flete: solicitudes, cotizaciones, vehículos y seguimiento. No recibe servicios reales.">
+<title>Flete · Demo interactiva</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%23263b35'/%3E%3Cpath d='M20 46V18h27M20 31h21' stroke='%23e9bf9b' stroke-width='6' fill='none'/%3E%3C/svg%3E">
+<style id="boot-style">body{margin:0;background:#faf9f6;color:#263b35;font:16px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}.boot{min-height:100svh;display:grid;place-items:center;padding:24px;box-sizing:border-box}.boot-card{max-width:390px;padding:36px;border:1px solid #dde3dc;background:white;border-radius:22px}.boot-brand{font-size:36px;font-weight:750;letter-spacing:-1px}.boot-tag{font-size:11px;letter-spacing:2px;color:#a14f32;font-weight:700}h1{font-size:21px;line-height:1.35}p{color:#637068;font-size:14px}button{background:#263b35;color:white;border:0;border-radius:12px;padding:14px 20px;font:inherit;cursor:pointer}button:focus-visible{outline:3px solid #a14f32;outline-offset:3px}.boot-dot{width:28px;height:3px;background:#a14f32;margin:24px 0}</style>
+</head>
+<body>
+<div id="app"><main class="boot"><section class="boot-card"><div class="boot-brand">Flete.</div><div class="boot-tag">DEMO INTERACTIVA</div><div class="boot-dot"></div><h1 id="boot-title" role="status">Preparando la demo…</h1><p id="boot-text">Vas a poder probar una solicitud y gestionarla desde el panel del dueño. No se envían servicios reales.</p><button id="retry" hidden type="button">Volver a intentar</button><noscript><p>Activá JavaScript en el navegador para abrir la demo.</p></noscript></section></main></div>
+<script>
+(async function () {
+  'use strict';
+  const retry = document.getElementById('retry');
+  retry.addEventListener('click', function () { location.reload(); });
+  try {
+    if (!globalThis.DecompressionStream || !globalThis.crypto?.subtle) throw new Error('browser');
+    const parts = await Promise.all(Array.from({length:10}, async function (_, i) {
+      const controller = new AbortController();
+      const timeout = setTimeout(function () { controller.abort(); }, 25000);
+      try {
+        const name = 'bundle-b954c193fce9-' + String(i + 1).padStart(2, '0') + '.bin';
+        const response = await fetch(name, {signal:controller.signal, credentials:'omit'});
+        if (!response.ok) throw new Error('network');
+        const bytes = new Uint8Array(await response.arrayBuffer());
+        if (bytes.length !== (i === 9 ? 463 : 6144)) throw new Error('integrity');
+        return bytes;
+      } finally { clearTimeout(timeout); }
+    }));
+    const payload = new Uint8Array(55759);
+    let offset = 0;
+    for (const part of parts) { payload.set(part, offset); offset += part.length; }
+    const digest = await crypto.subtle.digest('SHA-256', payload);
+    const hash = Array.from(new Uint8Array(digest), function (b) { return b.toString(16).padStart(2, '0'); }).join('');
+    if (hash !== 'b954c193fce98adc3dce7da6dfd579ad619f09bbf0da82b5df37660e60baab73') throw new Error('integrity');
+    const data = await new Response(new Blob([payload]).stream().pipeThrough(new DecompressionStream('gzip'))).json();
+    if (typeof data.css !== 'string' || typeof data.javascript !== 'string') throw new Error('format');
+    const style = document.createElement('style');
+    style.textContent = data.css;
+    document.head.appendChild(style);
+    const script = document.createElement('script');
+    script.textContent = data.javascript;
+    document.getElementById('boot-style').remove();
+    document.getElementById('app').replaceChildren();
+    document.body.appendChild(script);
+  } catch (error) {
+    const title = document.getElementById('boot-title');
+    if (!title) return;
+    title.textContent = 'No pudimos abrir la demo';
+    title.setAttribute('role', 'alert');
+    document.getElementById('boot-text').textContent = error?.message === 'browser'
+      ? 'Abrí este enlace en un navegador actualizado, directamente en Safari o Chrome.'
+      : 'Comprobá tu conexión y volvé a intentar. No se modificó ningún dato.';
+    retry.hidden = false;
+  }
+})();
+</script>
+</body>
+</html>

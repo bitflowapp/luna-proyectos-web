@@ -1,0 +1,23 @@
+{
+  "version": "0.3.0",
+  "mode": "browser-demo",
+  "productionReady": false,
+  "storage": "IndexedDB: same-browser only",
+  "files": [
+    {
+      "file": "app-3dcd3ff910c8.js",
+      "sha256": "3dcd3ff910c81c368fafdf66ced4f52bb6c61f0ae73e5dba5c09d20146d152e6",
+      "bytes": 199658
+    },
+    {
+      "file": "styles-eda93720cb44.css",
+      "sha256": "eda93720cb4446434d9f8f2c05f168a6e2667cd49ef10ae1b08ae3f26c5feeff",
+      "bytes": 94293
+    },
+    {
+      "file": "boot-check.js",
+      "sha256": "a7ab5875a85e495fa1cc0e118ede81ad49cf24a37fb3ec54c41e5fd31971f134",
+      "bytes": 426
+    }
+  ]
+}

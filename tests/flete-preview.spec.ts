@@ -1,0 +1,61 @@
+import { expect, test } from '@playwright/test'
+
+// Prueba la presentación real servida por HTTP; no intercepta fetch ni IndexedDB.
+test('Flete: solicitud persistente, cotización y seguimiento en otra pestaña', async ({ page, context }) => {
+  const errors: string[] = []
+  const apiCalls: string[] = []
+  page.on('pageerror', error => errors.push(error.message))
+  page.on('request', request => { if (new URL(request.url()).pathname.includes('/api/')) apiCalls.push(request.url()) })
+  await page.goto('demos/flete/')
+  await expect(page.getByRole('button', { name: 'Solicitar un servicio', exact: true })).toBeVisible()
+  await expect(page.locator('.mode-banner')).toContainText('guardado en este navegador')
+  await expect(page.locator('.mode-banner')).not.toContainText('temporal')
+  expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual((page.viewportSize()?.width ?? 0) + 1)
+
+  await page.getByRole('button', { name: 'Solicitar un servicio', exact: true }).click()
+  await page.getByRole('button', { name: 'Continuar', exact: true }).click()
+  await page.getByRole('button', { name: 'Completar con datos de ejemplo', exact: true }).click()
+  await page.getByRole('button', { name: 'Continuar', exact: true }).click()
+  await page.getByRole('button', { name: 'Continuar', exact: true }).click()
+  await page.getByRole('button', { name: 'Continuar', exact: true }).click()
+  await page.locator('#consent').check()
+  await page.getByRole('button', { name: 'Continuar', exact: true }).click()
+  await expect(page.getByRole('heading', { name: 'Revisá tu solicitud.' })).toBeVisible()
+  await page.getByRole('button', { name: 'Enviar solicitud', exact: true }).click()
+  await expect(page.getByRole('heading', { name: 'Solicitud recibida.' })).toBeVisible()
+  const code = await page.locator('.tracking-code strong').innerText()
+  const token = new URL(page.url()).hash.split('/')[2]
+  expect(token).toMatch(/^[a-f0-9]{64}$/)
+
+  await page.reload()
+  await expect(page.locator('.tracking-code strong')).toHaveText(code)
+  await page.getByRole('button', { name: 'Gestionar en el panel', exact: true }).click()
+  await expect(page.getByRole('heading', { name: code, exact: true })).toBeVisible()
+  await page.locator('#quote-amount').fill('45000,50')
+  await page.getByRole('button', { name: 'Guardar cotización', exact: true }).click()
+  await expect(page.locator('.detail-heading .badge')).toContainText('Cotizada')
+  await page.locator('#internal-note').fill('NOTA INTERNA QA NO PUBLICAR')
+  await page.getByRole('button', { name: 'Guardar nota', exact: true }).click()
+  await expect(page.locator('.notes-list')).toContainText('NOTA INTERNA QA NO PUBLICAR')
+  const vehicle = await page.locator('#assign-vehicle option').filter({ hasText: 'Camioneta' }).first().getAttribute('value')
+  if (!vehicle) throw new Error('No se encontró el vehículo de prueba')
+  await page.locator('#assign-vehicle').selectOption(vehicle)
+  await page.getByRole('button', { name: 'Confirmar servicio', exact: true }).click()
+  await expect(page.locator('.detail-heading .badge')).toContainText('Confirmada')
+  await page.reload()
+  await expect(page.locator('.detail-heading .badge')).toContainText('Confirmada')
+
+  const tracking = await context.newPage()
+  await tracking.goto('demos/flete/#/seguimiento/' + token)
+  await expect(tracking.locator('.tracking-code .badge')).toContainText('Confirmada')
+  await expect(tracking.locator('.price-block')).toContainText('45.000,50')
+  await expect(tracking.locator('body')).not.toContainText('NOTA INTERNA QA NO PUBLICAR')
+  await tracking.close()
+
+  await page.goto('demos/flete/#/admin/ajustes')
+  await expect(page.locator('.environment-panel')).toContainText('IndexedDB en este navegador')
+  await expect(page.locator('.environment-panel')).toContainText('Rol de demostración')
+  await expect(page.locator('.environment-panel')).not.toContainText('Supabase Auth')
+  expect(apiCalls).toEqual([])
+  expect(errors).toEqual([])
+})

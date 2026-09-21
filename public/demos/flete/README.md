@@ -1,17 +1,15 @@
-# Flete · Presentación interactiva 0.2.0
+# Flete · Presentación comercial 0.3.0
 
-Build independiente en una carpeta de demostraciones de LUNA. No modifica la portada del sitio ni se conecta a los proyectos de otros clientes.
+Portada con recorrido rápido, CTA móvil, preguntas frecuentes, controles de demo separados, aceptación de cotización y seguimiento contextual.
 
-**No es el backend productivo.** Los datos de prueba viven sólo en este navegador (IndexedDB). Si ese almacenamiento no está disponible, la interfaz avisa que la sesión es temporal. La entrada al panel es un cambio de rol de presentación, no Supabase Auth. No se envían viajes, pagos ni mensajes reales. Usar únicamente datos ficticios.
+**Demostración local al navegador, no operación real.** IndexedDB conserva el nombre de base de v0.2 para mantener los ejemplos existentes. Sin Supabase, pagos, GPS ni cuentas reales. El panel es un rol de demostración. Usar datos ficticios.
 
-Recorrido: Solicitar servicio → Completar con datos de ejemplo → Enviar solicitud → Gestionar en el panel → cotizar → asignar vehículo → cambiar estado → seguimiento. Las pruebas pueden reiniciarse desde la barra de la demo.
+Aceptar una cotización registra la aceptación del importe vigente: no confirma un viaje, no reserva una unidad ni genera un cobro. El operador confirma disponibilidad por separado. Una recotización invalida la aceptación anterior y una propuesta desactualizada se rechaza.
 
-Paquete: Preact + TypeScript; el mismo frontend del proyecto Flete, con adaptador de presentación explícito. El backend Node/SQLite y el adaptador Supabase permanecen en el proyecto fuente, no en este directorio público.
+Los archivos JS/CSS estándar tienen nombres por hash e integridad SRI; release.json identifica el build. Ya no se depende de DecompressionStream ni de diez descargas binarias para abrir la página. La política de contenido impide llamadas a APIs desde esta presentación.
 
-`index.html` carga diez partes binarias de un bundle gzip de CSS/JavaScript, verifica SHA-256 y lo descomprime mediante la API nativa del navegador. Las partes permiten publicar un artefacto pequeño por la interfaz de Git disponible. No hay evaluación remota ni claves incluidas.
+Prueba guiada: #/demo. Panel: #/admin. El frontend completo y el backend independiente siguen en el paquete fuente Flete v0.3.0; no se publican secretos ni datos de otros clientes.
 
-SHA-256 del bundle ensamblado: `b954c193fce98adc3dce7da6dfd579ad619f09bbf0da82b5df37660e60baab73` (55.759 bytes).
+Pruebas: tests/flete-preview.spec.ts usa HTTP e IndexedDB nativos en Chromium y WebKit. El resultado de la ejecución consta en GitHub Actions, no implica validación en un iPhone físico ni certificación de producción.
 
-QA del proyecto: 67 pruebas Node; 12 recorridos de interfaz; 42 combinaciones de pantalla/viewport. Los recorridos se ejecutaron en Chromium con HTML inyectado: no certifican navegación HTTP, persistencia IndexedDB ni iPhone físico. El flujo productivo con Supabase no está certificado.
-
-Preact se distribuye con su licencia MIT en `LICENSE.preact`.
+Preact conserva su licencia MIT en LICENSE.preact.

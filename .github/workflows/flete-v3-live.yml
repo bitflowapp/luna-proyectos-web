@@ -1,0 +1,84 @@
+name: Flete v3 public acceptance
+on:
+  push:
+    branches: [verify/flete-commercial-v3-live]
+permissions:
+  contents: read
+jobs:
+  public-acceptance:
+    if: github.repository == 'bitflowapp/luna-proyectos-web'
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    env:
+      PUBLIC_TEST_URL: https://bitflowapp.github.io/luna-proyectos-web/
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020
+        with:
+          node-version: '24'
+          cache: npm
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium webkit
+      - name: Verify the published release and exact assets
+        shell: python
+        run: |
+          import base64, hashlib, json, re, time, urllib.request
+          from pathlib import Path
+          base = 'https://bitflowapp.github.io/luna-proyectos-web/demos/flete/'
+          expected = {
+            'app-3dcd3ff910c8.js': '3dcd3ff910c81c368fafdf66ced4f52bb6c61f0ae73e5dba5c09d20146d152e6',
+            'styles-eda93720cb44.css': 'eda93720cb4446434d9f8f2c05f168a6e2667cd49ef10ae1b08ae3f26c5feeff',
+            'boot-check.js': 'a7ab5875a85e495fa1cc0e118ede81ad49cf24a37fb3ec54c41e5fd31971f134'
+          }
+          def read(path):
+            req = urllib.request.Request(base + path, headers={'User-Agent':'Flete-v3-Delivery-QA', 'Cache-Control':'no-cache'})
+            with urllib.request.urlopen(req, timeout=20) as r:
+              assert r.status == 200
+              return r.read()
+          for attempt in range(30):
+            try:
+              html = read('').decode('utf8')
+              assert 'name="flete-release" content="0.3.0"' in html
+              manifest = json.loads(read('release.json'))
+              assert manifest['version'] == '0.3.0' and manifest['productionReady'] is False
+              assert len(manifest['files']) == 3
+              for entry in manifest['files']:
+                name = entry['file']
+                assert name in expected
+                data = read(name)
+                assert len(data) == entry['bytes']
+                assert hashlib.sha256(data).hexdigest() == expected[name] == entry['sha256']
+                sri = 'sha384-' + base64.b64encode(hashlib.sha384(data).digest()).decode()
+                assert name in html and sri in html
+              assert 'DecompressionStream' not in html
+              result = {'status':'PASS', 'version':'0.3.0', 'url':base, 'http':200, 'hashes':expected, 'sri':'PASS', 'checked_at':time.strftime('%Y-%m-%dT%H:%M:%SZ', time.gmtime())}
+              Path('artifacts').mkdir(exist_ok=True)
+              Path('artifacts/flete-v3-public-delivery.json').write_text(json.dumps(result, indent=2))
+              print('PUBLIC_DELIVERY_RESULT=' + json.dumps(result))
+              break
+            except Exception as error:
+              print('Waiting for release', attempt + 1, type(error).__name__, str(error))
+              time.sleep(10)
+          else:
+            raise RuntimeError('The published release did not match v0.3.0')
+      - name: Run Flete journeys against the public site
+        run: npx playwright test tests/flete-preview.spec.ts
+      - name: Report exact browser test counts
+        shell: python
+        run: |
+          import json
+          from pathlib import Path
+          data = json.loads(Path('artifacts/playwright-results.json').read_text())
+          stats = data['stats']
+          assert stats['expected'] == 30, stats
+          assert stats['unexpected'] == 0 and stats['flaky'] == 0 and stats['skipped'] == 0, stats
+          print('PUBLIC_BROWSER_RESULT=' + json.dumps(stats))
+      - uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f
+        if: always()
+        with:
+          name: flete-v3-public-evidence
+          path: |
+            test-results
+            artifacts/playwright-results.json
+            artifacts/flete-v3-public-delivery.json
+          retention-days: 7

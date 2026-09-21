@@ -40,6 +40,9 @@
     if (hash !== 'b954c193fce98adc3dce7da6dfd579ad619f09bbf0da82b5df37660e60baab73') throw new Error('integrity');
     const data = await new Response(new Blob([payload]).stream().pipeThrough(new DecompressionStream('gzip'))).json();
     if (typeof data.css !== 'string' || typeof data.javascript !== 'string') throw new Error('format');
+    // Compatibilidad de copy para el bundle de presentación 0.2.0; sin cambios de lógica.
+    data.javascript = data.javascript.replace("this.state.runtime?.mode === 'local' ? 'SQLite en este equipo' : 'Supabase PostgreSQL'", "this.state.runtime?.temporary ? 'Sesión temporal en memoria' : 'IndexedDB en este navegador'");
+    data.javascript = data.javascript.replace("this.state.runtime?.mode === 'local' ? 'Acceso local de prueba' : 'Supabase Auth'", "'Rol de demostración · sin cuenta'");
     const style = document.createElement('style');
     style.textContent = data.css;
     document.head.appendChild(style);

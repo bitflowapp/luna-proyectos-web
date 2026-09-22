@@ -1,0 +1,83 @@
+name: Flete 0.5 public acceptance
+on:
+  push:
+    branches: [verify/flete-simple-0.5-live]
+    paths: [.github/workflows/flete-simple-live.yml]
+permissions:
+  contents: read
+jobs:
+  public-acceptance:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020
+        with:
+          node-version: '24'
+          cache: npm
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium webkit
+      - name: Verify actual public release and file integrity
+        run: |
+          python3 - <<'PY'
+          import base64,hashlib,json,pathlib,re,time,urllib.request
+          base='https://bitflowapp.github.io/luna-proyectos-web/demos/flete/'
+          expected=json.loads(pathlib.Path('public/demos/flete/release.json').read_text())
+          assert expected['version']=='0.5.0' and expected['productionReady'] is False
+          def read(url):
+              req=urllib.request.Request(url,headers={'Cache-Control':'no-cache','User-Agent':'Flete-0.5-Acceptance'})
+              with urllib.request.urlopen(req,timeout=20) as res:
+                  assert res.status==200
+                  return res.read()
+          for attempt in range(84):
+              try:
+                  stamp=str(int(time.time()))
+                  release=json.loads(read(base+'release.json?v='+stamp))
+                  assert release==expected,'Previous release is still served'
+                  html=read(base+'?v='+stamp).decode()
+                  assert 'name="flete-release" content="0.5.0"' in html
+                  files=[]
+                  for item in expected['files']:
+                      data=read(base+item['file'])
+                      assert len(data)==item['bytes']
+                      assert hashlib.sha256(data).hexdigest()==item['sha256']
+                      sri='sha384-'+base64.b64encode(hashlib.sha384(data).digest()).decode()
+                      assert item['file'] in html and sri in html
+                      files.append({'file':item['file'],'sha256':item['sha256'],'integrity':'PASS'})
+                  result={'status':'PASS','version':'0.5.0','public_url':base,'http_status':200,'assets':files,'checked_at':time.strftime('%Y-%m-%dT%H:%M:%SZ',time.gmtime())}
+                  out=pathlib.Path('/tmp/flete-simple-public');out.mkdir(exist_ok=True);(out/'delivery.json').write_text(json.dumps(result,indent=2));print(json.dumps(result,indent=2));break
+              except Exception as e:
+                  print('Waiting for public release:',attempt+1,str(e));time.sleep(5)
+          else: raise RuntimeError('The expected release was not verified on Pages')
+          PY
+      - name: Exercise customer and owner recovery flows on the public URL
+        env:
+          PUBLIC_TEST_URL: https://bitflowapp.github.io/luna-proyectos-web/
+        run: node scripts/run-tests.mjs tests/flete-simple.spec.ts --project=chromium-360 --project=chromium-390 --project=webkit-390 --project=webkit-430
+      - name: Record public browser results
+        if: always()
+        run: |
+          python3 - <<'PY'
+          import json,pathlib
+          p=pathlib.Path('artifacts/playwright-results.json')
+          if not p.exists(): raise SystemExit(0)
+          d=json.loads(p.read_text());cases=[]
+          def visit(node):
+              for s in node.get('specs',[]):
+                  for t in s.get('tests',[]):cases.append({'title':s['title'],'project':t['projectName'],'status':t['status']})
+              for child in node.get('suites',[]):visit(child)
+          visit(d)
+          result={'stats':d.get('stats'),'total':len(cases),'by_project':{p:sum(x['project']==p for x in cases) for p in sorted({x['project'] for x in cases})},'failed':[x for x in cases if x['status']!='expected']}
+          out=pathlib.Path('/tmp/flete-simple-public');out.mkdir(exist_ok=True);(out/'browsers.json').write_text(json.dumps(result,indent=2));print(json.dumps(result,indent=2))
+          PY
+      - uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f
+        if: always()
+        with:
+          name: flete-simple-public-qa
+          path: |
+            /tmp/flete-simple-public/
+            artifacts/playwright-results.json
+            test-results/
+          retention-days: 5

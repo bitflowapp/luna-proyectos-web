@@ -54,7 +54,7 @@ test('Flete artifact matches source hashes and SRI references', async () => {
   const release = JSON.parse(await readFile(root + 'release.json', 'utf8'));
   assert.equal(release.productionReady, false);
   assert.equal(release.scope, 'COMMERCIAL_DEMO');
-  assert.equal(release.sourceFiles.length, 11);
+  assert.equal(release.sourceFiles.length, 12);
   for (const source of release.sourceFiles) {
     assert.ok(source.file.startsWith('scripts/flete-src/'));
     assert.equal(createHash('sha256').update(await readFile(source.file)).digest('hex'), source.sha256, source.file);

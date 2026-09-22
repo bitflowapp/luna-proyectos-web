@@ -1,5 +1,5 @@
 {
-  "version": "0.4.0",
+  "version": "0.5.0",
   "mode": "browser-demo",
   "projectStatus": "DEMO_READY",
   "scope": "COMMERCIAL_DEMO",
@@ -16,7 +16,7 @@
     },
     {
       "file": "scripts/flete-src/domain.js",
-      "sha256": "5fda8278e1f192ccbc69846bc391026b8e3f4481776eca27c4d5edb6cbcb0454"
+      "sha256": "7365429d9ac155b8c8f6dd543a71e871370612eaaa67369505b72317b7e45226"
     },
     {
       "file": "scripts/flete-src/build-mode.js",
@@ -24,7 +24,7 @@
     },
     {
       "file": "scripts/flete-src/preview-store.js",
-      "sha256": "d037712a7728ef4b990113cdfeeea3b03f0e8310640ad819a30a81b8be0cc93c"
+      "sha256": "40ca83aa8ebf928bc114d1822ffd74bcbcfa632847f149cd2ffd0a5f8acea378"
     },
     {
       "file": "scripts/flete-src/api.js",
@@ -36,31 +36,35 @@
     },
     {
       "file": "scripts/flete-src/commercial.js",
-      "sha256": "004614807f94be0572d18761e6cbf453c9afbe35c294c38a529b03af98070bf3"
+      "sha256": "580b30159501bcbea5bda5d8a6c6f1f1ffce789aa909fc510d47e534ce2a1f93"
     },
     {
       "file": "scripts/flete-src/tracking.js",
-      "sha256": "ec1fa2d0e6aa6f3cda78498cbad4f6173a5e1edf377d947730ad0922e282c98f"
+      "sha256": "d95c8e3253dbcee5f2423ff5b7fe280f9fbbaf8232af6b4bc05405a5dfdc5c27"
+    },
+    {
+      "file": "scripts/flete-src/simple-request.js",
+      "sha256": "2a37ec9ca281b726acb7823d8e26f89ae000ee2d44b3ca9fb65092c19986ca20"
     },
     {
       "file": "scripts/flete-src/app.js",
-      "sha256": "aeb61628d2e5476622bce7193ce9239b922c1419840cc968f52951cc335d6fcf"
+      "sha256": "f364aec1fb2988565f3471748bd652ef65cd87bba0dc02219e0d4d96652bea5e"
     },
     {
       "file": "scripts/flete-src/styles.css",
-      "sha256": "60d651e0b67ef5da9ed4948abf3fbf047b16c23d4bf3cbfaec5ba2b50c9debfc"
+      "sha256": "85651debaab32c22fa2aff44999289e8eaaa82b94d9477562ddd29ba502e92f6"
     }
   ],
   "files": [
     {
-      "file": "app-e188d48427ab.js",
-      "sha256": "e188d48427ab7411f2941345fe7221465dc664fca2968eef303460e598a7d608",
-      "bytes": 257978
+      "file": "app-e9096ba199d5.js",
+      "sha256": "e9096ba199d5bbae4c039d8ecaa967e78f3b4cb00c5b3cdbec0f5b74a98f18b5",
+      "bytes": 240672
     },
     {
-      "file": "styles-60d651e0b67e.css",
-      "sha256": "60d651e0b67ef5da9ed4948abf3fbf047b16c23d4bf3cbfaec5ba2b50c9debfc",
-      "bytes": 69547
+      "file": "styles-85651debaab3.css",
+      "sha256": "85651debaab32c22fa2aff44999289e8eaaa82b94d9477562ddd29ba502e92f6",
+      "bytes": 77462
     },
     {
       "file": "boot-check.js",

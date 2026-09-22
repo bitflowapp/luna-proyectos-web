@@ -3,7 +3,7 @@ import path from 'node:path';
 import crypto from 'node:crypto';
 import { Script } from 'node:vm';
 
-export function buildFleteBundle({ version = '0.4.0' } = {}) {
+export function buildFleteBundle({ version = '0.5.0' } = {}) {
   const moduleOrder = [
     'vendor/preact.mjs',
     'business-config.js',
@@ -14,6 +14,7 @@ export function buildFleteBundle({ version = '0.4.0' } = {}) {
     'ui.js',
     'commercial.js',
     'tracking.js',
+    'simple-request.js',
     'app.js'
   ];
 

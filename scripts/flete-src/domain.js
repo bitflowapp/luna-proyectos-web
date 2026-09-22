@@ -48,7 +48,7 @@ exports.defaultConfig = {
 
 function blankPayload() {
     return { kind: 'freight', origin: '', destination: '', when: 'asap', scheduled_at: null,
-        details: { description: '', cargo_size: 'Mediana', quantity: 1, needs_help: false, helpers: 1,
+        details: { description: '', cargo_size: 'No sé', quantity: 1, needs_help: false, helpers: 1,
             passengers: 1, luggage: 'Sin equipaje', round_trip: false, return_at: null, notes: '' },
         contact: { name: '', phone: '', whatsapp: '', email: '', consent: false } };
 }

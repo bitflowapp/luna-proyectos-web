@@ -311,7 +311,7 @@ exports.defaultConfig = {
 
 function blankPayload() {
     return { kind: 'freight', origin: '', destination: '', when: 'asap', scheduled_at: null,
-        details: { description: '', cargo_size: 'Mediana', quantity: 1, needs_help: false, helpers: 1,
+        details: { description: '', cargo_size: 'No sé', quantity: 1, needs_help: false, helpers: 1,
             passengers: 1, luggage: 'Sin equipaje', round_trip: false, return_at: null, notes: '' },
         contact: { name: '', phone: '', whatsapp: '', email: '', consent: false } };
 }
@@ -690,8 +690,13 @@ exports.previewApi = {
         if (data.requests.length >= 250)
             throw failure(422, 'La demo llegó a 250 solicitudes. Reiniciala para seguir probando.');
         const r = insert(data, payload, token);
+        r.created_by_visitor = true;
         return { id: r.id, code: r.code, created: true, is_demo: true };
     }),
+    recentRequests: () => transaction(false, data => data.requests
+        .filter(r => r.created_by_visitor && Date.parse(r.tracking_expires_at) > Date.now())
+        .slice(0, 20).map(r => ({ code: r.code, status: r.status, origin: r.payload.origin,
+            destination: r.payload.destination, token: Object.keys(data.tokens).find(t => data.tokens[t] === r.id) }))),
     track: (token) => transaction(false, data => publicTracking(data, requestByToken(data, token))),
     acceptQuote: (token, expectedVersion, expectedQuote) => transaction(true, data => {
         const r = requestByToken(data, token);
@@ -1108,25 +1113,15 @@ function DemoGuide({ onStart, onExample, onReset, busy }) {
             (0, preact_mjs_1.h)("em", null, "Los dos lados de la operaci\u00F3n.")
         ),
         (0, preact_mjs_1.h)("p", { class: "subtitle" },
-            "Recorr\u00E9 en 2 a 3 minutos una primera base configurable: lo que vive el cliente y c\u00F3mo administra el due\u00F1o."
+            "Probá una solicitud corta. Después cotizala como dueño y aceptala como cliente."
         ),
         (0, preact_mjs_1.h)("p", { class: "demo-guide-disclaimer" }, "Recorrido demostrativo con datos ficticios."),
-        (0, preact_mjs_1.h)("div", { class: "demo-flow-strip", "aria-label": "Ciclo completo de un servicio" },
-            (0, preact_mjs_1.h)("span", { class: "eyebrow" }, "FLUJO OPERATIVO COMPLETO"),
-            (0, preact_mjs_1.h)("div", { class: "demo-flow-steps" },
-                steps.map(s => (0, preact_mjs_1.h)("div", { class: "demo-flow-step", key: s.num },
-                    (0, preact_mjs_1.h)("span", { class: "step-badge" }, s.num),
-                    (0, preact_mjs_1.h)("strong", null, s.title),
-                    (0, preact_mjs_1.h)("p", null, s.desc)
-                ))
-            )
-        ),
         (0, preact_mjs_1.h)("div", { class: "demo-guide-grid" },
             (0, preact_mjs_1.h)("section", { class: "panel" },
                 (0, preact_mjs_1.h)("span", { class: "demo-guide-number" }, "A"),
                 (0, preact_mjs_1.h)(ui_js_1.Icon, { name: "phone", size: 28 }),
                 (0, preact_mjs_1.h)("h2", null, "Experiencia del cliente"),
-                (0, preact_mjs_1.h)("p", null, "Complet\u00E1 una solicitud con datos de prueba, guard\u00E1 el enlace y prob\u00E1 la aceptaci\u00F3n de cotizaci\u00F3n."),
+                (0, preact_mjs_1.h)("p", null, "Tres pasos: recorrido, detalles y contacto. El botón “Usar un ejemplo” completa los datos de prueba."),
                 (0, preact_mjs_1.h)("button", { class: "button button-primary", onClick: onStart },
                     "Probar una solicitud",
                     (0, preact_mjs_1.h)(ui_js_1.Icon, { name: "arrow", size: 18 })
@@ -1151,6 +1146,17 @@ function DemoGuide({ onStart, onExample, onReset, busy }) {
             (0, preact_mjs_1.h)("button", { class: "button button-light", onClick: onExample },
                 "Ver ejemplo de seguimiento",
                 (0, preact_mjs_1.h)(ui_js_1.Icon, { name: "route", size: 18 })
+            )
+        ),
+        (0, preact_mjs_1.h)("details", { class: "demo-flow-strip", "aria-label": "Ciclo completo de un servicio" },
+            (0, preact_mjs_1.h)("summary", null, "Ver los pasos de la operación"),
+            (0, preact_mjs_1.h)("span", { class: "eyebrow" }, "FLUJO OPERATIVO COMPLETO"),
+            (0, preact_mjs_1.h)("div", { class: "demo-flow-steps" },
+                steps.map(s => (0, preact_mjs_1.h)("div", { class: "demo-flow-step", key: s.num },
+                    (0, preact_mjs_1.h)("span", { class: "step-badge" }, s.num),
+                    (0, preact_mjs_1.h)("strong", null, s.title),
+                    (0, preact_mjs_1.h)("p", null, s.desc)
+                ))
             )
         ),
         (0, preact_mjs_1.h)("div", { class: "demo-guide-notice" },
@@ -1219,7 +1225,7 @@ const descriptions = {
     cancelled: 'No hay un servicio activo asociado a esta solicitud. Podés comenzar una nueva consulta cuando lo necesites.',
 };
 
-function TrackingView({ tracking: t, error, success, business, preview, busy, lookup, pendingPhotos, onCopy, onRefresh, onManage, onAccept, onRetryPhotos }) {
+function TrackingView({ tracking: t, error, success, business, preview, busy, lookup, pendingPhotos, onCopy, onRefresh, onManage, onAccept, onRetryPhotos, refreshing, refreshMessage, copyMessage }) {
     const accepted = Boolean(t?.quote_accepted_at);
     const awaiting = t?.status === 'quoted' && accepted;
     const contact = t ? (0, domain_js_1.whatsappUrl)(business.whatsapp, `Hola, quisiera consultar por mi solicitud ${t.code}.`) : null;
@@ -1235,7 +1241,7 @@ function TrackingView({ tracking: t, error, success, business, preview, busy, lo
             (0, preact_mjs_1.h)("section", { class: "tracking-card" },
                 (0, preact_mjs_1.h)(ui_js_1.Empty, { icon: "lock", title: "No encontramos ese enlace", text: error },
                     (0, preact_mjs_1.h)("a", { href: "#/seguimiento", class: "button button-primary" },
-                        "Revisar el enlace",
+                        "Ver mis solicitudes",
                         (0, preact_mjs_1.h)(ui_js_1.Icon, { name: "arrow" })
                     )
                 )
@@ -1246,7 +1252,7 @@ function TrackingView({ tracking: t, error, success, business, preview, busy, lo
                     (0, preact_mjs_1.h)("div", null,
                         (0, preact_mjs_1.h)("span", { class: "eyebrow" }, success ? 'EL PRIMER PASO YA ESTÁ' : 'TU TRASLADO, PASO A PASO'),
                         (0, preact_mjs_1.h)("h1", { tabIndex: -1 }, success ? 'Solicitud recibida.' : 'Así va tu servicio.'),
-                        (0, preact_mjs_1.h)("p", null, success ? 'Guardá este enlace privado para consultar la cotización y los próximos pasos.' : 'El último estado informado por el operador, en un solo lugar.')
+                        (0, preact_mjs_1.h)("p", null, preview ? 'Tu prueba quedó guardada en este navegador.' : success ? 'Guardá este enlace para consultar los próximos pasos.' : 'Consultá el estado de tu servicio.')
                     ),
                     (0, preact_mjs_1.h)("span", { class: "tracking-reference" },
                         (0, preact_mjs_1.h)("span", null, "Tu referencia"),
@@ -1268,8 +1274,15 @@ function TrackingView({ tracking: t, error, success, business, preview, busy, lo
                             (0, preact_mjs_1.h)("div", null,
                                 (0, preact_mjs_1.h)("span", { class: "eyebrow" }, awaiting ? 'PROPUESTA ACEPTADA' : 'ESTADO ACTUAL'),
                                 (0, preact_mjs_1.h)("h2", null, awaiting ? 'Aceptaste la cotización.' : titles[t.status]),
-                                (0, preact_mjs_1.h)("p", null, awaiting ? 'El importe quedó aceptado. Falta la confirmación del operador; todavía no hay un viaje confirmado ni un cobro.' : descriptions[t.status])
+                                (0, preact_mjs_1.h)("p", null, awaiting ? 'El importe quedó aceptado. Falta la confirmación del operador; todavía no hay un viaje confirmado ni un cobro.' : preview && ['new', 'reviewing'].includes(t.status) ? 'Para continuar la prueba, abrí esta solicitud como dueño y prepará una cotización.' : descriptions[t.status])
                             )
+                        ),
+                        preview && (0, preact_mjs_1.h)("section", { class: `demo-next${t.status === 'quoted' && !accepted ? ' demo-next-secondary' : ''}` },
+                            (0, preact_mjs_1.h)("div", null,
+                                (0, preact_mjs_1.h)("strong", null, ['new', 'reviewing'].includes(t.status) ? 'Ahora probá como dueño' : awaiting ? 'El cliente ya aceptó. Ahora confirmá como dueño.' : 'Los dos lados de esta misma solicitud'),
+                                (0, preact_mjs_1.h)("p", null, ['new', 'reviewing'].includes(t.status) ? 'Poné un precio y volvé para verlo como cliente.' : awaiting ? 'Revisá el servicio, asigná una unidad y confirmalo en el panel.' : 'Podés volver al panel para continuar la prueba.')
+                            ),
+                            (0, preact_mjs_1.h)("button", { class: 'button button-primary', disabled: busy, onClick: onManage }, 'Gestionar en el panel', (0, preact_mjs_1.h)(ui_js_1.Icon, { name: 'arrow', size: 18 }))
                         ),
                         (0, preact_mjs_1.h)("div", { class: "tracking-code" },
                             (0, preact_mjs_1.h)("div", null,
@@ -1353,36 +1366,34 @@ function TrackingView({ tracking: t, error, success, business, preview, busy, lo
                             )
                         ),
                         (0, preact_mjs_1.h)("div", { class: "tracking-buttons" },
-                            (0, preact_mjs_1.h)("button", {
-                                class: `button ${t.status === 'quoted' && !accepted ? 'button-light' : 'button-dark'}`,
-                                onClick: onCopy
-                            },
-                                (0, preact_mjs_1.h)(ui_js_1.Icon, { name: "copy", size: 18 }),
-                                "Copiar enlace privado"
-                            ),
-                            (0, preact_mjs_1.h)("button", { class: "button button-light", onClick: onRefresh, disabled: busy },
-                                (0, preact_mjs_1.h)(ui_js_1.Icon, { name: "refresh", size: 17 }),
-                                "Actualizar"
-                            )
+                            (0, preact_mjs_1.h)("a", { class: 'button button-light', href: '#/seguimiento' }, 'Mis solicitudes'),
+                            (0, preact_mjs_1.h)("button", { class: "button button-light", onClick: onRefresh, disabled: busy || refreshing },
+                                (0, preact_mjs_1.h)(ui_js_1.Icon, { name: "refresh", size: 17 }), refreshing ? 'Consultando…' : 'Actualizar')
+                        ),
+                        (0, preact_mjs_1.h)("p", { class: 'tracking-feedback', role: 'status', 'aria-live': 'polite' }, refreshMessage || ''),
+                        (0, preact_mjs_1.h)("div", { class: 'copy-options' },
+                            (0, preact_mjs_1.h)("button", { class: 'text-link', onClick: onCopy },
+                                (0, preact_mjs_1.h)(ui_js_1.Icon, { name: 'copy', size: 16 }), preview ? 'Copiar enlace de esta prueba' : 'Copiar enlace privado'),
+                            (0, preact_mjs_1.h)("p", { class: 'copy-feedback', role: 'status', 'aria-live': 'polite' }, copyMessage || '')
                         ),
                         lookup && (
-                            (0, preact_mjs_1.h)(ui_js_1.Field, { id: "copy-link", label: "Enlace privado para copiar" },
+                            (0, preact_mjs_1.h)(ui_js_1.Field, { id: "copy-link", label: "Enlace para copiar manualmente" },
                                 (0, preact_mjs_1.h)("input", {
                                     id: "copy-link",
                                     readOnly: true,
                                     value: lookup,
-                                    onFocus: (e) => e.currentTarget.select()
+                                    onFocus: (e) => e.currentTarget.select(), onClick: (e) => e.currentTarget.select()
                                 })
                             )
                         ),
                         (0, preact_mjs_1.h)("p", { class: "privacy-note" },
                             (0, preact_mjs_1.h)(ui_js_1.Icon, { name: "lock", size: 15 }),
-                            preview ? 'En esta demo, el enlace funciona sólo en este navegador. No crea un servicio real ni envía mensajes.' : 'Quien tenga este enlace puede ver el recorrido y el estado. No lo compartas públicamente.'
+                            preview ? 'Esta prueba funciona sólo en este navegador. En otro teléfono no se verá. No se envían viajes ni mensajes.' : 'Quien tenga este enlace puede ver el recorrido y el estado. No lo compartas públicamente.'
                         )
                     ),
                     (0, preact_mjs_1.h)("aside", { class: "tracking-aside" },
-                        (0, preact_mjs_1.h)("section", { class: "panel journey-panel" },
-                            (0, preact_mjs_1.h)("h2", null, "El recorrido de tu solicitud"),
+                        (0, preact_mjs_1.h)("details", { class: "panel journey-panel" },
+                            (0, preact_mjs_1.h)("summary", null, "Ver las etapas del servicio"),
                             (0, preact_mjs_1.h)(JourneyTimeline, { tracking: t }),
                             (0, preact_mjs_1.h)("p", { class: "sync-note" },
                                 (0, preact_mjs_1.h)("span", { class: "status-dot" }),
@@ -1402,19 +1413,6 @@ function TrackingView({ tracking: t, error, success, business, preview, busy, lo
                                     "Consultar por WhatsApp"
                                 )
                             )
-                        )
-                    )
-                ),
-                preview && (
-                    (0, preact_mjs_1.h)("section", { class: "demo-handoff" },
-                        (0, preact_mjs_1.h)("div", null,
-                            (0, preact_mjs_1.h)("span", { class: "eyebrow" }, "AHORA, PROB\u00C1 EL OTRO LADO"),
-                            (0, preact_mjs_1.h)("h3", null, "As\u00ED lo recibe el due\u00F1o del negocio."),
-                            (0, preact_mjs_1.h)("p", null, "Abr\u00ED esta solicitud en el panel de operaciones, prepar\u00E1 la cotizaci\u00F3n o confirm\u00E1 el servicio.")
-                        ),
-                        (0, preact_mjs_1.h)("button", { class: "button button-light", onClick: onManage },
-                            "Gestionar en el panel",
-                            (0, preact_mjs_1.h)(ui_js_1.Icon, { name: "arrow", size: 18 })
                         )
                     )
                 ),
@@ -1477,6 +1475,115 @@ function JourneyTimeline({ tracking: t }) {
     );
 }
 
+},"simple-request.js":function(require,module,exports){
+"use strict";
+const { h } = require('./vendor/preact.mjs');
+const { Icon, Field, Notice } = require('./ui.js');
+const { serviceLabels, dateText } = require('./domain.js');
+exports.SimpleRequest = SimpleRequest;
+const icons = { freight: 'truck', passengers: 'users', special: 'route' };
+const names = ['Recorrido', 'Qué y cuándo', 'Contacto y envío'];
+
+function SimpleRequest({ app, toInput, fromInput }) {
+    const { step, draft: p, errors, busy, photos } = app.state;
+    const field = (id, label, control, hint) => h(Field, { id, label, error: errors[id], hint }, control);
+    const input = (id, val, onInput, extra = {}) => h('input', {
+        id, value: val, onInput: e => onInput(e.currentTarget.value),
+        'aria-invalid': Boolean(errors[id]), 'aria-describedby': errors[id] ? `${id}-hint` : undefined, ...extra
+    });
+    const option = (value, label = value) => h('option', { value }, label);
+    const select = (id, val, onChange, values) => h('select', {
+        id, value: val, onChange: e => onChange(e.currentTarget.value), 'aria-invalid': Boolean(errors[id])
+    }, values.map(v => typeof v === 'string' ? option(v) : option(v[0], v[1])));
+    const check = (id, label, selected, onChange) => h('label', { class: 'simple-check', htmlFor: id },
+        h('input', { id, type: 'checkbox', checked: selected, onChange: e => onChange(e.currentTarget.checked) }), h('span', null, label));
+    const details = p.details;
+    const extrasInvalid = ['cargo_size', 'quantity', 'helpers', 'luggage', 'notes', 'whatsapp', 'email'].some(k => errors[k]);
+    const heading = ['¿De dónde a dónde?', p.kind === 'passengers' ? '¿Cuántos viajan y cuándo?' : '¿Qué necesitás trasladar?', '¿Cómo te contactamos?'][step];
+
+    return h('main', { id: 'main', class: 'container simple-request wizard-main', 'data-step': step },
+        h('div', { class: 'simple-topline' },
+            h('a', { class: 'text-link', href: '#/' }, h(Icon, { name: 'back', size: 16 }), 'Inicio'),
+            h('button', { type: 'button', class: 'text-link example-fill', disabled: busy,
+                'aria-label': 'Completar con datos de ejemplo', onClick: () => app.fillDemo() }, 'Usar un ejemplo', h(Icon, { name: 'arrow', size: 16 }))),
+        h('nav', { class: 'simple-progress', 'aria-label': 'Pasos de la solicitud' }, names.map((name, index) =>
+            h('button', { type: 'button', disabled: index >= step || busy, class: index === step ? 'current' : index < step ? 'done' : '',
+                'aria-current': index === step ? 'step' : undefined,
+                'aria-label': index < step ? `Volver al paso ${index + 1}: ${name}` : `Paso ${index + 1}: ${name}`,
+                onClick: () => app.jumpStep(index) },
+                h('span', { class: 'simple-step-number' }, index < step ? h(Icon, { name: 'check', size: 14 }) : index + 1), h('span', null, name)))),
+        h('section', { class: 'panel simple-form wizard-form' },
+            h('div', { class: 'simple-title' },
+                h('span', { class: 'eyebrow' }, `PASO ${step + 1} DE 3${step === 2 ? ' · EL ÚLTIMO' : ''}`),
+                h('h1', { tabIndex: -1 }, heading),
+                h('p', null, ['Elegí el servicio e indicá el recorrido.', 'Con lo esencial alcanza para pedir una cotización.', 'Sólo tu nombre y celular. Revisá y enviá.'][step])),
+            h('form', { onSubmit: e => app.stepNext(e), noValidate: true },
+                h('fieldset', { disabled: busy, class: 'simple-fields' },
+                    step === 0 && h('div', null,
+                        h('div', { class: 'simple-services', role: 'group', 'aria-label': 'Tipo de servicio' }, ['freight', 'passengers', 'special'].map(kind =>
+                            h('button', { type: 'button', class: `service-choice${p.kind === kind ? ' selected' : ''}`, 'aria-pressed': p.kind === kind,
+                                onClick: () => app.draft({ kind }) }, h(Icon, { name: icons[kind], size: 25 }),
+                                h('strong', null, kind === 'freight' ? 'Flete / carga' : kind === 'passengers' ? 'Pasajeros' : 'Especial')))),
+                        errors.kind && h(Notice, { type: 'error' }, errors.kind),
+                        field('origin', '¿Dónde empieza?', input('origin', p.origin, origin => app.draft({ origin }), { placeholder: 'Dirección y localidad de retiro', maxLength: 240, autoComplete: 'off' })),
+                        field('destination', '¿Dónde termina?', input('destination', p.destination, destination => app.draft({ destination }), { placeholder: 'Dirección y localidad de llegada', maxLength: 240, autoComplete: 'off' }))),
+                    step === 1 && h('div', null,
+                        h('div', { class: 'simple-route-summary' }, h(Icon, { name: icons[p.kind], size: 20 }),
+                            h('div', null, h('strong', null, serviceLabels[p.kind]), h('span', null, p.origin, ' → ', p.destination)),
+                            h('button', { type: 'button', class: 'text-link', onClick: () => app.jumpStep(0), 'aria-label': 'Editar recorrido' }, 'Editar')),
+                        p.kind !== 'passengers' && field('description', p.kind === 'freight' ? '¿Qué llevamos?' : 'Contanos qué necesitás', h('textarea', {
+                            id: 'description', rows: 2, maxLength: 1500, value: details.description,
+                            placeholder: p.kind === 'freight' ? 'Por ejemplo: una heladera y cuatro cajas' : 'Por ejemplo: llevar equipos para un evento',
+                            'aria-invalid': Boolean(errors.description), onInput: e => app.detailDraft({ description: e.currentTarget.value }) })),
+                        p.kind === 'passengers' && field('passengers', 'Cantidad de pasajeros', input('passengers', details.passengers,
+                            passengers => app.detailDraft({ passengers: Number(passengers) }), { type: 'number', inputMode: 'numeric', min: 1, max: 60 })),
+                        p.kind === 'freight' && check('needs_help', 'Necesito ayuda para cargar o descargar', details.needs_help, needs_help => app.detailDraft({ needs_help })),
+                        h('fieldset', { class: 'simple-when' }, h('legend', null, '¿Cuándo lo necesitás?'),
+                            h('div', { class: 'segmented' }, [['asap', 'Lo antes posible'], ['scheduled', 'Elegir fecha']].map(([when, label]) =>
+                                h('button', { type: 'button', class: p.when === when ? 'selected' : '', 'aria-pressed': p.when === when,
+                                    onClick: () => app.draft({ when, scheduled_at: when === 'asap' ? null : p.scheduled_at }) }, label))),
+                            p.when === 'scheduled' && field('scheduled_at', 'Fecha y hora de salida', input('scheduled_at', toInput(p.scheduled_at),
+                                val => app.draft({ scheduled_at: fromInput(val) }), { type: 'datetime-local' }), 'Hora de Argentina. Sujeto a confirmación.')),
+                        p.kind === 'passengers' && check('round_trip', 'También necesito la vuelta', details.round_trip, round_trip => app.detailDraft({ round_trip })),
+                        p.kind === 'passengers' && details.round_trip && field('return_at', 'Fecha y hora de regreso', input('return_at', toInput(details.return_at),
+                            val => app.detailDraft({ return_at: fromInput(val) }), { type: 'datetime-local' })),
+                        h('details', { class: 'simple-extras', key: `extras-${p.kind}`, open: extrasInvalid || undefined },
+                            h('summary', null, p.kind === 'freight' ? 'Agregar fotos o más detalles' : 'Agregar más detalles', h('small', null, 'Opcional')),
+                            p.kind === 'freight' && h('div', null,
+                                h('div', { class: 'simple-two-columns' },
+                                    field('cargo_size', 'Tamaño aproximado', select('cargo_size', details.cargo_size, cargo_size => app.detailDraft({ cargo_size }), ['No sé', 'Pequeña', 'Mediana', 'Grande'])),
+                                    field('quantity', 'Cantidad de bultos', input('quantity', details.quantity, quantity => app.detailDraft({ quantity: Number(quantity) }), { type: 'number', inputMode: 'numeric', min: 1, max: 500 }))),
+                                details.needs_help && field('helpers', 'Personas para ayudar', input('helpers', details.helpers, helpers => app.detailDraft({ helpers: Number(helpers) }), { type: 'number', min: 1, max: 10, inputMode: 'numeric' })),
+                                field('photos', 'Fotos de la carga', h('input', { id: 'photos', type: 'file', accept: 'image/jpeg,image/png,image/webp', multiple: true, onChange: e => void app.addPhotos(e) }), 'Hasta 3 fotos. JPG, PNG o WebP.'),
+                                h('div', { class: 'simple-photos' }, photos.map(photo => h('div', { key: photo.id },
+                                    h('img', { src: photo.url, alt: 'Foto adjunta de la carga' }), h('button', { type: 'button', class: 'text-link', onClick: () => app.removePhoto(photo.id) }, 'Quitar foto'))))),
+                            p.kind === 'passengers' && field('luggage', 'Equipaje', input('luggage', details.luggage, luggage => app.detailDraft({ luggage }), { maxLength: 200 })),
+                            field('notes', 'Algo más que debamos saber', h('textarea', { id: 'notes', value: details.notes, rows: 2, maxLength: 1500, onInput: e => app.detailDraft({ notes: e.currentTarget.value }) })))),
+                    step === 2 && h('div', null,
+                        field('name', 'Tu nombre', input('name', p.contact.name, name => app.contactDraft({ name }), { autoComplete: 'name', maxLength: 100, placeholder: 'Nombre y apellido' })),
+                        field('phone', 'Tu celular / WhatsApp', input('phone', p.contact.phone, phone => app.contactDraft({ phone }), { type: 'tel', inputMode: 'tel', autoComplete: 'tel', maxLength: 32, placeholder: '+54 9 299 123 4567' })),
+                        h('details', { class: 'simple-extras', open: extrasInvalid || undefined },
+                            h('summary', null, 'Otro contacto', h('small', null, 'Opcional')),
+                            field('whatsapp', 'Otro número de WhatsApp', input('whatsapp', p.contact.whatsapp, whatsapp => app.contactDraft({ whatsapp }), { type: 'tel', inputMode: 'tel', maxLength: 32 })),
+                            field('email', 'Correo electrónico', input('email', p.contact.email, email => app.contactDraft({ email }), { type: 'email', autoComplete: 'email', maxLength: 254 }))),
+                        h('details', { class: 'simple-review', 'aria-label': 'Resumen de tu solicitud' },
+                            h('summary', null, h('strong', null, 'Revisar mi solicitud'),
+                                h('span', { class: 'simple-review-preview' }, serviceLabels[p.kind], ' · ', dateText(p.scheduled_at)),
+                                h('span', { class: 'simple-review-preview' }, p.origin, ' → ', p.destination)),
+                            h('div', { class: 'simple-review-stops' }, h('p', null, h('small', null, 'Desde'), p.origin), h('p', null, h('small', null, 'Hasta'), p.destination)),
+                            h('p', null, p.kind === 'passengers' ? `${details.passengers} pasajero(s)${details.round_trip ? ' · ida y vuelta' : ''}` : details.description),
+                            h('button', { type: 'button', class: 'text-link', onClick: () => app.jumpStep(0) }, 'Editar recorrido'),
+                            h('button', { type: 'button', class: 'text-link', onClick: () => app.jumpStep(1) }, 'Cambiar detalles o fecha')),
+                        check('consent', 'Acepto que usen estos datos para coordinar esta solicitud.', p.contact.consent, consent => app.contactDraft({ consent })),
+                        errors.consent && h('p', { class: 'simple-field-error', role: 'alert' }, errors.consent)),
+                    h('input', { class: 'honeypot', tabIndex: -1, 'aria-hidden': true, value: app.state.website, onInput: e => app.set({ website: e.currentTarget.value }), autoComplete: 'off' }),
+                    app.state.flash && h(Notice, { type: app.state.flash.type }, app.state.flash.text),
+                    h('div', { class: 'simple-actions wizard-actions' },
+                        step > 0 && h('button', { type: 'button', class: 'button button-light', onClick: () => app.stepBack() }, h(Icon, { name: 'back', size: 18 }), 'Atrás'),
+                        h('button', { class: 'button button-primary', type: 'submit' }, busy ? 'Guardando…' : step === 2 ? 'Enviar solicitud' : 'Continuar', h(Icon, { name: step === 2 ? 'check' : 'arrow', size: 18 }))),
+                    h('p', { class: 'simple-endnote' }, step === 2 ? 'Prueba con datos ficticios. No se envían viajes ni cobros.' : 'Tres pasos. Sin crear una cuenta.')))));
+}
+
 },"app.js":function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
@@ -1491,14 +1598,11 @@ const { h } = preact_mjs_1;
 const { Icon } = ui_js_1;
 
 const serviceIcon = { freight: 'truck', passengers: 'users', special: 'route' };
-const steps = ['Servicio', 'Recorrido', 'Fecha', 'Detalles', 'Contacto', 'Resumen'];
+const simple_request = require("./simple-request.js");
 const stepFields = [
-    ['kind'],
-    ['origin', 'destination'],
-    ['when', 'scheduled_at'],
-    ['details', 'description', 'quantity', 'cargo_size', 'needs_help', 'helpers', 'passengers', 'luggage', 'round_trip', 'return_at', 'notes'],
-    ['contact', 'name', 'phone', 'whatsapp', 'email', 'consent'],
-    []
+    ['kind', 'origin', 'destination'],
+    ['when', 'scheduled_at', 'details', 'description', 'quantity', 'cargo_size', 'needs_help', 'helpers', 'passengers', 'luggage', 'round_trip', 'return_at', 'notes'],
+    ['contact', 'name', 'phone', 'whatsapp', 'email', 'consent']
 ];
 
 const value = (e) => e.currentTarget.value;
@@ -1518,11 +1622,12 @@ const fromArgInput = (input) => {
 
 function recover() {
     try {
-        const saved = JSON.parse(sessionStorage.getItem('flete-draft.v1') || 'null');
+        const current = sessionStorage.getItem('flete-draft.v2');
+        const saved = JSON.parse(current || sessionStorage.getItem('flete-draft.v1') || 'null');
         if (saved && /^[a-f0-9]{64}$/.test(saved.token) && ['freight', 'passengers', 'special'].includes(saved.draft?.kind) &&
             typeof saved.draft.origin === 'string' && typeof saved.draft.destination === 'string' &&
             typeof saved.draft.details?.notes === 'string' && typeof saved.draft.contact?.name === 'string')
-            return { draft: saved.draft, token: saved.token, step: Math.max(0, Math.min(5, Number(saved.step) || 0)) };
+            return { draft: saved.draft, token: saved.token, step: Math.max(0, Math.min(2, current ? Number(saved.step) || 0 : Math.floor((Number(saved.step) || 0) / 2))) };
     }
     catch { }
     return { draft: (0, domain_js_1.blankPayload)(), token: (0, domain_js_1.randomToken)(), step: 0 };
@@ -1614,6 +1719,7 @@ class App extends preact_mjs_1.Component {
             user: null, checkedSession: false, loadingAdmin: false, dashboard: null, detail: null, loginEmail: '', loginPassword: '',
             quote: '', note: '', cancellation: null, editing: null, vehicleEditor: null, settings: null,
             search: '', statusFilter: '', serviceFilter: '', dateFilter: '', customer: null,
+            copyMessage: '', refreshMessage: '', refreshing: false, recentRequests: [],
             showDemoTools: new URLSearchParams(window.location.search).get('modo') === 'demo', quickErrors: {}, stickyCta: false, acceptance: null
         };
     }
@@ -1754,6 +1860,7 @@ class App extends preact_mjs_1.Component {
         this.trackSequence += 1;
         this.set({
             path: currentPath(), flash: null, detail: null, tracking: null, trackingError: '', editing: null,
+            lookup: '', copyMessage: '', refreshMessage: '', refreshing: false,
             vehicleEditor: null, cancellation: null, acceptance: null, stickyCta: false, note: '', quote: '', errors: {}
         }, () => void this.loadForRoute());
         window.scrollTo({ top: 0, behavior: 'instant' });
@@ -1789,6 +1896,10 @@ class App extends preact_mjs_1.Component {
                 if (id)
                     await this.loadDetail(id);
             }
+        }
+        else if (path === '/seguimiento' && api_js_1.IS_PREVIEW) {
+            try { this.set({ recentRequests: await api_js_1.previewApi.recentRequests() }); }
+            catch (error) { this.fail(error); }
         }
         else if (path.startsWith('/seguimiento/') || path.startsWith('/recibida/'))
             await this.loadTracking();
@@ -1850,7 +1961,7 @@ class App extends preact_mjs_1.Component {
 
     stash(draft = this.state.draft, step = this.state.step) {
         try {
-            sessionStorage.setItem('flete-draft.v1', JSON.stringify({ draft, step, token: this.state.token }));
+            sessionStorage.setItem('flete-draft.v2', JSON.stringify({ draft, step, token: this.state.token }));
             this.set({ saved: true });
         }
         catch {
@@ -1882,7 +1993,7 @@ class App extends preact_mjs_1.Component {
 
     stepNext(e) {
         e.preventDefault();
-        if (this.state.step === 5) {
+        if (this.state.step === 2) {
             void this.submit();
             return;
         }
@@ -1904,6 +2015,8 @@ class App extends preact_mjs_1.Component {
         const step = Math.max(0, this.state.step - 1);
         this.set({ step, errors: {} });
         this.stash(this.state.draft, step);
+        window.scrollTo({ top: 0, behavior: 'instant' });
+        this.focusHeading();
     }
 
     async addPhotos(e) {
@@ -1954,7 +2067,7 @@ class App extends preact_mjs_1.Component {
         const errors = (0, domain_js_1.validatePayload)(this.state.draft);
         if (Object.keys(errors).length) {
             const step = stepFields.findIndex(fields => fields.some(k => errors[k]));
-            this.set({ errors, step: step < 0 ? 4 : step });
+            this.set({ errors, step: step < 0 ? 2 : step });
             return;
         }
         const token = this.state.token;
@@ -1965,6 +2078,7 @@ class App extends preact_mjs_1.Component {
                 await this.uploadPhotos(token);
             try {
                 sessionStorage.removeItem('flete-draft.v1');
+                sessionStorage.removeItem('flete-draft.v2');
                 sessionStorage.setItem('flete-last-token.v2', token);
             }
             catch { }
@@ -1975,7 +2089,7 @@ class App extends preact_mjs_1.Component {
             this.fail(e);
             if (e instanceof api_js_1.ApiError && Object.keys(e.fields).length) {
                 const step = stepFields.findIndex(fields => fields.some(k => e.fields[k]));
-                this.set({ errors: e.fields, step: step < 0 ? 4 : step });
+                this.set({ errors: e.fields, step: step < 0 ? 2 : step });
             }
         }
         finally {
@@ -2001,28 +2115,52 @@ class App extends preact_mjs_1.Component {
 
     async copyLink() {
         const token = this.state.path.split('/')[2] ?? '';
+        if (!/^[a-f0-9]{64}$/.test(token)) return;
         const link = `${window.location.href.split('#')[0]}#/seguimiento/${token}`;
+        const path = this.state.path;
+        const finish = patch => { if (this.state.path === path) this.set(patch); };
         try {
+            if (!navigator.clipboard?.writeText) throw new Error('Clipboard unavailable');
             await navigator.clipboard.writeText(link);
-            this.notify('Enlace copiado. Compartilo sólo con personas de confianza.', 'success');
+            finish({ lookup: '', copyMessage: api_js_1.IS_PREVIEW ? 'Copiado. Este enlace abre tus pruebas sólo en este navegador.' : 'Enlace copiado.' });
+        } catch {
+            finish({ lookup: link, copyMessage: 'No se pudo copiar automáticamente. Mantené presionado el enlace de abajo y elegí Copiar.' });
+            window.requestAnimationFrame(() => {
+                if (this.state.path !== path) return;
+                const field = document.getElementById('copy-link');
+                if (field instanceof HTMLInputElement) {
+                    field.focus(); field.select(); field.setSelectionRange(0, field.value.length);
+                    field.scrollIntoView({ block: 'center', behavior: 'instant' });
+                }
+            });
         }
-        catch {
-            this.set({ lookup: link });
-            this.notify('Tu navegador no permite copiar automáticamente. Seleccioná el enlace del campo de abajo.');
-        }
+    }
+
+    async refreshTracking() {
+        if (this.state.refreshing) return;
+        const path = this.state.path;
+        const oldVersion = this.state.tracking?.request_version;
+        this.set({ refreshing: true, refreshMessage: '' });
+        try {
+            const tracking = await api_js_1.api.track(path.split('/')[2] ?? '');
+            if (this.state.path === path) this.set({ tracking, trackingError: '',
+                refreshMessage: tracking.request_version === oldVersion ? 'Ya está actualizado. No hay cambios nuevos.' : 'Estado actualizado.' });
+        } catch (error) {
+            if (this.state.path === path) this.set({ refreshMessage: error instanceof Error ? error.message : 'No se pudo actualizar. Volvé a intentar.' });
+        } finally { if (this.state.path === path) this.set({ refreshing: false }); }
     }
 
     fillDemo() {
         const p = (0, domain_js_1.blankPayload)();
         p.kind = this.state.draft.kind;
-        p.origin = 'Origen de demostración';
-        p.destination = 'Destino de demostración';
+        p.origin = 'Domicilio de retiro';
+        p.destination = 'Domicilio de entrega';
         p.details.description = p.kind === 'special' ? 'Traslado de equipos para un evento. Datos de prueba.' : 'Una heladera y cuatro cajas medianas. Datos de prueba.';
         p.details.quantity = 5;
         p.details.passengers = 3;
         p.details.luggage = 'Valijas';
-        p.contact = { name: 'Persona de prueba', phone: '+540000000099', whatsapp: '', email: 'demo@example.invalid', consent: true };
-        this.set({ draft: p, errors: {}, flash: { text: 'Cargamos datos ficticios. Podés cambiarlos y recorrer todos los pasos.', type: 'info' } });
+        p.contact = { name: 'Carolina R.', phone: '+540000000099', whatsapp: '', email: 'demo@example.invalid', consent: true };
+        this.set({ draft: p, errors: {}, flash: { text: 'Ejemplo cargado. Podés cambiarlo o seguir hasta enviar.', type: 'info' } });
         this.stash(p);
     }
 
@@ -2034,6 +2172,7 @@ class App extends preact_mjs_1.Component {
             await api_js_1.previewApi.reset();
             try {
                 sessionStorage.removeItem('flete-draft.v1');
+                sessionStorage.removeItem('flete-draft.v2');
                 sessionStorage.removeItem('flete-last-token.v2');
             }
             catch { }
@@ -2144,8 +2283,8 @@ class App extends preact_mjs_1.Component {
             this.set({ quickErrors: errors }, () => document.querySelector('.quick-card input[aria-invalid="true"]')?.focus());
             return;
         }
-        this.set({ step: 2, errors: {}, quickErrors: {} });
-        this.stash(this.state.draft, 2);
+        this.set({ step: 1, errors: {}, quickErrors: {} });
+        this.stash(this.state.draft, 1);
         this.go('/solicitar');
     }
 
@@ -2255,465 +2394,16 @@ class App extends preact_mjs_1.Component {
         );
     }
 
-    wizard() {
-        const { step, draft: p, errors: e, busy } = this.state;
-        const titles = [
-            '¿Qué necesitás trasladar?',
-            '¿De dónde a dónde?',
-            '¿Cuándo lo necesitás?',
-            p.kind === 'freight' ? 'Contanos sobre la carga.' : p.kind === 'passengers' ? 'Los detalles del viaje.' : 'Cada traslado es diferente.',
-            '¿Cómo te contactamos?',
-            'Revisá tu solicitud.'
-        ];
-        const subtitles = [
-            'Elegí el tipo de servicio. Después coordinamos los detalles.',
-            'Escribí origen y destino. Podés sumar detalles en el siguiente paso.',
-            'Elegí si lo necesitás lo antes posible o preferís programar una fecha y hora.',
-            'Estos datos ayudan a preparar una cotización y evaluar el servicio solicitado.',
-            'Usá datos ficticios para probar el formulario. No se enviarán mensajes.',
-            'Enviar la solicitud no confirma el viaje ni genera ningún cobro.'
-        ];
+    jumpStep(step) {
+        if (this.state.busy || !Number.isInteger(step) || step < 0 || step > this.state.step) return;
+        this.set({ step, errors: {}, flash: null });
+        this.stash(this.state.draft, step);
+        window.scrollTo({ top: 0, behavior: 'instant' });
+        this.focusHeading();
+    }
 
-        return (0, preact_mjs_1.h)("main", { id: "main", class: "container wizard-main", "data-step": step },
-            (0, preact_mjs_1.h)("div", { class: "wizard-top" },
-                (0, preact_mjs_1.h)("a", { href: "#/", class: "text-link" },
-                    (0, preact_mjs_1.h)(ui_js_1.Icon, { name: "back", size: 17 }),
-                    "Volver al inicio"
-                ),
-                (0, preact_mjs_1.h)("span", { class: "muted" }, "Paso ", step + 1, " de 6")
-            ),
-            (0, preact_mjs_1.h)("ol", { class: "stepper", "aria-label": "Pasos de la solicitud" },
-                steps.map((name, i) => (0, preact_mjs_1.h)("li", {
-                    class: i === step ? 'current' : i < step ? 'done' : '',
-                    "aria-current": i === step ? 'step' : undefined,
-                    key: name
-                },
-                    h('button', {
-                        type: 'button', disabled: i >= step || busy,
-                        'aria-label': i < step ? `Volver al paso ${i + 1}: ${name}` : `Paso ${i + 1}: ${name}`,
-                        onClick: () => { if (i < step) { this.set({ step: i, errors: {} }); this.stash(this.state.draft, i); this.focusHeading(); } }
-                    }, h('span', null, i < step ? h(Icon, { name: 'check', size: 14 }) : i + 1), h('b', null, name))
-                ))
-            ),
-            (0, preact_mjs_1.h)("div", { class: "wizard-layout" },
-                (0, preact_mjs_1.h)("section", { class: "wizard-form", 'data-step': step },
-                    (0, preact_mjs_1.h)("span", { class: "eyebrow" }, steps[step]),
-                    (0, preact_mjs_1.h)("h1", { tabIndex: -1 }, titles[step]),
-                    (0, preact_mjs_1.h)("p", { class: "subtitle" }, subtitles[step]),
-                    api_js_1.IS_PREVIEW && step < 5 && (
-                        (0, preact_mjs_1.h)("button", { class: "demo-fill text-link", type: "button", onClick: () => this.fillDemo() },
-                            (0, preact_mjs_1.h)(ui_js_1.Icon, { name: "plus", size: 16 }),
-                            "Completar con datos de ejemplo"
-                        )
-                    ),
-                    this.state.flash && (0, preact_mjs_1.h)(ui_js_1.Notice, { type: this.state.flash.type }, this.state.flash.text),
-                    (0, preact_mjs_1.h)("form", { onSubmit: (event) => this.stepNext(event), noValidate: true, "aria-busy": busy },
-                        step === 0 && (
-                            (0, preact_mjs_1.h)("div", { class: "service-choices" },
-                                ['freight', 'passengers', 'special'].map(kind => (0, preact_mjs_1.h)("button", {
-                                    type: "button",
-                                    class: `service-choice${p.kind === kind ? ' selected' : ''}`,
-                                    "aria-pressed": p.kind === kind,
-                                    onClick: () => this.draft({ kind }),
-                                    key: kind
-                                },
-                                    (0, preact_mjs_1.h)("span", { class: "choice-icon" },
-                                        (0, preact_mjs_1.h)(ui_js_1.Icon, { name: serviceIcon[kind], size: 26 })
-                                    ),
-                                    (0, preact_mjs_1.h)("span", null,
-                                        (0, preact_mjs_1.h)("strong", null, domain_js_1.serviceLabels[kind]),
-                                        (0, preact_mjs_1.h)("small", null,
-                                            kind === 'freight' ? 'Muebles, cajas, mercadería y cargas generales'
-                                                : kind === 'passengers' ? 'Viajes coordinados de ida o ida y vuelta'
-                                                : 'Traslados que requieren evaluación a medida'
-                                        )
-                                    ),
-                                    (0, preact_mjs_1.h)("span", { class: "radio-dot" })
-                                ))
-                            )
-                        ),
-                        step === 1 && (
-                            (0, preact_mjs_1.h)("div", { class: "form-fields" },
-                                (0, preact_mjs_1.h)(ui_js_1.Field, { id: "origin", label: "Direcci\u00F3n de origen", error: e.origin, hint: "Inclu\u00ED calle, n\u00FAmero y localidad." },
-                                    (0, preact_mjs_1.h)("input", {
-                                        id: "origin",
-                                        name: "origin",
-                                        autoComplete: "street-address",
-                                        maxLength: 240,
-                                        value: p.origin,
-                                        onInput: (ev) => this.draft({ origin: value(ev) }),
-                                        placeholder: "Calle, altura y localidad",
-                                        "aria-invalid": Boolean(e.origin)
-                                    })
-                                ),
-                                (0, preact_mjs_1.h)("div", { class: "route-connector" },
-                                    (0, preact_mjs_1.h)(ui_js_1.Icon, { name: "route", size: 20 })
-                                ),
-                                (0, preact_mjs_1.h)(ui_js_1.Field, { id: "destination", label: "Direcci\u00F3n de destino", error: e.destination, hint: "Dirección de destino y localidad." },
-                                    (0, preact_mjs_1.h)("input", {
-                                        id: "destination",
-                                        name: "destination",
-                                        maxLength: 240,
-                                        value: p.destination,
-                                        onInput: (ev) => this.draft({ destination: value(ev) }),
-                                        placeholder: "Calle, altura y localidad",
-                                        "aria-invalid": Boolean(e.destination)
-                                    })
-                                ),
-                                (0, preact_mjs_1.h)(ui_js_1.Notice, null,
-                                    "No necesitamos tu ubicación GPS. Escribí las direcciones aproximadas; podés sumar referencias en el paso de detalles."
-                                )
-                            )
-                        ),
-                        step === 2 && (
-                            (0, preact_mjs_1.h)("div", { class: "form-fields" },
-                                (0, preact_mjs_1.h)("div", { class: "segmented" },
-                                    (0, preact_mjs_1.h)("button", {
-                                        type: "button",
-                                        "aria-pressed": p.when === 'asap',
-                                        class: p.when === 'asap' ? 'selected' : '',
-                                        onClick: () => this.draft({ when: 'asap', scheduled_at: null })
-                                    },
-                                        (0, preact_mjs_1.h)(ui_js_1.Icon, { name: "clock" }),
-                                        "Lo antes posible"
-                                    ),
-                                    (0, preact_mjs_1.h)("button", {
-                                        type: "button",
-                                        "aria-pressed": p.when === 'scheduled',
-                                        class: p.when === 'scheduled' ? 'selected' : '',
-                                        onClick: () => this.draft({ when: 'scheduled' })
-                                    },
-                                        (0, preact_mjs_1.h)(ui_js_1.Icon, { name: "calendar" }),
-                                        "Programar fecha y hora"
-                                    )
-                                ),
-                                p.when === 'scheduled' ? (
-                                    (0, preact_mjs_1.h)(ui_js_1.Field, { id: "scheduled_at", label: "Fecha y horario de salida", error: e.scheduled_at, hint: "Horario de Argentina (UTC\u22123). Con al menos 5 minutos de anticipaci\u00F3n." },
-                                        (0, preact_mjs_1.h)("input", {
-                                            id: "scheduled_at",
-                                            type: "datetime-local",
-                                            value: toArgInput(p.scheduled_at),
-                                            onInput: (ev) => this.draft({ scheduled_at: fromArgInput(value(ev)) })
-                                        })
-                                    )
-                                ) : (
-                                    (0, preact_mjs_1.h)("div", { class: "soft-panel" },
-                                        (0, preact_mjs_1.h)(ui_js_1.Icon, { name: "clock", size: 30 }),
-                                        (0, preact_mjs_1.h)("h3", null, "Coordinación según disponibilidad."),
-                                        (0, preact_mjs_1.h)("p", null, "El prestador revisa la solicitud y define los próximos pasos.")
-                                    )
-                                )
-                            )
-                        ),
-                        step === 3 && (
-                            (0, preact_mjs_1.h)("div", { class: "form-fields" },
-                                p.kind === 'freight' || p.kind === 'special' ? (
-                                    (0, preact_mjs_1.h)(ui_js_1.Field, { id: "description", label: p.kind === 'freight' ? '¿Qué necesitás transportar?' : 'Contanos qué servicio necesitás', error: e.description },
-                                        (0, preact_mjs_1.h)("textarea", {
-                                            id: "description",
-                                            rows: 3,
-                                            maxLength: 1500,
-                                            value: p.details.description,
-                                            onInput: (ev) => this.detailDraft({ description: value(ev) }),
-                                            placeholder: p.kind === 'freight' ? 'Por ejemplo: una heladera y cuatro cajas medianas.' : 'Describí lo que necesitás y cualquier detalle importante.'
-                                        })
-                                    )
-                                ) : null,
-                                p.kind === 'freight' && (
-                                    (0, preact_mjs_1.h)("div", null,
-                                        (0, preact_mjs_1.h)("div", { class: "form-row" },
-                                            (0, preact_mjs_1.h)(ui_js_1.Field, { id: "cargo_size", label: "Tama\u00F1o aproximado", error: e.cargo_size },
-                                                (0, preact_mjs_1.h)("select", {
-                                                    id: "cargo_size",
-                                                    value: p.details.cargo_size,
-                                                    onChange: (ev) => this.detailDraft({ cargo_size: value(ev) })
-                                                }, ['Pequeña', 'Mediana', 'Grande', 'No sé'].map(t => (0, preact_mjs_1.h)("option", { key: t, value: t }, t)))
-                                            ),
-                                            (0, preact_mjs_1.h)(ui_js_1.Field, { id: "quantity", label: "Cantidad de bultos", error: e.quantity },
-                                                (0, preact_mjs_1.h)("input", {
-                                                    id: "quantity",
-                                                    type: "number",
-                                                    inputMode: "numeric",
-                                                    min: 1,
-                                                    max: 500,
-                                                    value: p.details.quantity,
-                                                    onInput: (ev) => this.detailDraft({ quantity: Number(value(ev)) })
-                                                })
-                                            )
-                                        ),
-                                        (0, preact_mjs_1.h)("label", { class: "check-label" },
-                                            (0, preact_mjs_1.h)("input", {
-                                                type: "checkbox",
-                                                checked: p.details.needs_help,
-                                                onChange: (ev) => this.detailDraft({ needs_help: checked(ev) })
-                                            }),
-                                            (0, preact_mjs_1.h)("span", null,
-                                                "Necesito ayuda para cargar o descargar",
-                                                (0, preact_mjs_1.h)("small", null, "Se coordina y cotiza con el servicio.")
-                                            )
-                                        ),
-                                        p.details.needs_help && (
-                                            (0, preact_mjs_1.h)(ui_js_1.Field, { id: "helpers", label: "\u00BFCu\u00E1ntas personas estim\u00E1s necesarias?", error: e.helpers },
-                                                (0, preact_mjs_1.h)("input", {
-                                                    id: "helpers",
-                                                    type: "number",
-                                                    inputMode: "numeric",
-                                                    min: 1,
-                                                    max: 10,
-                                                    value: p.details.helpers,
-                                                    onInput: (ev) => this.detailDraft({ helpers: Number(value(ev)) })
-                                                })
-                                            )
-                                        ),
-                                        (0, preact_mjs_1.h)("div", { class: "photo-section" },
-                                            (0, preact_mjs_1.h)("div", { class: "mini-heading" },
-                                                (0, preact_mjs_1.h)("strong", null, "Fotos de la carga"),
-                                                (0, preact_mjs_1.h)("span", null, "Opcionales \u00B7 hasta 3 fotos")
-                                            ),
-                                            (0, preact_mjs_1.h)("div", { class: "photo-grid" },
-                                                this.state.photos.map((photo, i) => (0, preact_mjs_1.h)("div", { class: "photo-preview", key: photo.id },
-                                                    (0, preact_mjs_1.h)("img", { src: photo.url, alt: `Foto de carga ${i + 1}` }),
-                                                    (0, preact_mjs_1.h)("button", { type: "button", "aria-label": `Quitar foto ${i + 1}`, onClick: () => this.removePhoto(photo.id) },
-                                                        (0, preact_mjs_1.h)(ui_js_1.Icon, { name: "close", size: 16 })
-                                                    )
-                                                )),
-                                                this.state.photos.length < 3 && (
-                                                    (0, preact_mjs_1.h)("label", { class: "photo-add" },
-                                                        (0, preact_mjs_1.h)(ui_js_1.Icon, { name: "image", size: 27 }),
-                                                        (0, preact_mjs_1.h)("span", null, busy ? 'Preparando…' : 'Agregar fotos'),
-                                                        (0, preact_mjs_1.h)("input", {
-                                                            type: "file",
-                                                            accept: "image/jpeg,image/png,image/webp",
-                                                            multiple: true,
-                                                            disabled: busy,
-                                                            onChange: (ev) => void this.addPhotos(ev),
-                                                            "aria-label": "Agregar fotos de la carga"
-                                                        })
-                                                    )
-                                                )
-                                            ),
-                                            (0, preact_mjs_1.h)("small", { class: "field-hint" },
-                                                "Se optimizan y guardan de forma privada. No adjuntes documentos ni datos personales."
-                                            )
-                                        )
-                                    )
-                                ),
-                                p.kind === 'passengers' && (
-                                    (0, preact_mjs_1.h)("div", null,
-                                        (0, preact_mjs_1.h)("div", { class: "form-row" },
-                                            (0, preact_mjs_1.h)(ui_js_1.Field, { id: "passengers", label: "Cantidad de pasajeros", error: e.passengers },
-                                                (0, preact_mjs_1.h)("input", {
-                                                    id: "passengers",
-                                                    type: "number",
-                                                    inputMode: "numeric",
-                                                    min: 1,
-                                                    max: 60,
-                                                    value: p.details.passengers,
-                                                    onInput: (ev) => this.detailDraft({ passengers: Number(value(ev)) })
-                                                })
-                                            ),
-                                            (0, preact_mjs_1.h)(ui_js_1.Field, { id: "luggage", label: "Equipaje", error: e.luggage },
-                                                (0, preact_mjs_1.h)("select", {
-                                                    id: "luggage",
-                                                    value: p.details.luggage,
-                                                    onChange: (ev) => this.detailDraft({ luggage: value(ev) })
-                                                }, ['Sin equipaje', 'Mochilas / bolsos', 'Valijas', 'Equipaje especial'].map(t => (0, preact_mjs_1.h)("option", { key: t, value: t }, t)))
-                                            )
-                                        ),
-                                        (0, preact_mjs_1.h)("div", { class: "segmented" },
-                                            (0, preact_mjs_1.h)("button", {
-                                                type: "button",
-                                                class: !p.details.round_trip ? 'selected' : '',
-                                                "aria-pressed": !p.details.round_trip,
-                                                onClick: () => this.detailDraft({ round_trip: false, return_at: null })
-                                            }, "S\u00F3lo ida"),
-                                            (0, preact_mjs_1.h)("button", {
-                                                type: "button",
-                                                class: p.details.round_trip ? 'selected' : '',
-                                                "aria-pressed": p.details.round_trip,
-                                                onClick: () => this.detailDraft({ round_trip: true })
-                                            }, "Ida y vuelta")
-                                        ),
-                                        p.details.round_trip && (
-                                            (0, preact_mjs_1.h)(ui_js_1.Field, { id: "return_at", label: "Fecha y horario de regreso", error: e.return_at, hint: "Horario de Argentina (UTC\u22123). El regreso se coordina en la misma solicitud." },
-                                                (0, preact_mjs_1.h)("input", {
-                                                    id: "return_at",
-                                                    type: "datetime-local",
-                                                    value: toArgInput(p.details.return_at),
-                                                    onInput: (ev) => this.detailDraft({ return_at: fromArgInput(value(ev)) })
-                                                })
-                                            )
-                                        )
-                                    )
-                                ),
-                                (0, preact_mjs_1.h)(ui_js_1.Field, { id: "notes", label: "Observaciones adicionales (opcional)", error: e.notes },
-                                    (0, preact_mjs_1.h)("textarea", {
-                                        id: "notes",
-                                        rows: 3,
-                                        maxLength: 1500,
-                                        value: p.details.notes,
-                                        onInput: (ev) => this.detailDraft({ notes: value(ev) }),
-                                        placeholder: "Acceso al lugar, escaleras, referencias o algo que debamos saber."
-                                    })
-                                )
-                            )
-                        ),
-                        step === 4 && (
-                            (0, preact_mjs_1.h)("div", { class: "form-fields" },
-                                (0, preact_mjs_1.h)(ui_js_1.Field, { id: "name", label: "Tu nombre", error: e.name },
-                                    (0, preact_mjs_1.h)("input", {
-                                        id: "name",
-                                        autoComplete: "name",
-                                        maxLength: 100,
-                                        value: p.contact.name,
-                                        onInput: (ev) => this.contactDraft({ name: value(ev) }),
-                                        placeholder: "Nombre y apellido"
-                                    })
-                                ),
-                                (0, preact_mjs_1.h)(ui_js_1.Field, { id: "phone", label: "Tel\u00E9fono con c\u00F3digo de pa\u00EDs", error: e.phone, hint: "Argentina: +54 9, código de área y número, sin 0 ni 15." },
-                                    (0, preact_mjs_1.h)("input", {
-                                        id: "phone",
-                                        type: "tel",
-                                        autoComplete: "tel",
-                                        maxLength: 30,
-                                        placeholder: "+54 9 299 123 4567",
-                                        value: p.contact.phone,
-                                        onInput: (ev) => this.contactDraft({ phone: value(ev) })
-                                    })
-                                ),
-                                (0, preact_mjs_1.h)(ui_js_1.Field, { id: "whatsapp", label: "WhatsApp diferente (opcional)", error: e.whatsapp, hint: "Dejalo vacío para usar el mismo teléfono." },
-                                    (0, preact_mjs_1.h)("input", {
-                                        id: "whatsapp",
-                                        type: "tel",
-                                        autoComplete: "off",
-                                        maxLength: 30,
-                                        value: p.contact.whatsapp,
-                                        onInput: (ev) => this.contactDraft({ whatsapp: value(ev) })
-                                    })
-                                ),
-                                (0, preact_mjs_1.h)(ui_js_1.Field, { id: "email", label: "Correo electr\u00F3nico (opcional)", error: e.email },
-                                    (0, preact_mjs_1.h)("input", {
-                                        id: "email",
-                                        type: "email",
-                                        autoComplete: "email",
-                                        maxLength: 254,
-                                        value: p.contact.email,
-                                        onInput: (ev) => this.contactDraft({ email: value(ev) })
-                                    })
-                                ),
-                                (0, preact_mjs_1.h)("label", { class: "check-label consent" },
-                                    (0, preact_mjs_1.h)("input", {
-                                        type: "checkbox",
-                                        id: "consent",
-                                        checked: p.contact.consent,
-                                        onChange: (ev) => this.contactDraft({ consent: checked(ev) })
-                                    }),
-                                    (0, preact_mjs_1.h)("span", null,
-                                        "Autorizo el uso de estos datos para recibir una cotizaci\u00F3n y coordinar esta solicitud. ",
-                                        (0, preact_mjs_1.h)("a", { href: "#/privacidad", target: "_blank", rel: "noopener noreferrer" }, "C\u00F3mo se usan mis datos")
-                                    )
-                                ),
-                                e.consent && (0, preact_mjs_1.h)("span", { class: "field-message", role: "alert" }, e.consent),
-                                (0, preact_mjs_1.h)("div", { class: "honeypot", "aria-hidden": "true" },
-                                    (0, preact_mjs_1.h)("label", null, "Dej\u00E1 este campo vac\u00EDo",
-                                        (0, preact_mjs_1.h)("input", {
-                                            tabIndex: -1,
-                                            autoComplete: "off",
-                                            name: "website",
-                                            value: this.state.website,
-                                            onInput: (ev) => this.set({ website: value(ev) })
-                                        })
-                                    )
-                                )
-                            )
-                        ),
-                        step === 5 && (
-                            (0, preact_mjs_1.h)("div", { class: "review" },
-                                (0, preact_mjs_1.h)("div", { class: "review-service" },
-                                    (0, preact_mjs_1.h)("span", { class: "choice-icon" },
-                                        (0, preact_mjs_1.h)(ui_js_1.Icon, { name: serviceIcon[p.kind], size: 26 })
-                                    ),
-                                    (0, preact_mjs_1.h)("div", null,
-                                        (0, preact_mjs_1.h)("span", { class: "eyebrow" }, "SERVICIO SOLICITADO"),
-                                        (0, preact_mjs_1.h)("h3", null, domain_js_1.serviceLabels[p.kind])
-                                    ),
-                                    (0, preact_mjs_1.h)("button", { class: "text-link", type: "button", onClick: () => this.set({ step: 0 }) }, "Cambiar")
-                                ),
-                                (0, preact_mjs_1.h)(ui_js_1.RouteCard, { origin: p.origin, destination: p.destination, scheduledAt: p.scheduled_at }),
-                                (0, preact_mjs_1.h)("div", { class: "review-row" },
-                                    (0, preact_mjs_1.h)("div", null,
-                                        (0, preact_mjs_1.h)("strong", null, p.kind === 'passengers' ? `${p.details.passengers} pasajeros · ${p.details.luggage}` : p.details.description),
-                                        (0, preact_mjs_1.h)("p", null, p.kind === 'freight' ? `${p.details.quantity} bultos · Carga ${p.details.cargo_size.toLowerCase()}${p.details.needs_help ? ` · Ayuda de ${p.details.helpers} persona(s)` : ''}` : p.kind === 'passengers' ? p.details.round_trip ? `Regreso: ${(0, domain_js_1.dateText)(p.details.return_at)}` : 'Sólo ida' : ''),
-                                        p.details.notes && (0, preact_mjs_1.h)("p", null, p.details.notes),
-                                        this.state.photos.length > 0 && p.kind === 'freight' && (0, preact_mjs_1.h)("small", null, this.state.photos.length, " foto(s) para adjuntar")
-                                    ),
-                                    (0, preact_mjs_1.h)("button", { class: "text-link", type: "button", onClick: () => this.set({ step: 3 }) }, "Editar")
-                                ),
-                                (0, preact_mjs_1.h)("div", { class: "review-row" },
-                                    (0, preact_mjs_1.h)("div", null,
-                                        (0, preact_mjs_1.h)("strong", null, p.contact.name),
-                                        (0, preact_mjs_1.h)("p", null, p.contact.phone),
-                                        p.contact.email && (0, preact_mjs_1.h)("p", null, p.contact.email)
-                                    ),
-                                    (0, preact_mjs_1.h)("button", { class: "text-link", type: "button", onClick: () => this.set({ step: 4 }) }, "Editar")
-                                ),
-                                api_js_1.IS_PREVIEW && (
-                                    (0, preact_mjs_1.h)("p", { class: "demo-review-note" },
-                                        (0, preact_mjs_1.h)(ui_js_1.Icon, { name: "info", size: 16 }),
-                                        "Esta prueba se guarda en este navegador. No genera un servicio real ni realiza cobros."
-                                    )
-                                ),
-                                (0, preact_mjs_1.h)(ui_js_1.Notice, null,
-                                    "El importe y las condiciones se definen después de revisar tu solicitud. No hay cobros automáticos."
-                                )
-                            )
-                        ),
-                        (0, preact_mjs_1.h)("div", { class: "wizard-actions" },
-                            step > 0 && (
-                                (0, preact_mjs_1.h)("button", {
-                                    class: "button button-light",
-                                    type: "button",
-                                    disabled: busy,
-                                    onClick: () => this.stepBack()
-                                },
-                                    (0, preact_mjs_1.h)(ui_js_1.Icon, { name: "back", size: 18 }),
-                                    "Atr\u00E1s"
-                                )
-                            ),
-                            (0, preact_mjs_1.h)("button", {
-                                class: "button button-primary",
-                                type: "submit",
-                                disabled: busy
-                            },
-                                busy ? (0, preact_mjs_1.h)("span", { class: "spinner small" }) : null,
-                                busy ? 'Guardando solicitud…' : step === 5 ? 'Enviar solicitud' : 'Continuar',
-                                !busy && (0, preact_mjs_1.h)(ui_js_1.Icon, { name: "arrow", size: 19 })
-                            )
-                        )
-                    ),
-                    (0, preact_mjs_1.h)("div", { class: "form-footnote" },
-                        (0, preact_mjs_1.h)(ui_js_1.Icon, { name: "lock", size: 14 }),
-                        this.state.saved ? 'Borrador conservado en esta pestaña.' : 'La solicitud se guarda cuando confirmás el envío.'
-                    )
-                ),
-                (0, preact_mjs_1.h)("aside", { class: "wizard-aside" },
-                    (0, preact_mjs_1.h)("div", { class: "sticky-card" },
-                        (0, preact_mjs_1.h)("span", { class: "eyebrow" }, "AS\u00CD VA TU SOLICITUD"),
-                        (0, preact_mjs_1.h)("h3", null, domain_js_1.serviceLabels[p.kind]),
-                        (0, preact_mjs_1.h)(ui_js_1.RouteCard, { origin: p.origin, destination: p.destination, scheduledAt: p.scheduled_at, compact: true }),
-                        step > 1 && h('button', { type: 'button', class: 'text-link edit-route', onClick: () => { this.set({ step: 1, errors: {} }); this.stash(this.state.draft, 1); this.focusHeading(); } }, h(Icon, { name: 'edit', size: 14 }), 'Editar recorrido'),
-                        (0, preact_mjs_1.h)("div", { class: "aside-note" },
-                            (0, preact_mjs_1.h)(ui_js_1.Icon, { name: "info" }),
-                            (0, preact_mjs_1.h)("p", null, "Vos compartís lo que necesitás. El prestador revisa la solicitud y prepara una cotización.")
-                        ),
-                        (0, preact_mjs_1.h)("span", { class: "quote-pending" },
-                            "Cotización antes de confirmar",
-                            (0, preact_mjs_1.h)("span", null, "Sin cargos automáticos")
-                        )
-                    )
-                )
-            )
-        );
+    wizard() {
+        return (0, preact_mjs_1.h)(simple_request.SimpleRequest, { app: this, toInput: toArgInput, fromInput: fromArgInput });
     }
 
     trackingPage() {
@@ -2727,7 +2417,8 @@ class App extends preact_mjs_1.Component {
             lookup: this.state.lookup,
             pendingPhotos: this.state.photos.filter(p => !p.uploaded).length,
             onCopy: () => void this.copyLink(),
-            onRefresh: () => void this.loadTracking(),
+            onRefresh: () => void this.refreshTracking(),
+            refreshing: this.state.refreshing, refreshMessage: this.state.refreshMessage, copyMessage: this.state.copyMessage,
             onManage: () => void this.previewRequest(),
             onRetryPhotos: () => void this.retryPhotos(),
             onAccept: (btn) => {
@@ -2751,47 +2442,26 @@ class App extends preact_mjs_1.Component {
     }
 
     lookupPage() {
+        const { h } = preact_mjs_1;
         const last = this.lastTrackingToken();
-        return (0, preact_mjs_1.h)("main", { id: "main", class: "container lookup-main" },
-            (0, preact_mjs_1.h)("div", { class: "panel lookup-card" },
-                (0, preact_mjs_1.h)("span", { class: "empty-icon" },
-                    (0, preact_mjs_1.h)(ui_js_1.Icon, { name: "route", size: 32 })
-                ),
-                (0, preact_mjs_1.h)("span", { class: "eyebrow" }, "VOLV\u00C9 A TU SOLICITUD"),
-                (0, preact_mjs_1.h)("h1", { tabIndex: -1 }, "\u00BFC\u00F3mo va tu traslado?"),
-                (0, preact_mjs_1.h)("p", null, "Peg\u00E1 el enlace privado que guardaste al enviar la solicitud."),
-                last && (
-                    (0, preact_mjs_1.h)("a", { class: "button button-light last-request", href: `#/seguimiento/${last}` },
-                        (0, preact_mjs_1.h)(ui_js_1.Icon, { name: "clock", size: 17 }),
-                        "Abrir mi \u00FAltima solicitud"
-                    )
-                ),
-                (0, preact_mjs_1.h)("form", { onSubmit: (e) => this.lookup(e) },
-                    (0, preact_mjs_1.h)(ui_js_1.Field, { id: "tracking-link", label: "Enlace privado de seguimiento", hint: "El código FL es una referencia pública, no una clave de acceso." },
-                        (0, preact_mjs_1.h)("input", {
-                            id: "tracking-link",
-                            value: this.state.lookup,
-                            onInput: (e) => this.set({ lookup: value(e) }),
-                            autoComplete: "off",
-                            spellCheck: false,
-                            placeholder: "Pegá acá el enlace privado completo"
-                        })
-                    ),
-                    (0, preact_mjs_1.h)("button", { class: "button button-primary", type: "submit" },
-                        "Consultar mi solicitud",
-                        (0, preact_mjs_1.h)(ui_js_1.Icon, { name: "arrow" })
-                    )
-                ),
-                (0, preact_mjs_1.h)("div", { class: "lookup-help" },
-                    (0, preact_mjs_1.h)(ui_js_1.Icon, { name: "lock", size: 19 }),
-                    (0, preact_mjs_1.h)("p", null, "Por privacidad no se puede buscar por teléfono ni por código corto. El enlace privado es tu llave de acceso directo.")
-                ),
-                (0, preact_mjs_1.h)("a", { href: "#/solicitar", class: "text-link" },
-                    "Quiero solicitar un servicio nuevo",
-                    (0, preact_mjs_1.h)(ui_js_1.Icon, { name: "arrow", size: 17 })
-                )
-            )
-        );
+        const recent = this.state.recentRequests ?? [];
+        return h('main', { id: 'main', class: 'container lookup-main' }, h('section', { class: 'panel lookup-card' },
+            h('span', { class: 'eyebrow' }, 'VOLVÉ CUANDO QUIERAS'),
+            h('h1', { tabIndex: -1 }, 'Mis solicitudes'),
+            h('p', null, api_js_1.IS_PREVIEW ? 'Abrí tus pruebas guardadas acá, sin copiar enlaces.' : 'Consultá el estado con tu enlace privado.'),
+            last && h('a', { class: 'button button-dark last-request', href: `#/seguimiento/${last}` }, 'Abrir mi última solicitud'),
+            h('div', { class: 'recent-requests' }, recent.map(r => h('a', { key: r.token, class: 'recent-request', href: `#/seguimiento/${r.token}` },
+                h('div', null, h('strong', null, r.code), h('span', null, r.origin, ' → ', r.destination)),
+                h(ui_js_1.Badge, { status: r.status }), h(ui_js_1.Icon, { name: 'arrow', size: 17 })))),
+            !last && !recent.length && h('div', { class: 'simple-empty' },
+                h('p', null, 'Todavía no hiciste una solicitud en este navegador.'),
+                h('a', { class: 'button button-primary', href: '#/solicitar' }, 'Solicitar servicio')),
+            api_js_1.IS_PREVIEW && h('p', { class: 'tiny muted' }, 'Cada navegador guarda sus propias pruebas. No se comparten entre teléfonos.'),
+            h('details', { class: 'simple-extras' }, h('summary', null, 'Tengo un enlace guardado'),
+                h('form', { onSubmit: e => this.lookup(e) },
+                    h(ui_js_1.Field, { id: 'tracking-link', label: 'Enlace de seguimiento' }, h('input', {
+                        id: 'tracking-link', value: this.state.lookup, onInput: e => this.set({ lookup: value(e) }), autoComplete: 'off', spellCheck: false,
+                        placeholder: 'Pegá el enlace completo' })), h('button', { class: 'button button-light', type: 'submit' }, 'Abrir solicitud')))));
     }
 
     privacy() {
@@ -3449,6 +3119,11 @@ class App extends preact_mjs_1.Component {
                 ),
                 (0, preact_mjs_1.h)("aside", { class: "detail-aside" },
                     (0, preact_mjs_1.h)("section", { class: "panel quote-panel" },
+                        api_js_1.IS_PREVIEW && (0, preact_mjs_1.h)('div', { class: 'owner-next' },
+                            (0, preact_mjs_1.h)('span', { class: 'eyebrow' }, 'AHORA ESTÁS COMO DUEÑO'),
+                            (0, preact_mjs_1.h)('p', null, r.quote_cents === null ? 'Escribí un precio de ejemplo. Después vas a poder aceptarlo como cliente.' : r.quote_accepted_at && r.status === 'quoted' ? 'El cliente aceptó. Revisá disponibilidad, asigná un vehículo y confirmá el servicio.' : 'La propuesta ya está guardada. Abrila como cliente para seguir la prueba.'),
+                            r.quote_cents !== null && (0, preact_mjs_1.h)('button', { class: 'button button-dark full', disabled: this.state.busy, onClick: () => void this.previewTracking(r.id) }, 'Ver como cliente', (0, preact_mjs_1.h)(ui_js_1.Icon, { name: 'arrow', size: 17 }))
+                        ),
                         (0, preact_mjs_1.h)("span", { class: "eyebrow" }, "1. COTIZACI\u00D3N DEL SERVICIO"),
                         (0, preact_mjs_1.h)("div", { class: "quote-total" },
                             (0, domain_js_1.money)(r.quote_cents),
@@ -4146,7 +3821,7 @@ class App extends preact_mjs_1.Component {
                 )
             );
 
-        return (0, preact_mjs_1.h)("div", null,
+        return (0, preact_mjs_1.h)("div", { class: this.state.path === '/solicitar' ? 'request-mode' : '' },
             (0, preact_mjs_1.h)("a", { class: "skip-link", href: "#main", onClick: (e) => { e.preventDefault(); document.querySelector('main h1')?.focus(); } }, "Saltar al contenido"),
             this.previewToolbar(),
             banner,
@@ -4157,7 +3832,7 @@ class App extends preact_mjs_1.Component {
                 )
             ),
             content,
-            this.footer(),
+            this.state.path !== '/solicitar' && this.footer(),
             this.state.path === '/' && (
                 (0, preact_mjs_1.h)("div", {
                     class: `mobile-request-bar${this.state.stickyCta ? ' visible' : ''}`,

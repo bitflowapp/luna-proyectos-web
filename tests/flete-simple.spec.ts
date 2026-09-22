@@ -81,7 +81,13 @@ test('Flete simple: fallo de portapapeles ofrece copia manual visible y actualiz
   expect(value).toContain('#/seguimiento/')
   expect(await page.locator('#copy-link').evaluate((el: HTMLInputElement) => el.selectionEnd)).toBe(value.length)
   await fits(page)
+  const skip = page.locator('.skip-link')
+  expect(await skip.evaluate(el => getComputedStyle(el).clipPath)).not.toBe('none')
   await page.screenshot({ path: testInfo.outputPath('05-copia-bloqueada.png'), fullPage: true })
+  await skip.focus()
+  expect(await skip.evaluate(el => getComputedStyle(el).clipPath)).toBe('none')
+  await page.keyboard.press('Enter')
+  await expect(page.locator('main h1')).toBeFocused()
 })
 
 test('Flete simple: solicitud recuperable en otra pestaña sin copiar y no en otro navegador', async ({ page, context, browser }) => {

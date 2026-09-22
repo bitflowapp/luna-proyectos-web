@@ -68,8 +68,8 @@ code { font-size:12px; overflow-wrap:anywhere; }
 .preview-toolbar a,.preview-toolbar button { padding:10px; border:1px solid #49695c; border-radius:7px; color:#fff; background:transparent; min-height:40px; }
 .preview-toolbar .active { background:#345a49; }
 .preview-label { font-size:9px; letter-spacing:1px; color:#c4d5c7; }
-.skip-link { position:fixed; left:16px; top:-100px; z-index:2000; background:var(--ink); color:white; padding:14px; border-radius:8px; }
-.skip-link:focus { top:12px; }
+.skip-link { position:fixed; left:16px; top:12px; z-index:2000; background:var(--ink); color:white; border-radius:8px; width:1px; height:1px; padding:0; overflow:hidden; clip-path:inset(50%); white-space:nowrap; }
+.skip-link:focus { width:auto; height:auto; padding:14px; overflow:visible; clip-path:none; }
 body:has([aria-modal=true]) { overflow-y:hidden; }
 body:has([aria-modal=true]) .skip-link { visibility:hidden; }
 .public-header { background:var(--bg); border-bottom:1px solid var(--line); }

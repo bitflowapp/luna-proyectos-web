@@ -52,7 +52,7 @@
     },
     {
       "file": "scripts/flete-src/styles.css",
-      "sha256": "710ac4f2e2098b5080c4d53613509d65941a9f8b5ac738b3a54096098fb7a2e6"
+      "sha256": "85651debaab32c22fa2aff44999289e8eaaa82b94d9477562ddd29ba502e92f6"
     }
   ],
   "files": [
@@ -62,9 +62,9 @@
       "bytes": 240672
     },
     {
-      "file": "styles-710ac4f2e209.css",
-      "sha256": "710ac4f2e2098b5080c4d53613509d65941a9f8b5ac738b3a54096098fb7a2e6",
-      "bytes": 77322
+      "file": "styles-85651debaab3.css",
+      "sha256": "85651debaab32c22fa2aff44999289e8eaaa82b94d9477562ddd29ba502e92f6",
+      "bytes": 77462
     },
     {
       "file": "boot-check.js",

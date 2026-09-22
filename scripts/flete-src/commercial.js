@@ -9,7 +9,32 @@ const domain_js_1 = require("./domain.js");
 const { h } = preact_mjs_1;
 const { Icon, Field, TransportArt } = ui_js_1;
 
-function CommercialHome({ business, draft, errors, onDraft, onStart, onQuickSubmit, onScroll }) {
+function CommercialHome({ draft, errors, onDraft, onStart, onQuickSubmit }) {
+    const choices = [
+        ['freight', 'Flete / carga', 'truck'],
+        ['passengers', 'Pasajeros', 'users'],
+        ['special', 'Otro traslado', 'route'],
+    ];
+    return h('main', { id: 'main', tabIndex: -1, class: 'commercial-home simple-home' },
+        h('section', { class: 'container simple-hero', 'aria-labelledby': 'hero-title' },
+            h('div', { class: 'simple-hero-heading' },
+                h('h1', { id: 'hero-title', tabIndex: -1 }, 'Pedí tu traslado'),
+                h('p', null, 'Indicá origen y destino. Te enviamos una cotización.')),
+            h('form', { class: 'quick-card simple-request-card', onSubmit: onQuickSubmit, noValidate: true },
+                h('fieldset', { class: 'quick-kind simple-home-kinds' },
+                    h('legend', null, '¿Qué necesitás?'),
+                    choices.map(([kind, label, icon]) => h('button', { key: kind, type: 'button', 'aria-pressed': draft.kind === kind, class: draft.kind === kind ? 'selected' : '', onClick: () => onDraft({ kind }) }, h(Icon, { name: icon, size: 23 }), h('span', null, label)))),
+                h('div', { class: 'quick-stops' },
+                    h(Field, { id: 'quick-origin', label: 'Origen', error: errors.origin }, h('input', { id: 'quick-origin', autoComplete: 'street-address', enterKeyHint: 'next', placeholder: '¿Desde dónde?', maxLength: 240, value: draft.origin, onInput: event => onDraft({ origin: event.currentTarget.value }), 'aria-invalid': Boolean(errors.origin) })),
+                    h(Field, { id: 'quick-destination', label: 'Destino', error: errors.destination }, h('input', { id: 'quick-destination', enterKeyHint: 'go', placeholder: '¿Hasta dónde?', maxLength: 240, value: draft.destination, onInput: event => onDraft({ destination: event.currentTarget.value }), 'aria-invalid': Boolean(errors.destination) }))),
+                h('button', { class: 'button button-primary button-large full', type: 'submit' }, 'Continuar', h(Icon, { name: 'arrow', size: 19 })))),
+        h('section', { class: 'container simple-services', 'aria-label': 'Servicios' },
+            h('h2', null, 'Servicios'),
+            h('div', { class: 'services-grid' }, choices.map(([kind, label, icon]) => h('button', { class: `service-card service-${kind}`, key: kind, onClick: () => onStart(kind) }, h(Icon, { name: icon, size: 26 }), h('strong', null, label), h('span', null, 'Pedir'))))),
+        h('div', { class: 'container simple-existing' }, h('a', { class: 'text-link', href: '#/seguimiento' }, 'Consultar una solicitud', h(Icon, { name: 'arrow', size: 17 }))));
+}
+
+function LegacyCommercialHome({ business, draft, errors, onDraft, onStart, onQuickSubmit, onScroll }) {
     const coverage = typeof business.coverage === 'string' ? business.coverage.trim() : '';
     const hasCoverage = Boolean(coverage && coverage !== domain_js_1.defaultConfig.coverage);
     const services = [
@@ -92,6 +117,26 @@ function CommercialHome({ business, draft, errors, onDraft, onStart, onQuickSubm
 }
 
 function DemoGuide({ onStart, onExample, onReset, busy }) {
+    const steps = [
+        ['1', 'Cliente pide', 'Indica qué necesita, el recorrido y su teléfono.'],
+        ['2', 'Dueño cotiza', 'Revisa la solicitud y envía un importe.'],
+        ['3', 'Cliente acepta', 'Ve la cotización y la acepta.'],
+        ['4', 'Dueño confirma', 'Confirma y asigna un vehículo.'],
+        ['5', 'Servicio listo', 'El estado queda disponible para consultar.'],
+    ];
+    return h('main', { id: 'main', class: 'container demo-guide simple-demo-guide' },
+        h('a', { href: '#/', class: 'text-link back-link' }, h(Icon, { name: 'back', size: 17 }), 'Volver'),
+        h('h1', { tabIndex: -1 }, 'Probá el recorrido completo'),
+        h('p', { class: 'demo-guide-disclaimer' }, 'Demo comercial · datos ficticios'),
+        h('div', { class: 'demo-flow-steps simple-demo-steps' }, steps.map(([num, title, desc]) => h('article', { class: 'demo-flow-step', key: num }, h('span', { class: 'step-badge' }, num), h('div', null, h('strong', null, title), h('p', null, desc))))),
+        h('div', { class: 'demo-primary-actions' },
+            h('button', { class: 'button button-primary button-large', onClick: onStart }, 'Empezar recorrido', h(Icon, { name: 'arrow', size: 18 })),
+            h('button', { class: 'button button-light', onClick: onExample }, 'Ver cotización lista')),
+        h('p', { class: 'demo-guide-notice' }, 'Ahora personalizamos servicios, vehículos, cobertura y forma de trabajo.'),
+        h('button', { class: 'text-link', onClick: onReset, disabled: busy }, 'Reiniciar datos'));
+}
+
+function LegacyDemoGuide({ onStart, onExample, onReset, busy }) {
     const steps = [
         { num: '01', title: 'Cliente pide', desc: 'Ingresa origen, destino, fecha y detalles desde el formulario rápido o wizard.' },
         { num: '02', title: 'Dueño recibe', desc: 'La solicitud ingresa al panel, en la bandeja de Nuevas.' },

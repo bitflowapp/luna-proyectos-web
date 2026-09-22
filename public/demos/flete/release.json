@@ -36,31 +36,31 @@
     },
     {
       "file": "scripts/flete-src/commercial.js",
-      "sha256": "004614807f94be0572d18761e6cbf453c9afbe35c294c38a529b03af98070bf3"
+      "sha256": "15cc2fa56f5364e5d59f6cbe014ee3890204f8caddb94848b9da4c7e960589a1"
     },
     {
       "file": "scripts/flete-src/tracking.js",
-      "sha256": "ec1fa2d0e6aa6f3cda78498cbad4f6173a5e1edf377d947730ad0922e282c98f"
+      "sha256": "1309dc737a248e692ee2f2f6ccde4bf775cb885a636db8c9638a3b4fcc1de85f"
     },
     {
       "file": "scripts/flete-src/app.js",
-      "sha256": "aeb61628d2e5476622bce7193ce9239b922c1419840cc968f52951cc335d6fcf"
+      "sha256": "13b540adc46bd897da4a8023cff7c1a9deaee004382b289607691d2d678ab045"
     },
     {
       "file": "scripts/flete-src/styles.css",
-      "sha256": "60d651e0b67ef5da9ed4948abf3fbf047b16c23d4bf3cbfaec5ba2b50c9debfc"
+      "sha256": "0694810c07e544e4c3130ec62d485a6de5cbe03932b2f8586de4d43531c48530"
     }
   ],
   "files": [
     {
-      "file": "app-e188d48427ab.js",
-      "sha256": "e188d48427ab7411f2941345fe7221465dc664fca2968eef303460e598a7d608",
-      "bytes": 257978
+      "file": "app-e72362e2a260.js",
+      "sha256": "e72362e2a2601fb247005cf99dd213623452120ef55bb955f9d088b079cad916",
+      "bytes": 285038
     },
     {
-      "file": "styles-60d651e0b67e.css",
-      "sha256": "60d651e0b67ef5da9ed4948abf3fbf047b16c23d4bf3cbfaec5ba2b50c9debfc",
-      "bytes": 69547
+      "file": "styles-0694810c07e5.css",
+      "sha256": "0694810c07e544e4c3130ec62d485a6de5cbe03932b2f8586de4d43531c48530",
+      "bytes": 77103
     },
     {
       "file": "boot-check.js",

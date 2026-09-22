@@ -1,46 +1,27 @@
-# Flete 0.4.0 · Acabado de producto
+# Flete 0.4.0 · Simplificación radical de UX
 
-Alcance: COMMERCIAL_DEMO. Datos ficticios en IndexedDB del navegador. Sin backend, autenticación productiva, pagos, GPS ni sincronización entre dispositivos.
+Alcance: `COMMERCIAL_DEMO`. Datos ficticios en IndexedDB del navegador. Sin backend remoto, pagos, GPS ni sincronización entre dispositivos.
 
-Portada y solicitud rápida compactas; pasos previos editables; cotización antes del recorrido; panel con cuatro indicadores y bandeja de atención; detalle móvil con acciones prioritarias. Se mantienen validaciones, aceptación, recotización y limpieza comercial.
+La experiencia del cliente tiene tres pantallas:
 
-CSS unificado, sin ocultar desbordes globales. Artefactos con hashes de fuentes y SRI verificados por test. No se cambian la portada ni la configuración de publicación de LUNA.
+1. servicio, origen y destino;
+2. cuándo y los datos mínimos del traslado;
+3. nombre, teléfono y resumen antes de enviar.
 
-## Verificación nativa de rama
+Fotos, medidas, observaciones, ayudantes y email quedan detrás de controles de detalle opcional. La portada permite empezar de inmediato y evita llamadas a la acción repetidas.
 
-Run: https://github.com/bitflowapp/luna-proyectos-web/actions/runs/35688819237
+El seguimiento prioriza estado, cotización y recorrido. El progreso queda plegado. Compartir intenta `navigator.share`, luego portapapeles y finalmente selección manual. Actualizar relee la solicitud sin recargar la página y muestra confirmación.
 
-Lint, typecheck del repositorio, comprobación de sintaxis JS, build y unitarios aprobados. El typecheck raíz no certifica tipos de las fuentes JS de Flete.
+El panel del dueño muestra nuevas solicitudes, cotizaciones aceptadas y servicios en curso. El detalle ordena cliente, recorrido, fecha y necesidad antes de cotizar, asignar vehículo, cambiar estado y consultar notas internas.
 
-Resultado Playwright (HTTP real, sin interceptar IndexedDB):
+## Verificación
 
-```json
-{
-  "stats": {
-    "startTime": "2026-09-22T04:58:12.391Z",
-    "duration": 146624.401,
-    "expected": 150,
-    "skipped": 0,
-    "unexpected": 0,
-    "flaky": 0
-  },
-  "total": 150,
-  "projects": [
-    "chromium-360",
-    "chromium-390",
-    "chromium-430",
-    "chromium-768",
-    "chromium-1440",
-    "webkit-360",
-    "webkit-390",
-    "webkit-430",
-    "webkit-768",
-    "webkit-1440"
-  ],
-  "flete": 90
-}
-```
+- Chromium: 360, 390, 430, 768 y 1440.
+- WebKit: 360, 390, 430, 768 y 1440.
+- Flujo completo de solicitud, cotización y aceptación: Chromium 390 y WebKit 390.
+- Share nativo simulado y fallback manual comprobados por efecto.
+- Actualización comprobada por feedback posterior a la lectura.
+- Inputs móviles a 16 px o más y objetivos táctiles críticos de al menos 48 px.
+- Doce capturas revisadas en `artifacts/flete-ux-screenshots/`.
 
-La revisión visual local adicional usó HTML inyectado y almacenamiento temporal: 130 combinaciones de pantalla/tamaño sin desbordes detectados. No equivale a Safari en iPhone físico. No se declara conformidad WCAG integral.
-
-La publicación y los recorridos contra la URL pública se comprueban por separado después de integrar. Los datos previos del navegador se conservan; los ejemplos nuevos se generan sólo en una base nueva o mediante el reinicio explícito de la demo.
+La revisión automatizada no equivale a una prueba en un iPhone físico ni a una auditoría WCAG integral.

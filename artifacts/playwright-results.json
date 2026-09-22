@@ -1,7 +1,7 @@
 {
   "config": {
-    "configFile": "C:\\Users\\marco\\luna-proyectos-web\\playwright.config.ts",
-    "rootDir": "C:/Users/marco/luna-proyectos-web/tests",
+    "configFile": "C:\\Users\\DELL\\Desktop\\luna-proyectos-web-task\\playwright.config.ts",
+    "rootDir": "C:/Users/DELL/Desktop/luna-proyectos-web-task/tests",
     "forbidOnly": false,
     "fullyParallel": true,
     "globalSetup": null,
@@ -11,20 +11,20 @@
     "grepInvert": null,
     "maxFailures": 0,
     "metadata": {
-      "actualWorkers": 2
+      "actualWorkers": 1
     },
     "preserveOutput": "always",
     "projects": [
       {
-        "outputDir": "C:/Users/marco/luna-proyectos-web/test-results",
+        "outputDir": "C:/Users/DELL/Desktop/luna-proyectos-web-task/test-results",
         "repeatEach": 1,
         "retries": 0,
         "metadata": {
-          "actualWorkers": 2
+          "actualWorkers": 1
         },
         "id": "chromium-360",
         "name": "chromium-360",
-        "testDir": "C:/Users/marco/luna-proyectos-web/tests",
+        "testDir": "C:/Users/DELL/Desktop/luna-proyectos-web-task/tests",
         "testIgnore": [],
         "testMatch": [
           "**/*.spec.ts"
@@ -32,15 +32,15 @@
         "timeout": 45000
       },
       {
-        "outputDir": "C:/Users/marco/luna-proyectos-web/test-results",
+        "outputDir": "C:/Users/DELL/Desktop/luna-proyectos-web-task/test-results",
         "repeatEach": 1,
         "retries": 0,
         "metadata": {
-          "actualWorkers": 2
+          "actualWorkers": 1
         },
         "id": "chromium-390",
         "name": "chromium-390",
-        "testDir": "C:/Users/marco/luna-proyectos-web/tests",
+        "testDir": "C:/Users/DELL/Desktop/luna-proyectos-web-task/tests",
         "testIgnore": [],
         "testMatch": [
           "**/*.spec.ts"
@@ -48,15 +48,15 @@
         "timeout": 45000
       },
       {
-        "outputDir": "C:/Users/marco/luna-proyectos-web/test-results",
+        "outputDir": "C:/Users/DELL/Desktop/luna-proyectos-web-task/test-results",
         "repeatEach": 1,
         "retries": 0,
         "metadata": {
-          "actualWorkers": 2
+          "actualWorkers": 1
         },
         "id": "chromium-430",
         "name": "chromium-430",
-        "testDir": "C:/Users/marco/luna-proyectos-web/tests",
+        "testDir": "C:/Users/DELL/Desktop/luna-proyectos-web-task/tests",
         "testIgnore": [],
         "testMatch": [
           "**/*.spec.ts"
@@ -64,15 +64,15 @@
         "timeout": 45000
       },
       {
-        "outputDir": "C:/Users/marco/luna-proyectos-web/test-results",
+        "outputDir": "C:/Users/DELL/Desktop/luna-proyectos-web-task/test-results",
         "repeatEach": 1,
         "retries": 0,
         "metadata": {
-          "actualWorkers": 2
+          "actualWorkers": 1
         },
         "id": "chromium-768",
         "name": "chromium-768",
-        "testDir": "C:/Users/marco/luna-proyectos-web/tests",
+        "testDir": "C:/Users/DELL/Desktop/luna-proyectos-web-task/tests",
         "testIgnore": [],
         "testMatch": [
           "**/*.spec.ts"
@@ -80,15 +80,15 @@
         "timeout": 45000
       },
       {
-        "outputDir": "C:/Users/marco/luna-proyectos-web/test-results",
+        "outputDir": "C:/Users/DELL/Desktop/luna-proyectos-web-task/test-results",
         "repeatEach": 1,
         "retries": 0,
         "metadata": {
-          "actualWorkers": 2
+          "actualWorkers": 1
         },
         "id": "chromium-1440",
         "name": "chromium-1440",
-        "testDir": "C:/Users/marco/luna-proyectos-web/tests",
+        "testDir": "C:/Users/DELL/Desktop/luna-proyectos-web-task/tests",
         "testIgnore": [],
         "testMatch": [
           "**/*.spec.ts"
@@ -96,15 +96,15 @@
         "timeout": 45000
       },
       {
-        "outputDir": "C:/Users/marco/luna-proyectos-web/test-results",
+        "outputDir": "C:/Users/DELL/Desktop/luna-proyectos-web-task/test-results",
         "repeatEach": 1,
         "retries": 0,
         "metadata": {
-          "actualWorkers": 2
+          "actualWorkers": 1
         },
         "id": "webkit-360",
         "name": "webkit-360",
-        "testDir": "C:/Users/marco/luna-proyectos-web/tests",
+        "testDir": "C:/Users/DELL/Desktop/luna-proyectos-web-task/tests",
         "testIgnore": [],
         "testMatch": [
           "**/*.spec.ts"
@@ -112,15 +112,15 @@
         "timeout": 45000
       },
       {
-        "outputDir": "C:/Users/marco/luna-proyectos-web/test-results",
+        "outputDir": "C:/Users/DELL/Desktop/luna-proyectos-web-task/test-results",
         "repeatEach": 1,
         "retries": 0,
         "metadata": {
-          "actualWorkers": 2
+          "actualWorkers": 1
         },
         "id": "webkit-390",
         "name": "webkit-390",
-        "testDir": "C:/Users/marco/luna-proyectos-web/tests",
+        "testDir": "C:/Users/DELL/Desktop/luna-proyectos-web-task/tests",
         "testIgnore": [],
         "testMatch": [
           "**/*.spec.ts"
@@ -128,15 +128,15 @@
         "timeout": 45000
       },
       {
-        "outputDir": "C:/Users/marco/luna-proyectos-web/test-results",
+        "outputDir": "C:/Users/DELL/Desktop/luna-proyectos-web-task/test-results",
         "repeatEach": 1,
         "retries": 0,
         "metadata": {
-          "actualWorkers": 2
+          "actualWorkers": 1
         },
         "id": "webkit-430",
         "name": "webkit-430",
-        "testDir": "C:/Users/marco/luna-proyectos-web/tests",
+        "testDir": "C:/Users/DELL/Desktop/luna-proyectos-web-task/tests",
         "testIgnore": [],
         "testMatch": [
           "**/*.spec.ts"
@@ -144,15 +144,15 @@
         "timeout": 45000
       },
       {
-        "outputDir": "C:/Users/marco/luna-proyectos-web/test-results",
+        "outputDir": "C:/Users/DELL/Desktop/luna-proyectos-web-task/test-results",
         "repeatEach": 1,
         "retries": 0,
         "metadata": {
-          "actualWorkers": 2
+          "actualWorkers": 1
         },
         "id": "webkit-768",
         "name": "webkit-768",
-        "testDir": "C:/Users/marco/luna-proyectos-web/tests",
+        "testDir": "C:/Users/DELL/Desktop/luna-proyectos-web-task/tests",
         "testIgnore": [],
         "testMatch": [
           "**/*.spec.ts"
@@ -160,15 +160,15 @@
         "timeout": 45000
       },
       {
-        "outputDir": "C:/Users/marco/luna-proyectos-web/test-results",
+        "outputDir": "C:/Users/DELL/Desktop/luna-proyectos-web-task/test-results",
         "repeatEach": 1,
         "retries": 0,
         "metadata": {
-          "actualWorkers": 2
+          "actualWorkers": 1
         },
         "id": "webkit-1440",
         "name": "webkit-1440",
-        "testDir": "C:/Users/marco/luna-proyectos-web/tests",
+        "testDir": "C:/Users/DELL/Desktop/luna-proyectos-web-task/tests",
         "testIgnore": [],
         "testMatch": [
           "**/*.spec.ts"
@@ -204,7 +204,7 @@
     "updateSnapshots": "missing",
     "updateSourceMethod": "patch",
     "version": "1.60.0",
-    "workers": 2,
+    "workers": 1,
     "webServer": {
       "command": "npm run preview -- --host 127.0.0.1 --port 4173 --strictPort",
       "url": "http://127.0.0.1:4173/luna-proyectos-web/",
@@ -213,13 +213,13 @@
   },
   "suites": [
     {
-      "title": "site.spec.ts",
-      "file": "site.spec.ts",
+      "title": "flete-finish.spec.ts",
+      "file": "flete-finish.spec.ts",
       "column": 0,
       "line": 0,
       "specs": [
         {
-          "title": "layout, evidence, real links, loaded images and clean console",
+          "title": "Flete simple: portada directa, tres etapas y controles táctiles",
           "ok": true,
           "tags": [],
           "tests": [
@@ -234,12 +234,12 @@
                   "workerIndex": 0,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 970,
+                  "duration": 1875,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-09-09T08:24:44.318Z",
+                  "startTime": "2026-09-22T13:22:30.920Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -247,47 +247,13 @@
               "status": "expected"
             }
           ],
-          "id": "5c02723ad68c2a0d50c5-c00959d15eaa47d99103",
-          "file": "site.spec.ts",
-          "line": 5,
+          "id": "c99352c26c2e93f1aba0-c161c5ba1dd432a65fa0",
+          "file": "flete-finish.spec.ts",
+          "line": 11,
           "column": 1
         },
         {
-          "title": "gallery changes actual screenshots; zoom traps and restores focus",
-          "ok": true,
-          "tags": [],
-          "tests": [
-            {
-              "timeout": 45000,
-              "annotations": [],
-              "expectedStatus": "passed",
-              "projectId": "chromium-360",
-              "projectName": "chromium-360",
-              "results": [
-                {
-                  "workerIndex": 1,
-                  "parallelIndex": 1,
-                  "status": "passed",
-                  "duration": 1239,
-                  "errors": [],
-                  "stdout": [],
-                  "stderr": [],
-                  "retry": 0,
-                  "startTime": "2026-09-09T08:24:44.349Z",
-                  "annotations": [],
-                  "attachments": []
-                }
-              ],
-              "status": "expected"
-            }
-          ],
-          "id": "5c02723ad68c2a0d50c5-dd569a34b9b4172232dd",
-          "file": "site.spec.ts",
-          "line": 33,
-          "column": 1
-        },
-        {
-          "title": "commercial journey, menu and FAQ work with keyboard",
+          "title": "Flete simple: pasajeros y detalles progresivos",
           "ok": true,
           "tags": [],
           "tests": [
@@ -302,12 +268,12 @@
                   "workerIndex": 0,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 1019,
+                  "duration": 1540,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-09-09T08:24:45.671Z",
+                  "startTime": "2026-09-22T13:22:33.363Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -315,81 +281,13 @@
               "status": "expected"
             }
           ],
-          "id": "5c02723ad68c2a0d50c5-93a8a92608abcce9f5e0",
-          "file": "site.spec.ts",
-          "line": 58,
+          "id": "c99352c26c2e93f1aba0-cec6fce7697da2207f72",
+          "file": "flete-finish.spec.ts",
+          "line": 40,
           "column": 1
         },
         {
-          "title": "Bit Flow is private, with no media, links or commercial availability",
-          "ok": true,
-          "tags": [],
-          "tests": [
-            {
-              "timeout": 45000,
-              "annotations": [],
-              "expectedStatus": "passed",
-              "projectId": "chromium-360",
-              "projectName": "chromium-360",
-              "results": [
-                {
-                  "workerIndex": 1,
-                  "parallelIndex": 1,
-                  "status": "passed",
-                  "duration": 349,
-                  "errors": [],
-                  "stdout": [],
-                  "stderr": [],
-                  "retry": 0,
-                  "startTime": "2026-09-09T08:24:45.730Z",
-                  "annotations": [],
-                  "attachments": []
-                }
-              ],
-              "status": "expected"
-            }
-          ],
-          "id": "5c02723ad68c2a0d50c5-a548089d4e8662a64a2d",
-          "file": "site.spec.ts",
-          "line": 82,
-          "column": 1
-        },
-        {
-          "title": "WCAG automated accessibility including contrast",
-          "ok": true,
-          "tags": [],
-          "tests": [
-            {
-              "timeout": 45000,
-              "annotations": [],
-              "expectedStatus": "passed",
-              "projectId": "chromium-360",
-              "projectName": "chromium-360",
-              "results": [
-                {
-                  "workerIndex": 1,
-                  "parallelIndex": 1,
-                  "status": "passed",
-                  "duration": 1483,
-                  "errors": [],
-                  "stdout": [],
-                  "stderr": [],
-                  "retry": 0,
-                  "startTime": "2026-09-09T08:24:46.097Z",
-                  "annotations": [],
-                  "attachments": []
-                }
-              ],
-              "status": "expected"
-            }
-          ],
-          "id": "5c02723ad68c2a0d50c5-397c8fa8f26942336a7f",
-          "file": "site.spec.ts",
-          "line": 91,
-          "column": 1
-        },
-        {
-          "title": "SEO, canonical, manifest and social image exist",
+          "title": "Flete simple: guía de cinco pasos y panel orientado a pendientes",
           "ok": true,
           "tags": [],
           "tests": [
@@ -404,12 +302,12 @@
                   "workerIndex": 0,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 332,
+                  "duration": 1619,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-09-09T08:24:46.710Z",
+                  "startTime": "2026-09-22T13:22:34.946Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -417,13 +315,67 @@
               "status": "expected"
             }
           ],
-          "id": "5c02723ad68c2a0d50c5-620d35c701c59e972ee4",
-          "file": "site.spec.ts",
-          "line": 97,
+          "id": "c99352c26c2e93f1aba0-e9b5e3b8cee555812ab8",
+          "file": "flete-finish.spec.ts",
+          "line": 53,
           "column": 1
         },
         {
-          "title": "layout, evidence, real links, loaded images and clean console",
+          "title": "Flete QA visual: doce estados clave",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [
+                {
+                  "type": "skip",
+                  "description": "Capturas canónicas en WebKit 390",
+                  "location": {
+                    "file": "C:\\Users\\DELL\\Desktop\\luna-proyectos-web-task\\tests\\flete-finish.spec.ts",
+                    "line": 74,
+                    "column": 8
+                  }
+                }
+              ],
+              "expectedStatus": "skipped",
+              "projectId": "chromium-360",
+              "projectName": "chromium-360",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "skipped",
+                  "duration": 238,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-22T13:22:36.604Z",
+                  "annotations": [
+                    {
+                      "type": "skip",
+                      "description": "Capturas canónicas en WebKit 390",
+                      "location": {
+                        "file": "C:\\Users\\DELL\\Desktop\\luna-proyectos-web-task\\tests\\flete-finish.spec.ts",
+                        "line": 74,
+                        "column": 8
+                      }
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "skipped"
+            }
+          ],
+          "id": "c99352c26c2e93f1aba0-58cda80db927221b396e",
+          "file": "flete-finish.spec.ts",
+          "line": 73,
+          "column": 1
+        },
+        {
+          "title": "Flete simple: portada directa, tres etapas y controles táctiles",
           "ok": true,
           "tags": [],
           "tests": [
@@ -435,15 +387,15 @@
               "projectName": "chromium-390",
               "results": [
                 {
-                  "workerIndex": 2,
+                  "workerIndex": 1,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 807,
+                  "duration": 1501,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-09-09T08:24:47.887Z",
+                  "startTime": "2026-09-22T13:22:42.753Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -451,13 +403,13 @@
               "status": "expected"
             }
           ],
-          "id": "5c02723ad68c2a0d50c5-0562bf03fa6eb16b5fa0",
-          "file": "site.spec.ts",
-          "line": 5,
+          "id": "c99352c26c2e93f1aba0-6e1a5d257b7597e1dd37",
+          "file": "flete-finish.spec.ts",
+          "line": 11,
           "column": 1
         },
         {
-          "title": "gallery changes actual screenshots; zoom traps and restores focus",
+          "title": "Flete simple: pasajeros y detalles progresivos",
           "ok": true,
           "tags": [],
           "tests": [
@@ -469,49 +421,15 @@
               "projectName": "chromium-390",
               "results": [
                 {
-                  "workerIndex": 3,
-                  "parallelIndex": 1,
-                  "status": "passed",
-                  "duration": 947,
-                  "errors": [],
-                  "stdout": [],
-                  "stderr": [],
-                  "retry": 0,
-                  "startTime": "2026-09-09T08:24:48.463Z",
-                  "annotations": [],
-                  "attachments": []
-                }
-              ],
-              "status": "expected"
-            }
-          ],
-          "id": "5c02723ad68c2a0d50c5-1d202079b170ec428a1b",
-          "file": "site.spec.ts",
-          "line": 33,
-          "column": 1
-        },
-        {
-          "title": "commercial journey, menu and FAQ work with keyboard",
-          "ok": true,
-          "tags": [],
-          "tests": [
-            {
-              "timeout": 45000,
-              "annotations": [],
-              "expectedStatus": "passed",
-              "projectId": "chromium-390",
-              "projectName": "chromium-390",
-              "results": [
-                {
-                  "workerIndex": 2,
+                  "workerIndex": 1,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 851,
+                  "duration": 1121,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-09-09T08:24:48.815Z",
+                  "startTime": "2026-09-22T13:22:44.502Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -519,13 +437,13 @@
               "status": "expected"
             }
           ],
-          "id": "5c02723ad68c2a0d50c5-9bce69f5c9c818159951",
-          "file": "site.spec.ts",
-          "line": 58,
+          "id": "c99352c26c2e93f1aba0-c8782e5bd0e28b740952",
+          "file": "flete-finish.spec.ts",
+          "line": 40,
           "column": 1
         },
         {
-          "title": "Bit Flow is private, with no media, links or commercial availability",
+          "title": "Flete simple: guía de cinco pasos y panel orientado a pendientes",
           "ok": true,
           "tags": [],
           "tests": [
@@ -537,49 +455,15 @@
               "projectName": "chromium-390",
               "results": [
                 {
-                  "workerIndex": 3,
-                  "parallelIndex": 1,
-                  "status": "passed",
-                  "duration": 297,
-                  "errors": [],
-                  "stdout": [],
-                  "stderr": [],
-                  "retry": 0,
-                  "startTime": "2026-09-09T08:24:49.546Z",
-                  "annotations": [],
-                  "attachments": []
-                }
-              ],
-              "status": "expected"
-            }
-          ],
-          "id": "5c02723ad68c2a0d50c5-8b005292cb7cc92fd4c2",
-          "file": "site.spec.ts",
-          "line": 82,
-          "column": 1
-        },
-        {
-          "title": "WCAG automated accessibility including contrast",
-          "ok": true,
-          "tags": [],
-          "tests": [
-            {
-              "timeout": 45000,
-              "annotations": [],
-              "expectedStatus": "passed",
-              "projectId": "chromium-390",
-              "projectName": "chromium-390",
-              "results": [
-                {
-                  "workerIndex": 2,
+                  "workerIndex": 1,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 1391,
+                  "duration": 1511,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-09-09T08:24:49.684Z",
+                  "startTime": "2026-09-22T13:22:45.657Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -587,47 +471,67 @@
               "status": "expected"
             }
           ],
-          "id": "5c02723ad68c2a0d50c5-a006d15f520d6140692a",
-          "file": "site.spec.ts",
-          "line": 91,
+          "id": "c99352c26c2e93f1aba0-2990f2d62d1427286cd2",
+          "file": "flete-finish.spec.ts",
+          "line": 53,
           "column": 1
         },
         {
-          "title": "SEO, canonical, manifest and social image exist",
+          "title": "Flete QA visual: doce estados clave",
           "ok": true,
           "tags": [],
           "tests": [
             {
               "timeout": 45000,
-              "annotations": [],
-              "expectedStatus": "passed",
+              "annotations": [
+                {
+                  "type": "skip",
+                  "description": "Capturas canónicas en WebKit 390",
+                  "location": {
+                    "file": "C:\\Users\\DELL\\Desktop\\luna-proyectos-web-task\\tests\\flete-finish.spec.ts",
+                    "line": 74,
+                    "column": 8
+                  }
+                }
+              ],
+              "expectedStatus": "skipped",
               "projectId": "chromium-390",
               "projectName": "chromium-390",
               "results": [
                 {
-                  "workerIndex": 3,
-                  "parallelIndex": 1,
-                  "status": "passed",
-                  "duration": 318,
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "skipped",
+                  "duration": 248,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-09-09T08:24:49.859Z",
-                  "annotations": [],
+                  "startTime": "2026-09-22T13:22:47.230Z",
+                  "annotations": [
+                    {
+                      "type": "skip",
+                      "description": "Capturas canónicas en WebKit 390",
+                      "location": {
+                        "file": "C:\\Users\\DELL\\Desktop\\luna-proyectos-web-task\\tests\\flete-finish.spec.ts",
+                        "line": 74,
+                        "column": 8
+                      }
+                    }
+                  ],
                   "attachments": []
                 }
               ],
-              "status": "expected"
+              "status": "skipped"
             }
           ],
-          "id": "5c02723ad68c2a0d50c5-997411d3f8430960545e",
-          "file": "site.spec.ts",
-          "line": 97,
+          "id": "c99352c26c2e93f1aba0-d23921093ecd1dd83132",
+          "file": "flete-finish.spec.ts",
+          "line": 73,
           "column": 1
         },
         {
-          "title": "layout, evidence, real links, loaded images and clean console",
+          "title": "Flete simple: portada directa, tres etapas y controles táctiles",
           "ok": true,
           "tags": [],
           "tests": [
@@ -637,17 +541,329 @@
               "expectedStatus": "passed",
               "projectId": "chromium-430",
               "projectName": "chromium-430",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1518,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-22T13:23:02.872Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "c99352c26c2e93f1aba0-d54c6eb18f7d058f5393",
+          "file": "flete-finish.spec.ts",
+          "line": 11,
+          "column": 1
+        },
+        {
+          "title": "Flete simple: pasajeros y detalles progresivos",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chromium-430",
+              "projectName": "chromium-430",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1248,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-22T13:23:04.711Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "c99352c26c2e93f1aba0-3c5df877def9eb1263c4",
+          "file": "flete-finish.spec.ts",
+          "line": 40,
+          "column": 1
+        },
+        {
+          "title": "Flete simple: guía de cinco pasos y panel orientado a pendientes",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chromium-430",
+              "projectName": "chromium-430",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1152,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-22T13:23:05.997Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "c99352c26c2e93f1aba0-ac2dd65f9a8e7729f08e",
+          "file": "flete-finish.spec.ts",
+          "line": 53,
+          "column": 1
+        },
+        {
+          "title": "Flete QA visual: doce estados clave",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [
+                {
+                  "type": "skip",
+                  "description": "Capturas canónicas en WebKit 390",
+                  "location": {
+                    "file": "C:\\Users\\DELL\\Desktop\\luna-proyectos-web-task\\tests\\flete-finish.spec.ts",
+                    "line": 74,
+                    "column": 8
+                  }
+                }
+              ],
+              "expectedStatus": "skipped",
+              "projectId": "chromium-430",
+              "projectName": "chromium-430",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 0,
+                  "status": "skipped",
+                  "duration": 232,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-22T13:23:07.185Z",
+                  "annotations": [
+                    {
+                      "type": "skip",
+                      "description": "Capturas canónicas en WebKit 390",
+                      "location": {
+                        "file": "C:\\Users\\DELL\\Desktop\\luna-proyectos-web-task\\tests\\flete-finish.spec.ts",
+                        "line": 74,
+                        "column": 8
+                      }
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "skipped"
+            }
+          ],
+          "id": "c99352c26c2e93f1aba0-19fe02d76ee40fa8a0b0",
+          "file": "flete-finish.spec.ts",
+          "line": 73,
+          "column": 1
+        },
+        {
+          "title": "Flete simple: portada directa, tres etapas y controles táctiles",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chromium-768",
+              "projectName": "chromium-768",
+              "results": [
+                {
+                  "workerIndex": 3,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1507,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-22T13:23:13.369Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "c99352c26c2e93f1aba0-39e06068cda413c7e851",
+          "file": "flete-finish.spec.ts",
+          "line": 11,
+          "column": 1
+        },
+        {
+          "title": "Flete simple: pasajeros y detalles progresivos",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chromium-768",
+              "projectName": "chromium-768",
+              "results": [
+                {
+                  "workerIndex": 3,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1368,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-22T13:23:15.198Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "c99352c26c2e93f1aba0-68431c120c8d5e7bf9c0",
+          "file": "flete-finish.spec.ts",
+          "line": 40,
+          "column": 1
+        },
+        {
+          "title": "Flete simple: guía de cinco pasos y panel orientado a pendientes",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chromium-768",
+              "projectName": "chromium-768",
+              "results": [
+                {
+                  "workerIndex": 3,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 933,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-22T13:23:16.604Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "c99352c26c2e93f1aba0-07bb7a95ce10c028fe18",
+          "file": "flete-finish.spec.ts",
+          "line": 53,
+          "column": 1
+        },
+        {
+          "title": "Flete QA visual: doce estados clave",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [
+                {
+                  "type": "skip",
+                  "description": "Capturas canónicas en WebKit 390",
+                  "location": {
+                    "file": "C:\\Users\\DELL\\Desktop\\luna-proyectos-web-task\\tests\\flete-finish.spec.ts",
+                    "line": 74,
+                    "column": 8
+                  }
+                }
+              ],
+              "expectedStatus": "skipped",
+              "projectId": "chromium-768",
+              "projectName": "chromium-768",
+              "results": [
+                {
+                  "workerIndex": 3,
+                  "parallelIndex": 0,
+                  "status": "skipped",
+                  "duration": 235,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-22T13:23:17.572Z",
+                  "annotations": [
+                    {
+                      "type": "skip",
+                      "description": "Capturas canónicas en WebKit 390",
+                      "location": {
+                        "file": "C:\\Users\\DELL\\Desktop\\luna-proyectos-web-task\\tests\\flete-finish.spec.ts",
+                        "line": 74,
+                        "column": 8
+                      }
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "skipped"
+            }
+          ],
+          "id": "c99352c26c2e93f1aba0-2f4fb9d5d359faef68f4",
+          "file": "flete-finish.spec.ts",
+          "line": 73,
+          "column": 1
+        },
+        {
+          "title": "Flete simple: portada directa, tres etapas y controles táctiles",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chromium-1440",
+              "projectName": "chromium-1440",
               "results": [
                 {
                   "workerIndex": 4,
-                  "parallelIndex": 1,
+                  "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 1006,
+                  "duration": 1263,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-09-09T08:24:51.122Z",
+                  "startTime": "2026-09-22T13:23:22.479Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -655,13 +871,13 @@
               "status": "expected"
             }
           ],
-          "id": "5c02723ad68c2a0d50c5-ecd55c54b6163c29a3d4",
-          "file": "site.spec.ts",
-          "line": 5,
+          "id": "c99352c26c2e93f1aba0-aca515510c6fc3587f9c",
+          "file": "flete-finish.spec.ts",
+          "line": 11,
           "column": 1
         },
         {
-          "title": "gallery changes actual screenshots; zoom traps and restores focus",
+          "title": "Flete simple: pasajeros y detalles progresivos",
           "ok": true,
           "tags": [],
           "tests": [
@@ -669,19 +885,141 @@
               "timeout": 45000,
               "annotations": [],
               "expectedStatus": "passed",
-              "projectId": "chromium-430",
-              "projectName": "chromium-430",
+              "projectId": "chromium-1440",
+              "projectName": "chromium-1440",
+              "results": [
+                {
+                  "workerIndex": 4,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1062,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-22T13:23:23.947Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "c99352c26c2e93f1aba0-ec04d65e3e6db2d24ef1",
+          "file": "flete-finish.spec.ts",
+          "line": 40,
+          "column": 1
+        },
+        {
+          "title": "Flete simple: guía de cinco pasos y panel orientado a pendientes",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chromium-1440",
+              "projectName": "chromium-1440",
+              "results": [
+                {
+                  "workerIndex": 4,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1026,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-22T13:23:25.037Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "c99352c26c2e93f1aba0-a9cb118005dd81ce8283",
+          "file": "flete-finish.spec.ts",
+          "line": 53,
+          "column": 1
+        },
+        {
+          "title": "Flete QA visual: doce estados clave",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [
+                {
+                  "type": "skip",
+                  "description": "Capturas canónicas en WebKit 390",
+                  "location": {
+                    "file": "C:\\Users\\DELL\\Desktop\\luna-proyectos-web-task\\tests\\flete-finish.spec.ts",
+                    "line": 74,
+                    "column": 8
+                  }
+                }
+              ],
+              "expectedStatus": "skipped",
+              "projectId": "chromium-1440",
+              "projectName": "chromium-1440",
+              "results": [
+                {
+                  "workerIndex": 4,
+                  "parallelIndex": 0,
+                  "status": "skipped",
+                  "duration": 208,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-22T13:23:26.093Z",
+                  "annotations": [
+                    {
+                      "type": "skip",
+                      "description": "Capturas canónicas en WebKit 390",
+                      "location": {
+                        "file": "C:\\Users\\DELL\\Desktop\\luna-proyectos-web-task\\tests\\flete-finish.spec.ts",
+                        "line": 74,
+                        "column": 8
+                      }
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "skipped"
+            }
+          ],
+          "id": "c99352c26c2e93f1aba0-3d0b3fa979a32481005f",
+          "file": "flete-finish.spec.ts",
+          "line": 73,
+          "column": 1
+        },
+        {
+          "title": "Flete simple: portada directa, tres etapas y controles táctiles",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "webkit-360",
+              "projectName": "webkit-360",
               "results": [
                 {
                   "workerIndex": 5,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 1177,
+                  "duration": 1454,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-09-09T08:24:52.162Z",
+                  "startTime": "2026-09-22T13:23:31.747Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -689,13 +1027,13 @@
               "status": "expected"
             }
           ],
-          "id": "5c02723ad68c2a0d50c5-ab0249fa21292ea7d8a2",
-          "file": "site.spec.ts",
-          "line": 33,
+          "id": "c99352c26c2e93f1aba0-cc93e09810230e4c7e7b",
+          "file": "flete-finish.spec.ts",
+          "line": 11,
           "column": 1
         },
         {
-          "title": "commercial journey, menu and FAQ work with keyboard",
+          "title": "Flete simple: pasajeros y detalles progresivos",
           "ok": true,
           "tags": [],
           "tests": [
@@ -703,1141 +1041,19 @@
               "timeout": 45000,
               "annotations": [],
               "expectedStatus": "passed",
-              "projectId": "chromium-430",
-              "projectName": "chromium-430",
-              "results": [
-                {
-                  "workerIndex": 4,
-                  "parallelIndex": 1,
-                  "status": "passed",
-                  "duration": 1039,
-                  "errors": [],
-                  "stdout": [],
-                  "stderr": [],
-                  "retry": 0,
-                  "startTime": "2026-09-09T08:24:52.276Z",
-                  "annotations": [],
-                  "attachments": []
-                }
-              ],
-              "status": "expected"
-            }
-          ],
-          "id": "5c02723ad68c2a0d50c5-ec8b48ae95279cdc4c48",
-          "file": "site.spec.ts",
-          "line": 58,
-          "column": 1
-        },
-        {
-          "title": "Bit Flow is private, with no media, links or commercial availability",
-          "ok": true,
-          "tags": [],
-          "tests": [
-            {
-              "timeout": 45000,
-              "annotations": [],
-              "expectedStatus": "passed",
-              "projectId": "chromium-430",
-              "projectName": "chromium-430",
-              "results": [
-                {
-                  "workerIndex": 4,
-                  "parallelIndex": 1,
-                  "status": "passed",
-                  "duration": 429,
-                  "errors": [],
-                  "stdout": [],
-                  "stderr": [],
-                  "retry": 0,
-                  "startTime": "2026-09-09T08:24:53.333Z",
-                  "annotations": [],
-                  "attachments": []
-                }
-              ],
-              "status": "expected"
-            }
-          ],
-          "id": "5c02723ad68c2a0d50c5-ebdc589f91f1f0c92f61",
-          "file": "site.spec.ts",
-          "line": 82,
-          "column": 1
-        },
-        {
-          "title": "WCAG automated accessibility including contrast",
-          "ok": true,
-          "tags": [],
-          "tests": [
-            {
-              "timeout": 45000,
-              "annotations": [],
-              "expectedStatus": "passed",
-              "projectId": "chromium-430",
-              "projectName": "chromium-430",
+              "projectId": "webkit-360",
+              "projectName": "webkit-360",
               "results": [
                 {
                   "workerIndex": 5,
                   "parallelIndex": 0,
-                  "status": "passed",
-                  "duration": 1954,
-                  "errors": [],
-                  "stdout": [],
-                  "stderr": [],
-                  "retry": 0,
-                  "startTime": "2026-09-09T08:24:53.508Z",
-                  "annotations": [],
-                  "attachments": []
-                }
-              ],
-              "status": "expected"
-            }
-          ],
-          "id": "5c02723ad68c2a0d50c5-8b77cc3e3bc442ed902a",
-          "file": "site.spec.ts",
-          "line": 91,
-          "column": 1
-        },
-        {
-          "title": "SEO, canonical, manifest and social image exist",
-          "ok": true,
-          "tags": [],
-          "tests": [
-            {
-              "timeout": 45000,
-              "annotations": [],
-              "expectedStatus": "passed",
-              "projectId": "chromium-430",
-              "projectName": "chromium-430",
-              "results": [
-                {
-                  "workerIndex": 4,
-                  "parallelIndex": 1,
-                  "status": "passed",
-                  "duration": 538,
-                  "errors": [],
-                  "stdout": [],
-                  "stderr": [],
-                  "retry": 0,
-                  "startTime": "2026-09-09T08:24:53.785Z",
-                  "annotations": [],
-                  "attachments": []
-                }
-              ],
-              "status": "expected"
-            }
-          ],
-          "id": "5c02723ad68c2a0d50c5-812be8a982ca3e07ab04",
-          "file": "site.spec.ts",
-          "line": 97,
-          "column": 1
-        },
-        {
-          "title": "layout, evidence, real links, loaded images and clean console",
-          "ok": true,
-          "tags": [],
-          "tests": [
-            {
-              "timeout": 45000,
-              "annotations": [],
-              "expectedStatus": "passed",
-              "projectId": "chromium-768",
-              "projectName": "chromium-768",
-              "results": [
-                {
-                  "workerIndex": 6,
-                  "parallelIndex": 1,
-                  "status": "passed",
-                  "duration": 1220,
-                  "errors": [],
-                  "stdout": [],
-                  "stderr": [],
-                  "retry": 0,
-                  "startTime": "2026-09-09T08:24:55.463Z",
-                  "annotations": [],
-                  "attachments": []
-                }
-              ],
-              "status": "expected"
-            }
-          ],
-          "id": "5c02723ad68c2a0d50c5-f6ee32cec0dfe86d8004",
-          "file": "site.spec.ts",
-          "line": 5,
-          "column": 1
-        },
-        {
-          "title": "gallery changes actual screenshots; zoom traps and restores focus",
-          "ok": true,
-          "tags": [],
-          "tests": [
-            {
-              "timeout": 45000,
-              "annotations": [],
-              "expectedStatus": "passed",
-              "projectId": "chromium-768",
-              "projectName": "chromium-768",
-              "results": [
-                {
-                  "workerIndex": 7,
-                  "parallelIndex": 0,
-                  "status": "passed",
-                  "duration": 1252,
-                  "errors": [],
-                  "stdout": [],
-                  "stderr": [],
-                  "retry": 0,
-                  "startTime": "2026-09-09T08:24:56.590Z",
-                  "annotations": [],
-                  "attachments": []
-                }
-              ],
-              "status": "expected"
-            }
-          ],
-          "id": "5c02723ad68c2a0d50c5-3b81043acbc6bb5d31c5",
-          "file": "site.spec.ts",
-          "line": 33,
-          "column": 1
-        },
-        {
-          "title": "commercial journey, menu and FAQ work with keyboard",
-          "ok": true,
-          "tags": [],
-          "tests": [
-            {
-              "timeout": 45000,
-              "annotations": [],
-              "expectedStatus": "passed",
-              "projectId": "chromium-768",
-              "projectName": "chromium-768",
-              "results": [
-                {
-                  "workerIndex": 6,
-                  "parallelIndex": 1,
-                  "status": "passed",
-                  "duration": 662,
-                  "errors": [],
-                  "stdout": [],
-                  "stderr": [],
-                  "retry": 0,
-                  "startTime": "2026-09-09T08:24:56.882Z",
-                  "annotations": [],
-                  "attachments": []
-                }
-              ],
-              "status": "expected"
-            }
-          ],
-          "id": "5c02723ad68c2a0d50c5-6032c067c4f212ee3efa",
-          "file": "site.spec.ts",
-          "line": 58,
-          "column": 1
-        },
-        {
-          "title": "Bit Flow is private, with no media, links or commercial availability",
-          "ok": true,
-          "tags": [],
-          "tests": [
-            {
-              "timeout": 45000,
-              "annotations": [],
-              "expectedStatus": "passed",
-              "projectId": "chromium-768",
-              "projectName": "chromium-768",
-              "results": [
-                {
-                  "workerIndex": 6,
-                  "parallelIndex": 1,
-                  "status": "passed",
-                  "duration": 372,
-                  "errors": [],
-                  "stdout": [],
-                  "stderr": [],
-                  "retry": 0,
-                  "startTime": "2026-09-09T08:24:57.562Z",
-                  "annotations": [],
-                  "attachments": []
-                }
-              ],
-              "status": "expected"
-            }
-          ],
-          "id": "5c02723ad68c2a0d50c5-fa8cd0ec524f1e421e7d",
-          "file": "site.spec.ts",
-          "line": 82,
-          "column": 1
-        },
-        {
-          "title": "WCAG automated accessibility including contrast",
-          "ok": true,
-          "tags": [],
-          "tests": [
-            {
-              "timeout": 45000,
-              "annotations": [],
-              "expectedStatus": "passed",
-              "projectId": "chromium-768",
-              "projectName": "chromium-768",
-              "results": [
-                {
-                  "workerIndex": 6,
-                  "parallelIndex": 1,
-                  "status": "passed",
-                  "duration": 1615,
-                  "errors": [],
-                  "stdout": [],
-                  "stderr": [],
-                  "retry": 0,
-                  "startTime": "2026-09-09T08:24:57.954Z",
-                  "annotations": [],
-                  "attachments": []
-                }
-              ],
-              "status": "expected"
-            }
-          ],
-          "id": "5c02723ad68c2a0d50c5-873eae536efb19a15514",
-          "file": "site.spec.ts",
-          "line": 91,
-          "column": 1
-        },
-        {
-          "title": "SEO, canonical, manifest and social image exist",
-          "ok": true,
-          "tags": [],
-          "tests": [
-            {
-              "timeout": 45000,
-              "annotations": [],
-              "expectedStatus": "passed",
-              "projectId": "chromium-768",
-              "projectName": "chromium-768",
-              "results": [
-                {
-                  "workerIndex": 7,
-                  "parallelIndex": 0,
-                  "status": "passed",
-                  "duration": 438,
-                  "errors": [],
-                  "stdout": [],
-                  "stderr": [],
-                  "retry": 0,
-                  "startTime": "2026-09-09T08:24:57.975Z",
-                  "annotations": [],
-                  "attachments": []
-                }
-              ],
-              "status": "expected"
-            }
-          ],
-          "id": "5c02723ad68c2a0d50c5-43e5f10e9b402001c00d",
-          "file": "site.spec.ts",
-          "line": 97,
-          "column": 1
-        },
-        {
-          "title": "layout, evidence, real links, loaded images and clean console",
-          "ok": true,
-          "tags": [],
-          "tests": [
-            {
-              "timeout": 45000,
-              "annotations": [],
-              "expectedStatus": "passed",
-              "projectId": "chromium-1440",
-              "projectName": "chromium-1440",
-              "results": [
-                {
-                  "workerIndex": 8,
-                  "parallelIndex": 0,
-                  "status": "passed",
-                  "duration": 1375,
-                  "errors": [],
-                  "stdout": [],
-                  "stderr": [],
-                  "retry": 0,
-                  "startTime": "2026-09-09T08:24:59.444Z",
-                  "annotations": [],
-                  "attachments": []
-                }
-              ],
-              "status": "expected"
-            }
-          ],
-          "id": "5c02723ad68c2a0d50c5-36a14dd6440785644822",
-          "file": "site.spec.ts",
-          "line": 5,
-          "column": 1
-        },
-        {
-          "title": "gallery changes actual screenshots; zoom traps and restores focus",
-          "ok": true,
-          "tags": [],
-          "tests": [
-            {
-              "timeout": 45000,
-              "annotations": [],
-              "expectedStatus": "passed",
-              "projectId": "chromium-1440",
-              "projectName": "chromium-1440",
-              "results": [
-                {
-                  "workerIndex": 9,
-                  "parallelIndex": 1,
-                  "status": "passed",
-                  "duration": 1494,
-                  "errors": [],
-                  "stdout": [],
-                  "stderr": [],
-                  "retry": 0,
-                  "startTime": "2026-09-09T08:25:00.519Z",
-                  "annotations": [],
-                  "attachments": []
-                }
-              ],
-              "status": "expected"
-            }
-          ],
-          "id": "5c02723ad68c2a0d50c5-ecf6bcc874e598f73ec4",
-          "file": "site.spec.ts",
-          "line": 33,
-          "column": 1
-        },
-        {
-          "title": "commercial journey, menu and FAQ work with keyboard",
-          "ok": true,
-          "tags": [],
-          "tests": [
-            {
-              "timeout": 45000,
-              "annotations": [],
-              "expectedStatus": "passed",
-              "projectId": "chromium-1440",
-              "projectName": "chromium-1440",
-              "results": [
-                {
-                  "workerIndex": 8,
-                  "parallelIndex": 0,
-                  "status": "passed",
-                  "duration": 742,
-                  "errors": [],
-                  "stdout": [],
-                  "stderr": [],
-                  "retry": 0,
-                  "startTime": "2026-09-09T08:25:00.956Z",
-                  "annotations": [],
-                  "attachments": []
-                }
-              ],
-              "status": "expected"
-            }
-          ],
-          "id": "5c02723ad68c2a0d50c5-de144979ead0a86b6fb5",
-          "file": "site.spec.ts",
-          "line": 58,
-          "column": 1
-        },
-        {
-          "title": "Bit Flow is private, with no media, links or commercial availability",
-          "ok": true,
-          "tags": [],
-          "tests": [
-            {
-              "timeout": 45000,
-              "annotations": [],
-              "expectedStatus": "passed",
-              "projectId": "chromium-1440",
-              "projectName": "chromium-1440",
-              "results": [
-                {
-                  "workerIndex": 8,
-                  "parallelIndex": 0,
-                  "status": "passed",
-                  "duration": 417,
-                  "errors": [],
-                  "stdout": [],
-                  "stderr": [],
-                  "retry": 0,
-                  "startTime": "2026-09-09T08:25:01.717Z",
-                  "annotations": [],
-                  "attachments": []
-                }
-              ],
-              "status": "expected"
-            }
-          ],
-          "id": "5c02723ad68c2a0d50c5-9660e2b8405df2f4a471",
-          "file": "site.spec.ts",
-          "line": 82,
-          "column": 1
-        },
-        {
-          "title": "WCAG automated accessibility including contrast",
-          "ok": true,
-          "tags": [],
-          "tests": [
-            {
-              "timeout": 45000,
-              "annotations": [],
-              "expectedStatus": "passed",
-              "projectId": "chromium-1440",
-              "projectName": "chromium-1440",
-              "results": [
-                {
-                  "workerIndex": 9,
-                  "parallelIndex": 1,
-                  "status": "passed",
-                  "duration": 1709,
-                  "errors": [],
-                  "stdout": [],
-                  "stderr": [],
-                  "retry": 0,
-                  "startTime": "2026-09-09T08:25:02.139Z",
-                  "annotations": [],
-                  "attachments": []
-                }
-              ],
-              "status": "expected"
-            }
-          ],
-          "id": "5c02723ad68c2a0d50c5-d75c9da1e8b66ca3250b",
-          "file": "site.spec.ts",
-          "line": 91,
-          "column": 1
-        },
-        {
-          "title": "SEO, canonical, manifest and social image exist",
-          "ok": true,
-          "tags": [],
-          "tests": [
-            {
-              "timeout": 45000,
-              "annotations": [],
-              "expectedStatus": "passed",
-              "projectId": "chromium-1440",
-              "projectName": "chromium-1440",
-              "results": [
-                {
-                  "workerIndex": 8,
-                  "parallelIndex": 0,
-                  "status": "passed",
-                  "duration": 503,
-                  "errors": [],
-                  "stdout": [],
-                  "stderr": [],
-                  "retry": 0,
-                  "startTime": "2026-09-09T08:25:02.153Z",
-                  "annotations": [],
-                  "attachments": []
-                }
-              ],
-              "status": "expected"
-            }
-          ],
-          "id": "5c02723ad68c2a0d50c5-85ce7f38096c83a35a8f",
-          "file": "site.spec.ts",
-          "line": 97,
-          "column": 1
-        },
-        {
-          "title": "layout, evidence, real links, loaded images and clean console",
-          "ok": true,
-          "tags": [],
-          "tests": [
-            {
-              "timeout": 45000,
-              "annotations": [],
-              "expectedStatus": "passed",
-              "projectId": "webkit-360",
-              "projectName": "webkit-360",
-              "results": [
-                {
-                  "workerIndex": 10,
-                  "parallelIndex": 0,
-                  "status": "passed",
-                  "duration": 1613,
-                  "errors": [],
-                  "stdout": [],
-                  "stderr": [],
-                  "retry": 0,
-                  "startTime": "2026-09-09T08:25:03.709Z",
-                  "annotations": [],
-                  "attachments": []
-                }
-              ],
-              "status": "expected"
-            }
-          ],
-          "id": "5c02723ad68c2a0d50c5-7eec2f4656c489dd0531",
-          "file": "site.spec.ts",
-          "line": 5,
-          "column": 1
-        },
-        {
-          "title": "gallery changes actual screenshots; zoom traps and restores focus",
-          "ok": true,
-          "tags": [],
-          "tests": [
-            {
-              "timeout": 45000,
-              "annotations": [],
-              "expectedStatus": "passed",
-              "projectId": "webkit-360",
-              "projectName": "webkit-360",
-              "results": [
-                {
-                  "workerIndex": 11,
-                  "parallelIndex": 1,
-                  "status": "passed",
-                  "duration": 2325,
-                  "errors": [],
-                  "stdout": [],
-                  "stderr": [],
-                  "retry": 0,
-                  "startTime": "2026-09-09T08:25:04.958Z",
-                  "annotations": [],
-                  "attachments": []
-                }
-              ],
-              "status": "expected"
-            }
-          ],
-          "id": "5c02723ad68c2a0d50c5-38def4855170a23190e1",
-          "file": "site.spec.ts",
-          "line": 33,
-          "column": 1
-        },
-        {
-          "title": "commercial journey, menu and FAQ work with keyboard",
-          "ok": true,
-          "tags": [],
-          "tests": [
-            {
-              "timeout": 45000,
-              "annotations": [],
-              "expectedStatus": "passed",
-              "projectId": "webkit-360",
-              "projectName": "webkit-360",
-              "results": [
-                {
-                  "workerIndex": 10,
-                  "parallelIndex": 0,
-                  "status": "passed",
-                  "duration": 1545,
-                  "errors": [],
-                  "stdout": [],
-                  "stderr": [],
-                  "retry": 0,
-                  "startTime": "2026-09-09T08:25:05.448Z",
-                  "annotations": [],
-                  "attachments": []
-                }
-              ],
-              "status": "expected"
-            }
-          ],
-          "id": "5c02723ad68c2a0d50c5-c6a6913449d24ad199f7",
-          "file": "site.spec.ts",
-          "line": 58,
-          "column": 1
-        },
-        {
-          "title": "Bit Flow is private, with no media, links or commercial availability",
-          "ok": true,
-          "tags": [],
-          "tests": [
-            {
-              "timeout": 45000,
-              "annotations": [],
-              "expectedStatus": "passed",
-              "projectId": "webkit-360",
-              "projectName": "webkit-360",
-              "results": [
-                {
-                  "workerIndex": 10,
-                  "parallelIndex": 0,
-                  "status": "passed",
-                  "duration": 2419,
-                  "errors": [],
-                  "stdout": [],
-                  "stderr": [],
-                  "retry": 0,
-                  "startTime": "2026-09-09T08:25:07.010Z",
-                  "annotations": [],
-                  "attachments": []
-                }
-              ],
-              "status": "expected"
-            }
-          ],
-          "id": "5c02723ad68c2a0d50c5-89bac8638aaf68fdc618",
-          "file": "site.spec.ts",
-          "line": 82,
-          "column": 1
-        },
-        {
-          "title": "WCAG automated accessibility including contrast",
-          "ok": true,
-          "tags": [],
-          "tests": [
-            {
-              "timeout": 45000,
-              "annotations": [],
-              "expectedStatus": "passed",
-              "projectId": "webkit-360",
-              "projectName": "webkit-360",
-              "results": [
-                {
-                  "workerIndex": 11,
-                  "parallelIndex": 1,
-                  "status": "passed",
-                  "duration": 3512,
-                  "errors": [],
-                  "stdout": [],
-                  "stderr": [],
-                  "retry": 0,
-                  "startTime": "2026-09-09T08:25:07.392Z",
-                  "annotations": [],
-                  "attachments": []
-                }
-              ],
-              "status": "expected"
-            }
-          ],
-          "id": "5c02723ad68c2a0d50c5-cd9b589599b903e57fef",
-          "file": "site.spec.ts",
-          "line": 91,
-          "column": 1
-        },
-        {
-          "title": "SEO, canonical, manifest and social image exist",
-          "ok": true,
-          "tags": [],
-          "tests": [
-            {
-              "timeout": 45000,
-              "annotations": [],
-              "expectedStatus": "passed",
-              "projectId": "webkit-360",
-              "projectName": "webkit-360",
-              "results": [
-                {
-                  "workerIndex": 10,
-                  "parallelIndex": 0,
-                  "status": "passed",
-                  "duration": 2674,
-                  "errors": [],
-                  "stdout": [],
-                  "stderr": [],
-                  "retry": 0,
-                  "startTime": "2026-09-09T08:25:09.445Z",
-                  "annotations": [],
-                  "attachments": []
-                }
-              ],
-              "status": "expected"
-            }
-          ],
-          "id": "5c02723ad68c2a0d50c5-e67a2fa527cafccf7a91",
-          "file": "site.spec.ts",
-          "line": 97,
-          "column": 1
-        },
-        {
-          "title": "layout, evidence, real links, loaded images and clean console",
-          "ok": true,
-          "tags": [],
-          "tests": [
-            {
-              "timeout": 45000,
-              "annotations": [],
-              "expectedStatus": "passed",
-              "projectId": "webkit-390",
-              "projectName": "webkit-390",
-              "results": [
-                {
-                  "workerIndex": 12,
-                  "parallelIndex": 1,
-                  "status": "passed",
-                  "duration": 1408,
-                  "errors": [],
-                  "stdout": [],
-                  "stderr": [],
-                  "retry": 0,
-                  "startTime": "2026-09-09T08:25:11.789Z",
-                  "annotations": [],
-                  "attachments": []
-                }
-              ],
-              "status": "expected"
-            }
-          ],
-          "id": "5c02723ad68c2a0d50c5-d10030aa9fb9cd10811f",
-          "file": "site.spec.ts",
-          "line": 5,
-          "column": 1
-        },
-        {
-          "title": "gallery changes actual screenshots; zoom traps and restores focus",
-          "ok": true,
-          "tags": [],
-          "tests": [
-            {
-              "timeout": 45000,
-              "annotations": [],
-              "expectedStatus": "passed",
-              "projectId": "webkit-390",
-              "projectName": "webkit-390",
-              "results": [
-                {
-                  "workerIndex": 13,
-                  "parallelIndex": 0,
-                  "status": "passed",
-                  "duration": 2203,
-                  "errors": [],
-                  "stdout": [],
-                  "stderr": [],
-                  "retry": 0,
-                  "startTime": "2026-09-09T08:25:12.873Z",
-                  "annotations": [],
-                  "attachments": []
-                }
-              ],
-              "status": "expected"
-            }
-          ],
-          "id": "5c02723ad68c2a0d50c5-fb96269a0fde6d920082",
-          "file": "site.spec.ts",
-          "line": 33,
-          "column": 1
-        },
-        {
-          "title": "commercial journey, menu and FAQ work with keyboard",
-          "ok": true,
-          "tags": [],
-          "tests": [
-            {
-              "timeout": 45000,
-              "annotations": [],
-              "expectedStatus": "passed",
-              "projectId": "webkit-390",
-              "projectName": "webkit-390",
-              "results": [
-                {
-                  "workerIndex": 12,
-                  "parallelIndex": 1,
-                  "status": "passed",
-                  "duration": 1574,
-                  "errors": [],
-                  "stdout": [],
-                  "stderr": [],
-                  "retry": 0,
-                  "startTime": "2026-09-09T08:25:13.300Z",
-                  "annotations": [],
-                  "attachments": []
-                }
-              ],
-              "status": "expected"
-            }
-          ],
-          "id": "5c02723ad68c2a0d50c5-a1637589506a4b004f8b",
-          "file": "site.spec.ts",
-          "line": 58,
-          "column": 1
-        },
-        {
-          "title": "Bit Flow is private, with no media, links or commercial availability",
-          "ok": true,
-          "tags": [],
-          "tests": [
-            {
-              "timeout": 45000,
-              "annotations": [],
-              "expectedStatus": "passed",
-              "projectId": "webkit-390",
-              "projectName": "webkit-390",
-              "results": [
-                {
-                  "workerIndex": 12,
-                  "parallelIndex": 1,
-                  "status": "passed",
-                  "duration": 615,
-                  "errors": [],
-                  "stdout": [],
-                  "stderr": [],
-                  "retry": 0,
-                  "startTime": "2026-09-09T08:25:14.888Z",
-                  "annotations": [],
-                  "attachments": []
-                }
-              ],
-              "status": "expected"
-            }
-          ],
-          "id": "5c02723ad68c2a0d50c5-c508c2dad6264385ac4e",
-          "file": "site.spec.ts",
-          "line": 82,
-          "column": 1
-        },
-        {
-          "title": "WCAG automated accessibility including contrast",
-          "ok": true,
-          "tags": [],
-          "tests": [
-            {
-              "timeout": 45000,
-              "annotations": [],
-              "expectedStatus": "passed",
-              "projectId": "webkit-390",
-              "projectName": "webkit-390",
-              "results": [
-                {
-                  "workerIndex": 13,
-                  "parallelIndex": 0,
-                  "status": "passed",
-                  "duration": 1751,
-                  "errors": [],
-                  "stdout": [],
-                  "stderr": [],
-                  "retry": 0,
-                  "startTime": "2026-09-09T08:25:15.171Z",
-                  "annotations": [],
-                  "attachments": []
-                }
-              ],
-              "status": "expected"
-            }
-          ],
-          "id": "5c02723ad68c2a0d50c5-e67d69c90bcebf214062",
-          "file": "site.spec.ts",
-          "line": 91,
-          "column": 1
-        },
-        {
-          "title": "SEO, canonical, manifest and social image exist",
-          "ok": true,
-          "tags": [],
-          "tests": [
-            {
-              "timeout": 45000,
-              "annotations": [],
-              "expectedStatus": "passed",
-              "projectId": "webkit-390",
-              "projectName": "webkit-390",
-              "results": [
-                {
-                  "workerIndex": 12,
-                  "parallelIndex": 1,
-                  "status": "passed",
-                  "duration": 1933,
-                  "errors": [],
-                  "stdout": [],
-                  "stderr": [],
-                  "retry": 0,
-                  "startTime": "2026-09-09T08:25:15.519Z",
-                  "annotations": [],
-                  "attachments": []
-                }
-              ],
-              "status": "expected"
-            }
-          ],
-          "id": "5c02723ad68c2a0d50c5-4c71bbfc46ff9e615738",
-          "file": "site.spec.ts",
-          "line": 97,
-          "column": 1
-        },
-        {
-          "title": "layout, evidence, real links, loaded images and clean console",
-          "ok": true,
-          "tags": [],
-          "tests": [
-            {
-              "timeout": 45000,
-              "annotations": [],
-              "expectedStatus": "passed",
-              "projectId": "webkit-430",
-              "projectName": "webkit-430",
-              "results": [
-                {
-                  "workerIndex": 14,
-                  "parallelIndex": 0,
-                  "status": "passed",
-                  "duration": 1283,
-                  "errors": [],
-                  "stdout": [],
-                  "stderr": [],
-                  "retry": 0,
-                  "startTime": "2026-09-09T08:25:17.755Z",
-                  "annotations": [],
-                  "attachments": []
-                }
-              ],
-              "status": "expected"
-            }
-          ],
-          "id": "5c02723ad68c2a0d50c5-5025a4e622b7e12f3664",
-          "file": "site.spec.ts",
-          "line": 5,
-          "column": 1
-        },
-        {
-          "title": "gallery changes actual screenshots; zoom traps and restores focus",
-          "ok": true,
-          "tags": [],
-          "tests": [
-            {
-              "timeout": 45000,
-              "annotations": [],
-              "expectedStatus": "passed",
-              "projectId": "webkit-430",
-              "projectName": "webkit-430",
-              "results": [
-                {
-                  "workerIndex": 15,
-                  "parallelIndex": 1,
-                  "status": "passed",
-                  "duration": 2157,
-                  "errors": [],
-                  "stdout": [],
-                  "stderr": [],
-                  "retry": 0,
-                  "startTime": "2026-09-09T08:25:18.309Z",
-                  "annotations": [],
-                  "attachments": []
-                }
-              ],
-              "status": "expected"
-            }
-          ],
-          "id": "5c02723ad68c2a0d50c5-a0a1492117c9dedfa7f9",
-          "file": "site.spec.ts",
-          "line": 33,
-          "column": 1
-        },
-        {
-          "title": "commercial journey, menu and FAQ work with keyboard",
-          "ok": true,
-          "tags": [],
-          "tests": [
-            {
-              "timeout": 45000,
-              "annotations": [],
-              "expectedStatus": "passed",
-              "projectId": "webkit-430",
-              "projectName": "webkit-430",
-              "results": [
-                {
-                  "workerIndex": 14,
-                  "parallelIndex": 0,
-                  "status": "passed",
-                  "duration": 1571,
-                  "errors": [],
-                  "stdout": [],
-                  "stderr": [],
-                  "retry": 0,
-                  "startTime": "2026-09-09T08:25:19.126Z",
-                  "annotations": [],
-                  "attachments": []
-                }
-              ],
-              "status": "expected"
-            }
-          ],
-          "id": "5c02723ad68c2a0d50c5-663e6c70b845521ce3a0",
-          "file": "site.spec.ts",
-          "line": 58,
-          "column": 1
-        },
-        {
-          "title": "Bit Flow is private, with no media, links or commercial availability",
-          "ok": true,
-          "tags": [],
-          "tests": [
-            {
-              "timeout": 45000,
-              "annotations": [],
-              "expectedStatus": "passed",
-              "projectId": "webkit-430",
-              "projectName": "webkit-430",
-              "results": [
-                {
-                  "workerIndex": 15,
-                  "parallelIndex": 1,
-                  "status": "passed",
-                  "duration": 2524,
-                  "errors": [],
-                  "stdout": [],
-                  "stderr": [],
-                  "retry": 0,
-                  "startTime": "2026-09-09T08:25:20.562Z",
-                  "annotations": [],
-                  "attachments": []
-                }
-              ],
-              "status": "expected"
-            }
-          ],
-          "id": "5c02723ad68c2a0d50c5-03e2fe10a3e30592d068",
-          "file": "site.spec.ts",
-          "line": 82,
-          "column": 1
-        },
-        {
-          "title": "WCAG automated accessibility including contrast",
-          "ok": true,
-          "tags": [],
-          "tests": [
-            {
-              "timeout": 45000,
-              "annotations": [],
-              "expectedStatus": "passed",
-              "projectId": "webkit-430",
-              "projectName": "webkit-430",
-              "results": [
-                {
-                  "workerIndex": 14,
-                  "parallelIndex": 0,
-                  "status": "passed",
-                  "duration": 3827,
-                  "errors": [],
-                  "stdout": [],
-                  "stderr": [],
-                  "retry": 0,
-                  "startTime": "2026-09-09T08:25:20.711Z",
-                  "annotations": [],
-                  "attachments": []
-                }
-              ],
-              "status": "expected"
-            }
-          ],
-          "id": "5c02723ad68c2a0d50c5-86d2122f3700361a152c",
-          "file": "site.spec.ts",
-          "line": 91,
-          "column": 1
-        },
-        {
-          "title": "SEO, canonical, manifest and social image exist",
-          "ok": true,
-          "tags": [],
-          "tests": [
-            {
-              "timeout": 45000,
-              "annotations": [],
-              "expectedStatus": "passed",
-              "projectId": "webkit-430",
-              "projectName": "webkit-430",
-              "results": [
-                {
-                  "workerIndex": 15,
-                  "parallelIndex": 1,
                   "status": "passed",
                   "duration": 2037,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-09-09T08:25:23.106Z",
+                  "startTime": "2026-09-22T13:23:33.406Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -1845,13 +1061,393 @@
               "status": "expected"
             }
           ],
-          "id": "5c02723ad68c2a0d50c5-63fc0f00ff586adf5716",
-          "file": "site.spec.ts",
-          "line": 97,
+          "id": "c99352c26c2e93f1aba0-66178bd0b20dd3a1d578",
+          "file": "flete-finish.spec.ts",
+          "line": 40,
           "column": 1
         },
         {
-          "title": "layout, evidence, real links, loaded images and clean console",
+          "title": "Flete simple: guía de cinco pasos y panel orientado a pendientes",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "webkit-360",
+              "projectName": "webkit-360",
+              "results": [
+                {
+                  "workerIndex": 5,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1523,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-22T13:23:35.483Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "c99352c26c2e93f1aba0-adbda31788288f49647d",
+          "file": "flete-finish.spec.ts",
+          "line": 53,
+          "column": 1
+        },
+        {
+          "title": "Flete QA visual: doce estados clave",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [
+                {
+                  "type": "skip",
+                  "description": "Capturas canónicas en WebKit 390",
+                  "location": {
+                    "file": "C:\\Users\\DELL\\Desktop\\luna-proyectos-web-task\\tests\\flete-finish.spec.ts",
+                    "line": 74,
+                    "column": 8
+                  }
+                }
+              ],
+              "expectedStatus": "skipped",
+              "projectId": "webkit-360",
+              "projectName": "webkit-360",
+              "results": [
+                {
+                  "workerIndex": 5,
+                  "parallelIndex": 0,
+                  "status": "skipped",
+                  "duration": 360,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-22T13:23:37.046Z",
+                  "annotations": [
+                    {
+                      "type": "skip",
+                      "description": "Capturas canónicas en WebKit 390",
+                      "location": {
+                        "file": "C:\\Users\\DELL\\Desktop\\luna-proyectos-web-task\\tests\\flete-finish.spec.ts",
+                        "line": 74,
+                        "column": 8
+                      }
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "skipped"
+            }
+          ],
+          "id": "c99352c26c2e93f1aba0-7b9cb802424126420138",
+          "file": "flete-finish.spec.ts",
+          "line": 73,
+          "column": 1
+        },
+        {
+          "title": "Flete simple: portada directa, tres etapas y controles táctiles",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "webkit-390",
+              "projectName": "webkit-390",
+              "results": [
+                {
+                  "workerIndex": 6,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1378,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-22T13:23:44.027Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "c99352c26c2e93f1aba0-cea0886b3182c6450164",
+          "file": "flete-finish.spec.ts",
+          "line": 11,
+          "column": 1
+        },
+        {
+          "title": "Flete simple: pasajeros y detalles progresivos",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "webkit-390",
+              "projectName": "webkit-390",
+              "results": [
+                {
+                  "workerIndex": 6,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1847,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-22T13:23:45.625Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "c99352c26c2e93f1aba0-e46c3853f315c2b356bc",
+          "file": "flete-finish.spec.ts",
+          "line": 40,
+          "column": 1
+        },
+        {
+          "title": "Flete simple: guía de cinco pasos y panel orientado a pendientes",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "webkit-390",
+              "projectName": "webkit-390",
+              "results": [
+                {
+                  "workerIndex": 6,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1876,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-22T13:23:47.506Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "c99352c26c2e93f1aba0-8b8b37a7a3047f8f1d25",
+          "file": "flete-finish.spec.ts",
+          "line": 53,
+          "column": 1
+        },
+        {
+          "title": "Flete QA visual: doce estados clave",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "webkit-390",
+              "projectName": "webkit-390",
+              "results": [
+                {
+                  "workerIndex": 6,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 8026,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-22T13:23:49.422Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "c99352c26c2e93f1aba0-c3dbafe57bc1b7113f44",
+          "file": "flete-finish.spec.ts",
+          "line": 73,
+          "column": 1
+        },
+        {
+          "title": "Flete simple: portada directa, tres etapas y controles táctiles",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "webkit-430",
+              "projectName": "webkit-430",
+              "results": [
+                {
+                  "workerIndex": 7,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1811,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-22T13:24:14.256Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "c99352c26c2e93f1aba0-77479ade7dd24e20ae0f",
+          "file": "flete-finish.spec.ts",
+          "line": 11,
+          "column": 1
+        },
+        {
+          "title": "Flete simple: pasajeros y detalles progresivos",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "webkit-430",
+              "projectName": "webkit-430",
+              "results": [
+                {
+                  "workerIndex": 7,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2119,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-22T13:24:16.321Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "c99352c26c2e93f1aba0-f8154c40d1040fc0cf88",
+          "file": "flete-finish.spec.ts",
+          "line": 40,
+          "column": 1
+        },
+        {
+          "title": "Flete simple: guía de cinco pasos y panel orientado a pendientes",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "webkit-430",
+              "projectName": "webkit-430",
+              "results": [
+                {
+                  "workerIndex": 7,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1533,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-22T13:24:18.482Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "c99352c26c2e93f1aba0-4dff0f6d0d1139806e67",
+          "file": "flete-finish.spec.ts",
+          "line": 53,
+          "column": 1
+        },
+        {
+          "title": "Flete QA visual: doce estados clave",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [
+                {
+                  "type": "skip",
+                  "description": "Capturas canónicas en WebKit 390",
+                  "location": {
+                    "file": "C:\\Users\\DELL\\Desktop\\luna-proyectos-web-task\\tests\\flete-finish.spec.ts",
+                    "line": 74,
+                    "column": 8
+                  }
+                }
+              ],
+              "expectedStatus": "skipped",
+              "projectId": "webkit-430",
+              "projectName": "webkit-430",
+              "results": [
+                {
+                  "workerIndex": 7,
+                  "parallelIndex": 0,
+                  "status": "skipped",
+                  "duration": 472,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-22T13:24:20.052Z",
+                  "annotations": [
+                    {
+                      "type": "skip",
+                      "description": "Capturas canónicas en WebKit 390",
+                      "location": {
+                        "file": "C:\\Users\\DELL\\Desktop\\luna-proyectos-web-task\\tests\\flete-finish.spec.ts",
+                        "line": 74,
+                        "column": 8
+                      }
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "skipped"
+            }
+          ],
+          "id": "c99352c26c2e93f1aba0-452ce6be668c403f02ef",
+          "file": "flete-finish.spec.ts",
+          "line": 73,
+          "column": 1
+        },
+        {
+          "title": "Flete simple: portada directa, tres etapas y controles táctiles",
           "ok": true,
           "tags": [],
           "tests": [
@@ -1863,15 +1459,15 @@
               "projectName": "webkit-768",
               "results": [
                 {
-                  "workerIndex": 16,
+                  "workerIndex": 8,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 1637,
+                  "duration": 2518,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-09-09T08:25:25.420Z",
+                  "startTime": "2026-09-22T13:24:29.619Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -1879,13 +1475,13 @@
               "status": "expected"
             }
           ],
-          "id": "5c02723ad68c2a0d50c5-56e7ade0f829f9ba3876",
-          "file": "site.spec.ts",
-          "line": 5,
+          "id": "c99352c26c2e93f1aba0-88227281c8b39aebe0a1",
+          "file": "flete-finish.spec.ts",
+          "line": 11,
           "column": 1
         },
         {
-          "title": "gallery changes actual screenshots; zoom traps and restores focus",
+          "title": "Flete simple: pasajeros y detalles progresivos",
           "ok": true,
           "tags": [],
           "tests": [
@@ -1897,15 +1493,15 @@
               "projectName": "webkit-768",
               "results": [
                 {
-                  "workerIndex": 17,
-                  "parallelIndex": 1,
+                  "workerIndex": 8,
+                  "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 2451,
+                  "duration": 3777,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-09-09T08:25:26.099Z",
+                  "startTime": "2026-09-22T13:24:32.701Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -1913,13 +1509,13 @@
               "status": "expected"
             }
           ],
-          "id": "5c02723ad68c2a0d50c5-2817aea590770284e15b",
-          "file": "site.spec.ts",
-          "line": 33,
+          "id": "c99352c26c2e93f1aba0-e0df22cdfd68a47e4816",
+          "file": "flete-finish.spec.ts",
+          "line": 40,
           "column": 1
         },
         {
-          "title": "commercial journey, menu and FAQ work with keyboard",
+          "title": "Flete simple: guía de cinco pasos y panel orientado a pendientes",
           "ok": true,
           "tags": [],
           "tests": [
@@ -1931,15 +1527,15 @@
               "projectName": "webkit-768",
               "results": [
                 {
-                  "workerIndex": 16,
+                  "workerIndex": 8,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 1102,
+                  "duration": 3750,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-09-09T08:25:27.168Z",
+                  "startTime": "2026-09-22T13:24:36.543Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -1947,13 +1543,1493 @@
               "status": "expected"
             }
           ],
-          "id": "5c02723ad68c2a0d50c5-770b532f791f70f3411e",
-          "file": "site.spec.ts",
-          "line": 58,
+          "id": "c99352c26c2e93f1aba0-7ef4e09ba81f8b937d61",
+          "file": "flete-finish.spec.ts",
+          "line": 53,
           "column": 1
         },
         {
-          "title": "Bit Flow is private, with no media, links or commercial availability",
+          "title": "Flete QA visual: doce estados clave",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [
+                {
+                  "type": "skip",
+                  "description": "Capturas canónicas en WebKit 390",
+                  "location": {
+                    "file": "C:\\Users\\DELL\\Desktop\\luna-proyectos-web-task\\tests\\flete-finish.spec.ts",
+                    "line": 74,
+                    "column": 8
+                  }
+                }
+              ],
+              "expectedStatus": "skipped",
+              "projectId": "webkit-768",
+              "projectName": "webkit-768",
+              "results": [
+                {
+                  "workerIndex": 8,
+                  "parallelIndex": 0,
+                  "status": "skipped",
+                  "duration": 742,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-22T13:24:40.358Z",
+                  "annotations": [
+                    {
+                      "type": "skip",
+                      "description": "Capturas canónicas en WebKit 390",
+                      "location": {
+                        "file": "C:\\Users\\DELL\\Desktop\\luna-proyectos-web-task\\tests\\flete-finish.spec.ts",
+                        "line": 74,
+                        "column": 8
+                      }
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "skipped"
+            }
+          ],
+          "id": "c99352c26c2e93f1aba0-b9162ed8edea2b621e27",
+          "file": "flete-finish.spec.ts",
+          "line": 73,
+          "column": 1
+        },
+        {
+          "title": "Flete simple: portada directa, tres etapas y controles táctiles",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "webkit-1440",
+              "projectName": "webkit-1440",
+              "results": [
+                {
+                  "workerIndex": 9,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1999,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-22T13:24:51.749Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "c99352c26c2e93f1aba0-e12a459e3b4f4fda02f9",
+          "file": "flete-finish.spec.ts",
+          "line": 11,
+          "column": 1
+        },
+        {
+          "title": "Flete simple: pasajeros y detalles progresivos",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "webkit-1440",
+              "projectName": "webkit-1440",
+              "results": [
+                {
+                  "workerIndex": 9,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2837,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-22T13:24:53.932Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "c99352c26c2e93f1aba0-b221adce79776f909ba6",
+          "file": "flete-finish.spec.ts",
+          "line": 40,
+          "column": 1
+        },
+        {
+          "title": "Flete simple: guía de cinco pasos y panel orientado a pendientes",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "webkit-1440",
+              "projectName": "webkit-1440",
+              "results": [
+                {
+                  "workerIndex": 9,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2028,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-22T13:24:56.806Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "c99352c26c2e93f1aba0-4f2f776b6067245e570e",
+          "file": "flete-finish.spec.ts",
+          "line": 53,
+          "column": 1
+        },
+        {
+          "title": "Flete QA visual: doce estados clave",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [
+                {
+                  "type": "skip",
+                  "description": "Capturas canónicas en WebKit 390",
+                  "location": {
+                    "file": "C:\\Users\\DELL\\Desktop\\luna-proyectos-web-task\\tests\\flete-finish.spec.ts",
+                    "line": 74,
+                    "column": 8
+                  }
+                }
+              ],
+              "expectedStatus": "skipped",
+              "projectId": "webkit-1440",
+              "projectName": "webkit-1440",
+              "results": [
+                {
+                  "workerIndex": 9,
+                  "parallelIndex": 0,
+                  "status": "skipped",
+                  "duration": 745,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-22T13:24:58.882Z",
+                  "annotations": [
+                    {
+                      "type": "skip",
+                      "description": "Capturas canónicas en WebKit 390",
+                      "location": {
+                        "file": "C:\\Users\\DELL\\Desktop\\luna-proyectos-web-task\\tests\\flete-finish.spec.ts",
+                        "line": 74,
+                        "column": 8
+                      }
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "skipped"
+            }
+          ],
+          "id": "c99352c26c2e93f1aba0-1bb9ce463dd8600624c3",
+          "file": "flete-finish.spec.ts",
+          "line": 73,
+          "column": 1
+        }
+      ]
+    },
+    {
+      "title": "flete-preview.spec.ts",
+      "file": "flete-preview.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "Flete simple: solicitud en tres pantallas, cotización y aceptación",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [
+                {
+                  "type": "skip",
+                  "description": "Flujo completo canónico en mobile",
+                  "location": {
+                    "file": "C:\\Users\\DELL\\Desktop\\luna-proyectos-web-task\\tests\\flete-preview.spec.ts",
+                    "line": 20,
+                    "column": 8
+                  }
+                }
+              ],
+              "expectedStatus": "skipped",
+              "projectId": "chromium-360",
+              "projectName": "chromium-360",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "skipped",
+                  "duration": 236,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-22T13:22:36.928Z",
+                  "annotations": [
+                    {
+                      "type": "skip",
+                      "description": "Flujo completo canónico en mobile",
+                      "location": {
+                        "file": "C:\\Users\\DELL\\Desktop\\luna-proyectos-web-task\\tests\\flete-preview.spec.ts",
+                        "line": 20,
+                        "column": 8
+                      }
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "skipped"
+            }
+          ],
+          "id": "274bdd4654f5190fa40a-aa7855e206227e63db0a",
+          "file": "flete-preview.spec.ts",
+          "line": 19,
+          "column": 1
+        },
+        {
+          "title": "Flete mobile: compartir invoca share y actualizar relee el estado",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chromium-360",
+              "projectName": "chromium-360",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1224,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-22T13:22:37.213Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "274bdd4654f5190fa40a-b597c693232ca60d5d76",
+          "file": "flete-preview.spec.ts",
+          "line": 50,
+          "column": 1
+        },
+        {
+          "title": "Flete mobile: compartir ofrece copia manual si las APIs fallan",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chromium-360",
+              "projectName": "chromium-360",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1460,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-22T13:22:38.476Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "274bdd4654f5190fa40a-a8b2030094118e34aae2",
+          "file": "flete-preview.spec.ts",
+          "line": 65,
+          "column": 1
+        },
+        {
+          "title": "Flete: modal se cierra y devuelve el foco en WebKit/iPhone",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chromium-360",
+              "projectName": "chromium-360",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1066,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-22T13:22:39.973Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "274bdd4654f5190fa40a-da33c995d4f4f49e6523",
+          "file": "flete-preview.spec.ts",
+          "line": 79,
+          "column": 1
+        },
+        {
+          "title": "Flete simple: solicitud en tres pantallas, cotización y aceptación",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chromium-390",
+              "projectName": "chromium-390",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 8188,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-22T13:22:47.551Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "274bdd4654f5190fa40a-cf152ad4f2c041012a17",
+          "file": "flete-preview.spec.ts",
+          "line": 19,
+          "column": 1
+        },
+        {
+          "title": "Flete mobile: compartir invoca share y actualizar relee el estado",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chromium-390",
+              "projectName": "chromium-390",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1958,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-22T13:22:55.780Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "274bdd4654f5190fa40a-04a7b3f51d8477c879ff",
+          "file": "flete-preview.spec.ts",
+          "line": 50,
+          "column": 1
+        },
+        {
+          "title": "Flete mobile: compartir ofrece copia manual si las APIs fallan",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chromium-390",
+              "projectName": "chromium-390",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1635,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-22T13:22:57.773Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "274bdd4654f5190fa40a-285b8fceec2d26924efb",
+          "file": "flete-preview.spec.ts",
+          "line": 65,
+          "column": 1
+        },
+        {
+          "title": "Flete: modal se cierra y devuelve el foco en WebKit/iPhone",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chromium-390",
+              "projectName": "chromium-390",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1100,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-22T13:22:59.447Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "274bdd4654f5190fa40a-fa903199d507d36dd179",
+          "file": "flete-preview.spec.ts",
+          "line": 79,
+          "column": 1
+        },
+        {
+          "title": "Flete simple: solicitud en tres pantallas, cotización y aceptación",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [
+                {
+                  "type": "skip",
+                  "description": "Flujo completo canónico en mobile",
+                  "location": {
+                    "file": "C:\\Users\\DELL\\Desktop\\luna-proyectos-web-task\\tests\\flete-preview.spec.ts",
+                    "line": 20,
+                    "column": 8
+                  }
+                }
+              ],
+              "expectedStatus": "skipped",
+              "projectId": "chromium-430",
+              "projectName": "chromium-430",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 0,
+                  "status": "skipped",
+                  "duration": 242,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-22T13:23:07.479Z",
+                  "annotations": [
+                    {
+                      "type": "skip",
+                      "description": "Flujo completo canónico en mobile",
+                      "location": {
+                        "file": "C:\\Users\\DELL\\Desktop\\luna-proyectos-web-task\\tests\\flete-preview.spec.ts",
+                        "line": 20,
+                        "column": 8
+                      }
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "skipped"
+            }
+          ],
+          "id": "274bdd4654f5190fa40a-7110f6911c6a5bd8dc4f",
+          "file": "flete-preview.spec.ts",
+          "line": 19,
+          "column": 1
+        },
+        {
+          "title": "Flete mobile: compartir invoca share y actualizar relee el estado",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chromium-430",
+              "projectName": "chromium-430",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1098,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-22T13:23:07.761Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "274bdd4654f5190fa40a-12854e3543215c3d2e49",
+          "file": "flete-preview.spec.ts",
+          "line": 50,
+          "column": 1
+        },
+        {
+          "title": "Flete mobile: compartir ofrece copia manual si las APIs fallan",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chromium-430",
+              "projectName": "chromium-430",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1027,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-22T13:23:08.895Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "274bdd4654f5190fa40a-d4d33b2a8becd95e659a",
+          "file": "flete-preview.spec.ts",
+          "line": 65,
+          "column": 1
+        },
+        {
+          "title": "Flete: modal se cierra y devuelve el foco en WebKit/iPhone",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chromium-430",
+              "projectName": "chromium-430",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1013,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-22T13:23:09.957Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "274bdd4654f5190fa40a-03fab73000b7e6f3bc9c",
+          "file": "flete-preview.spec.ts",
+          "line": 79,
+          "column": 1
+        },
+        {
+          "title": "Flete simple: solicitud en tres pantallas, cotización y aceptación",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [
+                {
+                  "type": "skip",
+                  "description": "Flujo completo canónico en mobile",
+                  "location": {
+                    "file": "C:\\Users\\DELL\\Desktop\\luna-proyectos-web-task\\tests\\flete-preview.spec.ts",
+                    "line": 20,
+                    "column": 8
+                  }
+                }
+              ],
+              "expectedStatus": "skipped",
+              "projectId": "chromium-768",
+              "projectName": "chromium-768",
+              "results": [
+                {
+                  "workerIndex": 3,
+                  "parallelIndex": 0,
+                  "status": "skipped",
+                  "duration": 228,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-22T13:23:17.863Z",
+                  "annotations": [
+                    {
+                      "type": "skip",
+                      "description": "Flujo completo canónico en mobile",
+                      "location": {
+                        "file": "C:\\Users\\DELL\\Desktop\\luna-proyectos-web-task\\tests\\flete-preview.spec.ts",
+                        "line": 20,
+                        "column": 8
+                      }
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "skipped"
+            }
+          ],
+          "id": "274bdd4654f5190fa40a-f5b833beb794760fb4b0",
+          "file": "flete-preview.spec.ts",
+          "line": 19,
+          "column": 1
+        },
+        {
+          "title": "Flete mobile: compartir invoca share y actualizar relee el estado",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chromium-768",
+              "projectName": "chromium-768",
+              "results": [
+                {
+                  "workerIndex": 3,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1290,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-22T13:23:18.126Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "274bdd4654f5190fa40a-4856421a52b8dedcd15a",
+          "file": "flete-preview.spec.ts",
+          "line": 50,
+          "column": 1
+        },
+        {
+          "title": "Flete mobile: compartir ofrece copia manual si las APIs fallan",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chromium-768",
+              "projectName": "chromium-768",
+              "results": [
+                {
+                  "workerIndex": 3,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 863,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-22T13:23:19.448Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "274bdd4654f5190fa40a-63c11aff82e1414cdadb",
+          "file": "flete-preview.spec.ts",
+          "line": 65,
+          "column": 1
+        },
+        {
+          "title": "Flete: modal se cierra y devuelve el foco en WebKit/iPhone",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chromium-768",
+              "projectName": "chromium-768",
+              "results": [
+                {
+                  "workerIndex": 3,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 812,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-22T13:23:20.343Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "274bdd4654f5190fa40a-5260e9e018a5b0f52344",
+          "file": "flete-preview.spec.ts",
+          "line": 79,
+          "column": 1
+        },
+        {
+          "title": "Flete simple: solicitud en tres pantallas, cotización y aceptación",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [
+                {
+                  "type": "skip",
+                  "description": "Flujo completo canónico en mobile",
+                  "location": {
+                    "file": "C:\\Users\\DELL\\Desktop\\luna-proyectos-web-task\\tests\\flete-preview.spec.ts",
+                    "line": 20,
+                    "column": 8
+                  }
+                }
+              ],
+              "expectedStatus": "skipped",
+              "projectId": "chromium-1440",
+              "projectName": "chromium-1440",
+              "results": [
+                {
+                  "workerIndex": 4,
+                  "parallelIndex": 0,
+                  "status": "skipped",
+                  "duration": 227,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-22T13:23:26.359Z",
+                  "annotations": [
+                    {
+                      "type": "skip",
+                      "description": "Flujo completo canónico en mobile",
+                      "location": {
+                        "file": "C:\\Users\\DELL\\Desktop\\luna-proyectos-web-task\\tests\\flete-preview.spec.ts",
+                        "line": 20,
+                        "column": 8
+                      }
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "skipped"
+            }
+          ],
+          "id": "274bdd4654f5190fa40a-d07f7139dad924189147",
+          "file": "flete-preview.spec.ts",
+          "line": 19,
+          "column": 1
+        },
+        {
+          "title": "Flete mobile: compartir invoca share y actualizar relee el estado",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chromium-1440",
+              "projectName": "chromium-1440",
+              "results": [
+                {
+                  "workerIndex": 4,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1223,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-22T13:23:26.614Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "274bdd4654f5190fa40a-429923472d7e0ba7cc8d",
+          "file": "flete-preview.spec.ts",
+          "line": 50,
+          "column": 1
+        },
+        {
+          "title": "Flete mobile: compartir ofrece copia manual si las APIs fallan",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chromium-1440",
+              "projectName": "chromium-1440",
+              "results": [
+                {
+                  "workerIndex": 4,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1111,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-22T13:23:27.880Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "274bdd4654f5190fa40a-b86dbec61e59c807b426",
+          "file": "flete-preview.spec.ts",
+          "line": 65,
+          "column": 1
+        },
+        {
+          "title": "Flete: modal se cierra y devuelve el foco en WebKit/iPhone",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chromium-1440",
+              "projectName": "chromium-1440",
+              "results": [
+                {
+                  "workerIndex": 4,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1105,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-22T13:23:29.025Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "274bdd4654f5190fa40a-b350592e702daef69f66",
+          "file": "flete-preview.spec.ts",
+          "line": 79,
+          "column": 1
+        },
+        {
+          "title": "Flete simple: solicitud en tres pantallas, cotización y aceptación",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [
+                {
+                  "type": "skip",
+                  "description": "Flujo completo canónico en mobile",
+                  "location": {
+                    "file": "C:\\Users\\DELL\\Desktop\\luna-proyectos-web-task\\tests\\flete-preview.spec.ts",
+                    "line": 20,
+                    "column": 8
+                  }
+                }
+              ],
+              "expectedStatus": "skipped",
+              "projectId": "webkit-360",
+              "projectName": "webkit-360",
+              "results": [
+                {
+                  "workerIndex": 5,
+                  "parallelIndex": 0,
+                  "status": "skipped",
+                  "duration": 397,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-22T13:23:37.480Z",
+                  "annotations": [
+                    {
+                      "type": "skip",
+                      "description": "Flujo completo canónico en mobile",
+                      "location": {
+                        "file": "C:\\Users\\DELL\\Desktop\\luna-proyectos-web-task\\tests\\flete-preview.spec.ts",
+                        "line": 20,
+                        "column": 8
+                      }
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "skipped"
+            }
+          ],
+          "id": "274bdd4654f5190fa40a-54704462192d7d34dac7",
+          "file": "flete-preview.spec.ts",
+          "line": 19,
+          "column": 1
+        },
+        {
+          "title": "Flete mobile: compartir invoca share y actualizar relee el estado",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "webkit-360",
+              "projectName": "webkit-360",
+              "results": [
+                {
+                  "workerIndex": 5,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1693,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-22T13:23:37.919Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "274bdd4654f5190fa40a-3497d8820f028cc1e95c",
+          "file": "flete-preview.spec.ts",
+          "line": 50,
+          "column": 1
+        },
+        {
+          "title": "Flete mobile: compartir ofrece copia manual si las APIs fallan",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "webkit-360",
+              "projectName": "webkit-360",
+              "results": [
+                {
+                  "workerIndex": 5,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1798,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-22T13:23:39.652Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "274bdd4654f5190fa40a-92672443ac38a472a57d",
+          "file": "flete-preview.spec.ts",
+          "line": 65,
+          "column": 1
+        },
+        {
+          "title": "Flete: modal se cierra y devuelve el foco en WebKit/iPhone",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "webkit-360",
+              "projectName": "webkit-360",
+              "results": [
+                {
+                  "workerIndex": 5,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1424,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-22T13:23:41.490Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "274bdd4654f5190fa40a-62acd06fbd9a0f65c967",
+          "file": "flete-preview.spec.ts",
+          "line": 79,
+          "column": 1
+        },
+        {
+          "title": "Flete simple: solicitud en tres pantallas, cotización y aceptación",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "webkit-390",
+              "projectName": "webkit-390",
+              "results": [
+                {
+                  "workerIndex": 6,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 7690,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-22T13:23:57.527Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "274bdd4654f5190fa40a-cca7f6c1f6530b30644a",
+          "file": "flete-preview.spec.ts",
+          "line": 19,
+          "column": 1
+        },
+        {
+          "title": "Flete mobile: compartir invoca share y actualizar relee el estado",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "webkit-390",
+              "projectName": "webkit-390",
+              "results": [
+                {
+                  "workerIndex": 6,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2971,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-22T13:24:05.256Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "274bdd4654f5190fa40a-2aa7f60be2a2e20ac2f2",
+          "file": "flete-preview.spec.ts",
+          "line": 50,
+          "column": 1
+        },
+        {
+          "title": "Flete mobile: compartir ofrece copia manual si las APIs fallan",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "webkit-390",
+              "projectName": "webkit-390",
+              "results": [
+                {
+                  "workerIndex": 6,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2488,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-22T13:24:08.267Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "274bdd4654f5190fa40a-547a8b41a63bcc4b5502",
+          "file": "flete-preview.spec.ts",
+          "line": 65,
+          "column": 1
+        },
+        {
+          "title": "Flete: modal se cierra y devuelve el foco en WebKit/iPhone",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "webkit-390",
+              "projectName": "webkit-390",
+              "results": [
+                {
+                  "workerIndex": 6,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1577,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-22T13:24:10.793Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "274bdd4654f5190fa40a-26a4daf353e322a2bb4f",
+          "file": "flete-preview.spec.ts",
+          "line": 79,
+          "column": 1
+        },
+        {
+          "title": "Flete simple: solicitud en tres pantallas, cotización y aceptación",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [
+                {
+                  "type": "skip",
+                  "description": "Flujo completo canónico en mobile",
+                  "location": {
+                    "file": "C:\\Users\\DELL\\Desktop\\luna-proyectos-web-task\\tests\\flete-preview.spec.ts",
+                    "line": 20,
+                    "column": 8
+                  }
+                }
+              ],
+              "expectedStatus": "skipped",
+              "projectId": "webkit-430",
+              "projectName": "webkit-430",
+              "results": [
+                {
+                  "workerIndex": 7,
+                  "parallelIndex": 0,
+                  "status": "skipped",
+                  "duration": 481,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-22T13:24:20.605Z",
+                  "annotations": [
+                    {
+                      "type": "skip",
+                      "description": "Flujo completo canónico en mobile",
+                      "location": {
+                        "file": "C:\\Users\\DELL\\Desktop\\luna-proyectos-web-task\\tests\\flete-preview.spec.ts",
+                        "line": 20,
+                        "column": 8
+                      }
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "skipped"
+            }
+          ],
+          "id": "274bdd4654f5190fa40a-4c2685f46c4c7a0d8e30",
+          "file": "flete-preview.spec.ts",
+          "line": 19,
+          "column": 1
+        },
+        {
+          "title": "Flete mobile: compartir invoca share y actualizar relee el estado",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "webkit-430",
+              "projectName": "webkit-430",
+              "results": [
+                {
+                  "workerIndex": 7,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2071,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-22T13:24:21.129Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "274bdd4654f5190fa40a-74431f6e9bc744e2a6d2",
+          "file": "flete-preview.spec.ts",
+          "line": 50,
+          "column": 1
+        },
+        {
+          "title": "Flete mobile: compartir ofrece copia manual si las APIs fallan",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "webkit-430",
+              "projectName": "webkit-430",
+              "results": [
+                {
+                  "workerIndex": 7,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1669,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-22T13:24:23.240Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "274bdd4654f5190fa40a-2c6e843729588259561f",
+          "file": "flete-preview.spec.ts",
+          "line": 65,
+          "column": 1
+        },
+        {
+          "title": "Flete: modal se cierra y devuelve el foco en WebKit/iPhone",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "webkit-430",
+              "projectName": "webkit-430",
+              "results": [
+                {
+                  "workerIndex": 7,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1979,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-22T13:24:24.972Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "274bdd4654f5190fa40a-b946225dc0d417246196",
+          "file": "flete-preview.spec.ts",
+          "line": 79,
+          "column": 1
+        },
+        {
+          "title": "Flete simple: solicitud en tres pantallas, cotización y aceptación",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [
+                {
+                  "type": "skip",
+                  "description": "Flujo completo canónico en mobile",
+                  "location": {
+                    "file": "C:\\Users\\DELL\\Desktop\\luna-proyectos-web-task\\tests\\flete-preview.spec.ts",
+                    "line": 20,
+                    "column": 8
+                  }
+                }
+              ],
+              "expectedStatus": "skipped",
+              "projectId": "webkit-768",
+              "projectName": "webkit-768",
+              "results": [
+                {
+                  "workerIndex": 8,
+                  "parallelIndex": 0,
+                  "status": "skipped",
+                  "duration": 600,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-22T13:24:41.186Z",
+                  "annotations": [
+                    {
+                      "type": "skip",
+                      "description": "Flujo completo canónico en mobile",
+                      "location": {
+                        "file": "C:\\Users\\DELL\\Desktop\\luna-proyectos-web-task\\tests\\flete-preview.spec.ts",
+                        "line": 20,
+                        "column": 8
+                      }
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "skipped"
+            }
+          ],
+          "id": "274bdd4654f5190fa40a-73c07c299ab8454e9807",
+          "file": "flete-preview.spec.ts",
+          "line": 19,
+          "column": 1
+        },
+        {
+          "title": "Flete mobile: compartir invoca share y actualizar relee el estado",
           "ok": true,
           "tags": [],
           "tests": [
@@ -1965,15 +3041,15 @@
               "projectName": "webkit-768",
               "results": [
                 {
-                  "workerIndex": 16,
+                  "workerIndex": 8,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 2463,
+                  "duration": 3251,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-09-09T08:25:28.292Z",
+                  "startTime": "2026-09-22T13:24:41.836Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -1981,13 +3057,13 @@
               "status": "expected"
             }
           ],
-          "id": "5c02723ad68c2a0d50c5-d2b5e04e93ed1296a243",
-          "file": "site.spec.ts",
-          "line": 82,
+          "id": "274bdd4654f5190fa40a-bbc0d286bdc07a5ed77a",
+          "file": "flete-preview.spec.ts",
+          "line": 50,
           "column": 1
         },
         {
-          "title": "WCAG automated accessibility including contrast",
+          "title": "Flete mobile: compartir ofrece copia manual si las APIs fallan",
           "ok": true,
           "tags": [],
           "tests": [
@@ -1999,15 +3075,15 @@
               "projectName": "webkit-768",
               "results": [
                 {
-                  "workerIndex": 17,
-                  "parallelIndex": 1,
+                  "workerIndex": 8,
+                  "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 3672,
+                  "duration": 2363,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-09-09T08:25:28.651Z",
+                  "startTime": "2026-09-22T13:24:45.133Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -2015,13 +3091,13 @@
               "status": "expected"
             }
           ],
-          "id": "5c02723ad68c2a0d50c5-86d407bf7b29e2335639",
-          "file": "site.spec.ts",
-          "line": 91,
+          "id": "274bdd4654f5190fa40a-e3e265e10bbd9213f980",
+          "file": "flete-preview.spec.ts",
+          "line": 65,
           "column": 1
         },
         {
-          "title": "SEO, canonical, manifest and social image exist",
+          "title": "Flete: modal se cierra y devuelve el foco en WebKit/iPhone",
           "ok": true,
           "tags": [],
           "tests": [
@@ -2033,15 +3109,15 @@
               "projectName": "webkit-768",
               "results": [
                 {
-                  "workerIndex": 16,
+                  "workerIndex": 8,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 2827,
+                  "duration": 2031,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-09-09T08:25:30.770Z",
+                  "startTime": "2026-09-22T13:24:47.566Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -2049,13 +3125,67 @@
               "status": "expected"
             }
           ],
-          "id": "5c02723ad68c2a0d50c5-38e22ec317d837490a1a",
-          "file": "site.spec.ts",
-          "line": 97,
+          "id": "274bdd4654f5190fa40a-2e298769401b64f4e320",
+          "file": "flete-preview.spec.ts",
+          "line": 79,
           "column": 1
         },
         {
-          "title": "layout, evidence, real links, loaded images and clean console",
+          "title": "Flete simple: solicitud en tres pantallas, cotización y aceptación",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [
+                {
+                  "type": "skip",
+                  "description": "Flujo completo canónico en mobile",
+                  "location": {
+                    "file": "C:\\Users\\DELL\\Desktop\\luna-proyectos-web-task\\tests\\flete-preview.spec.ts",
+                    "line": 20,
+                    "column": 8
+                  }
+                }
+              ],
+              "expectedStatus": "skipped",
+              "projectId": "webkit-1440",
+              "projectName": "webkit-1440",
+              "results": [
+                {
+                  "workerIndex": 9,
+                  "parallelIndex": 0,
+                  "status": "skipped",
+                  "duration": 820,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-22T13:24:59.753Z",
+                  "annotations": [
+                    {
+                      "type": "skip",
+                      "description": "Flujo completo canónico en mobile",
+                      "location": {
+                        "file": "C:\\Users\\DELL\\Desktop\\luna-proyectos-web-task\\tests\\flete-preview.spec.ts",
+                        "line": 20,
+                        "column": 8
+                      }
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "skipped"
+            }
+          ],
+          "id": "274bdd4654f5190fa40a-c7e587950009a7dcebb2",
+          "file": "flete-preview.spec.ts",
+          "line": 19,
+          "column": 1
+        },
+        {
+          "title": "Flete mobile: compartir invoca share y actualizar relee el estado",
           "ok": true,
           "tags": [],
           "tests": [
@@ -2067,49 +3197,15 @@
               "projectName": "webkit-1440",
               "results": [
                 {
-                  "workerIndex": 18,
-                  "parallelIndex": 1,
-                  "status": "passed",
-                  "duration": 2117,
-                  "errors": [],
-                  "stdout": [],
-                  "stderr": [],
-                  "retry": 0,
-                  "startTime": "2026-09-09T08:25:33.164Z",
-                  "annotations": [],
-                  "attachments": []
-                }
-              ],
-              "status": "expected"
-            }
-          ],
-          "id": "5c02723ad68c2a0d50c5-66b925cd0a81e86f96c9",
-          "file": "site.spec.ts",
-          "line": 5,
-          "column": 1
-        },
-        {
-          "title": "gallery changes actual screenshots; zoom traps and restores focus",
-          "ok": true,
-          "tags": [],
-          "tests": [
-            {
-              "timeout": 45000,
-              "annotations": [],
-              "expectedStatus": "passed",
-              "projectId": "webkit-1440",
-              "projectName": "webkit-1440",
-              "results": [
-                {
-                  "workerIndex": 19,
+                  "workerIndex": 9,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 2896,
+                  "duration": 3537,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-09-09T08:25:34.580Z",
+                  "startTime": "2026-09-22T13:25:00.628Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -2117,13 +3213,13 @@
               "status": "expected"
             }
           ],
-          "id": "5c02723ad68c2a0d50c5-63f63b77b89571c8e585",
-          "file": "site.spec.ts",
-          "line": 33,
+          "id": "274bdd4654f5190fa40a-add431e95b6239908c17",
+          "file": "flete-preview.spec.ts",
+          "line": 50,
           "column": 1
         },
         {
-          "title": "commercial journey, menu and FAQ work with keyboard",
+          "title": "Flete mobile: compartir ofrece copia manual si las APIs fallan",
           "ok": true,
           "tags": [],
           "tests": [
@@ -2135,117 +3231,15 @@
               "projectName": "webkit-1440",
               "results": [
                 {
-                  "workerIndex": 18,
-                  "parallelIndex": 1,
-                  "status": "passed",
-                  "duration": 1218,
-                  "errors": [],
-                  "stdout": [],
-                  "stderr": [],
-                  "retry": 0,
-                  "startTime": "2026-09-09T08:25:35.385Z",
-                  "annotations": [],
-                  "attachments": []
-                }
-              ],
-              "status": "expected"
-            }
-          ],
-          "id": "5c02723ad68c2a0d50c5-b4dddec9510f31b0c913",
-          "file": "site.spec.ts",
-          "line": 58,
-          "column": 1
-        },
-        {
-          "title": "Bit Flow is private, with no media, links or commercial availability",
-          "ok": true,
-          "tags": [],
-          "tests": [
-            {
-              "timeout": 45000,
-              "annotations": [],
-              "expectedStatus": "passed",
-              "projectId": "webkit-1440",
-              "projectName": "webkit-1440",
-              "results": [
-                {
-                  "workerIndex": 18,
-                  "parallelIndex": 1,
-                  "status": "passed",
-                  "duration": 671,
-                  "errors": [],
-                  "stdout": [],
-                  "stderr": [],
-                  "retry": 0,
-                  "startTime": "2026-09-09T08:25:36.630Z",
-                  "annotations": [],
-                  "attachments": []
-                }
-              ],
-              "status": "expected"
-            }
-          ],
-          "id": "5c02723ad68c2a0d50c5-3709e1374ad1d944402f",
-          "file": "site.spec.ts",
-          "line": 82,
-          "column": 1
-        },
-        {
-          "title": "WCAG automated accessibility including contrast",
-          "ok": true,
-          "tags": [],
-          "tests": [
-            {
-              "timeout": 45000,
-              "annotations": [],
-              "expectedStatus": "passed",
-              "projectId": "webkit-1440",
-              "projectName": "webkit-1440",
-              "results": [
-                {
-                  "workerIndex": 18,
-                  "parallelIndex": 1,
-                  "status": "passed",
-                  "duration": 1824,
-                  "errors": [],
-                  "stdout": [],
-                  "stderr": [],
-                  "retry": 0,
-                  "startTime": "2026-09-09T08:25:37.318Z",
-                  "annotations": [],
-                  "attachments": []
-                }
-              ],
-              "status": "expected"
-            }
-          ],
-          "id": "5c02723ad68c2a0d50c5-b7c89dc814df6c9f04af",
-          "file": "site.spec.ts",
-          "line": 91,
-          "column": 1
-        },
-        {
-          "title": "SEO, canonical, manifest and social image exist",
-          "ok": true,
-          "tags": [],
-          "tests": [
-            {
-              "timeout": 45000,
-              "annotations": [],
-              "expectedStatus": "passed",
-              "projectId": "webkit-1440",
-              "projectName": "webkit-1440",
-              "results": [
-                {
-                  "workerIndex": 19,
+                  "workerIndex": 9,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 777,
+                  "duration": 2189,
                   "errors": [],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-09-09T08:25:37.563Z",
+                  "startTime": "2026-09-22T13:25:04.212Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -2253,9 +3247,43 @@
               "status": "expected"
             }
           ],
-          "id": "5c02723ad68c2a0d50c5-042cf6169d3310fc9538",
-          "file": "site.spec.ts",
-          "line": 97,
+          "id": "274bdd4654f5190fa40a-cbee387066ccbba5614e",
+          "file": "flete-preview.spec.ts",
+          "line": 65,
+          "column": 1
+        },
+        {
+          "title": "Flete: modal se cierra y devuelve el foco en WebKit/iPhone",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "webkit-1440",
+              "projectName": "webkit-1440",
+              "results": [
+                {
+                  "workerIndex": 9,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2189,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-22T13:25:06.446Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "274bdd4654f5190fa40a-cc08dac44fc43d84a9e8",
+          "file": "flete-preview.spec.ts",
+          "line": 79,
           "column": 1
         }
       ]
@@ -2263,10 +3291,10 @@
   ],
   "errors": [],
   "stats": {
-    "startTime": "2026-09-09T08:24:42.473Z",
-    "duration": 56925.719,
-    "expected": 60,
-    "skipped": 0,
+    "startTime": "2026-09-22T13:22:24.968Z",
+    "duration": 164473.232,
+    "expected": 63,
+    "skipped": 17,
     "unexpected": 0,
     "flaky": 0
   }

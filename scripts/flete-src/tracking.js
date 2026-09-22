@@ -4,6 +4,7 @@ exports.TrackingView = TrackingView;
 const preact_mjs_1 = require("./vendor/preact.mjs");
 const ui_js_1 = require("./ui.js");
 const domain_js_1 = require("./domain.js");
+const { h } = preact_mjs_1;
 
 const serviceIcon = { freight: 'truck', passengers: 'users', special: 'route' };
 
@@ -29,7 +30,41 @@ const descriptions = {
     cancelled: 'No hay un servicio activo asociado a esta solicitud. Podés comenzar una nueva consulta cuando lo necesites.',
 };
 
-function TrackingView({ tracking: t, error, success, business, preview, busy, lookup, pendingPhotos, onCopy, onRefresh, onManage, onAccept, onRetryPhotos }) {
+function TrackingView({ tracking: t, error, success, preview, busy, refreshing, lookup, pendingPhotos, onCopy, onRefresh, onManage, onAccept, onRetryPhotos }) {
+    const accepted = Boolean(t?.quote_accepted_at);
+    const awaiting = t?.status === 'quoted' && accepted;
+    if (!t)
+        return h('main', { id: 'main', class: 'container tracking-main' },
+            h('a', { class: 'text-link back-link', href: '#/' }, h(ui_js_1.Icon, { name: 'back', size: 17 }), 'Volver'),
+            error ? h('section', { class: 'tracking-card' }, h(ui_js_1.Empty, { icon: 'lock', title: 'No encontramos ese enlace', text: error })) : h(ui_js_1.Loading, { label: 'Consultando tu solicitud…' }));
+
+    return h('main', { id: 'main', class: 'container tracking-main simple-tracking' },
+        h('a', { class: 'text-link back-link', href: '#/' }, h(ui_js_1.Icon, { name: 'back', size: 17 }), 'Volver'),
+        h('section', { class: 'tracking-card simple-tracking-card' },
+            t.quote_cents !== null && h('section', { class: 'simple-quote' },
+                h('span', { class: 'eyebrow' }, accepted ? 'COTIZACIÓN ACEPTADA' : 'TU COTIZACIÓN'),
+                h('strong', { class: 'simple-quote-amount' }, (0, domain_js_1.money)(t.quote_cents)),
+                preview && t.status === 'quoted' && !accepted && h('button', { class: 'button button-primary button-large full', disabled: busy || Boolean(error), onClick: event => onAccept(event.currentTarget) }, 'Aceptar', h(ui_js_1.Icon, { name: 'check', size: 19 }))),
+            h('div', { class: `simple-current-state state-${t.status}` },
+                h('span', { class: 'eyebrow' }, 'ESTADO ACTUAL'),
+                h('h1', { tabIndex: -1 }, awaiting ? 'Cotización aceptada' : titles[t.status]),
+                h('p', null, awaiting ? 'El dueño va a confirmar el servicio.' : t.status === 'new' || t.status === 'reviewing' ? 'Estamos preparando tu cotización.' : descriptions[t.status])),
+            h(ui_js_1.RouteCard, { origin: t.origin, destination: t.destination, scheduledAt: t.scheduled_at }),
+            h('p', { class: 'simple-reference' }, 'Referencia: ', h('strong', null, t.code)),
+            t.vehicle && h('p', { class: 'simple-vehicle' }, h(ui_js_1.Icon, { name: 'truck', size: 18 }), t.vehicle.name),
+            error && h(ui_js_1.Notice, { type: 'error' }, error),
+            pendingPhotos > 0 && success && h(ui_js_1.Notice, { type: 'error' }, `Falta adjuntar ${pendingPhotos} foto(s).`, h('button', { class: 'text-link', disabled: busy, onClick: onRetryPhotos }, 'Reintentar')),
+            h('div', { class: 'tracking-buttons simple-tracking-actions' },
+                h('button', { class: 'button button-dark', onClick: onCopy, disabled: busy }, h(ui_js_1.Icon, { name: 'external', size: 18 }), 'Compartir seguimiento'),
+                h('button', { class: 'button button-light', onClick: onRefresh, disabled: busy || refreshing, 'aria-busy': refreshing }, h(ui_js_1.Icon, { name: 'refresh', size: 17 }), refreshing ? 'Actualizando…' : 'Actualizar')),
+            lookup && h(ui_js_1.Field, { id: 'copy-link', label: 'Enlace listo para copiar' }, h('input', { id: 'copy-link', readOnly: true, value: lookup, onFocus: event => event.currentTarget.select() })),
+            h('details', { class: 'progress-disclosure' },
+                h('summary', null, 'Ver progreso'),
+                h(JourneyTimeline, { tracking: t }))),
+        preview && h('div', { class: 'demo-handoff simple-demo-handoff' }, h('p', null, '¿Querés verlo del lado del dueño?'), h('button', { class: 'button button-light', onClick: onManage }, 'Abrir panel')));
+}
+
+function LegacyTrackingView({ tracking: t, error, success, business, preview, busy, lookup, pendingPhotos, onCopy, onRefresh, onManage, onAccept, onRetryPhotos }) {
     const accepted = Boolean(t?.quote_accepted_at);
     const awaiting = t?.status === 'quoted' && accepted;
     const contact = t ? (0, domain_js_1.whatsappUrl)(business.whatsapp, `Hola, quisiera consultar por mi solicitud ${t.code}.`) : null;

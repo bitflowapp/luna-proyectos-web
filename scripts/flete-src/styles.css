@@ -960,5 +960,120 @@ th:last-child { width:58px; }
 .edit-route { font-size:11px; margin-block:7px 0; }
 @media(max-width:800px) {
  .wizard-main[data-step="0"] .wizard-aside { display:none; }
- .wizard-aside .edit-route { min-height:32px; margin-top:10px; font-size:10px; }
+.wizard-aside .edit-route { min-height:32px; margin-top:10px; font-size:10px; }
+}
+
+/* Simple UX: three clear customer steps and one obvious action at a time. */
+.simple-home { min-height:100dvh; }
+.simple-hero { padding-block:54px 44px; max-width:860px; }
+.simple-hero-heading { text-align:center; margin-bottom:28px; }
+.simple-hero-heading h1 { font-size:clamp(38px,7vw,64px); line-height:1; letter-spacing:-2px; }
+.simple-hero-heading p { margin-top:14px; color:var(--muted); font-size:18px; }
+.simple-request-card { max-width:620px; margin:auto; padding:30px; }
+.simple-home-kinds { margin-top:0; }
+.simple-home-kinds legend { width:100%; margin-bottom:12px; font-size:18px; font-weight:750; }
+.simple-home-kinds button { min-height:82px; font-size:14px; }
+.simple-request-card .button-primary { margin-top:8px; min-height:58px; font-size:17px; }
+.simple-services { max-width:860px; padding-block:20px 52px; }
+.simple-services>h2 { margin-bottom:16px; }
+.simple-services .service-card { min-height:130px; padding:22px; display:flex; flex-direction:column; align-items:flex-start; gap:12px; text-align:left; }
+.simple-services .service-card span:last-child { color:var(--accent); font-weight:700; }
+.simple-existing { display:flex; justify-content:center; padding-bottom:56px; }
+
+.simple-wizard { max-width:760px; min-height:calc(100dvh - 100px); padding-bottom:max(44px,env(safe-area-inset-bottom)); }
+.simple-stepper { grid-template-columns:repeat(3,minmax(0,1fr)); }
+.simple-stepper button { min-height:48px; }
+.simple-wizard-form { max-width:680px; margin:auto; padding:34px; }
+.simple-wizard-form>h1 { margin:0 0 24px; font-size:36px; }
+.simple-service-choices { grid-template-columns:repeat(3,minmax(0,1fr)); }
+.simple-service-choices .service-choice { min-height:94px; flex-direction:column; justify-content:center; text-align:center; }
+.large-segments button,.choice-chips button { min-height:52px; font-size:16px; }
+.request-details { display:grid; gap:16px; }
+.request-details h2 { margin-top:8px; font-size:19px; }
+.choice-chips { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:9px; }
+.choice-chips button { border:1px solid var(--line); border-radius:10px; background:#fff; padding:10px; }
+.choice-chips button.selected { border-color:var(--ink); background:var(--soft); box-shadow:inset 0 0 0 1px var(--ink); }
+.cargo-chips { grid-template-columns:repeat(2,minmax(0,1fr)); }
+.four-chips { grid-template-columns:repeat(4,minmax(0,1fr)); }
+.large-check { min-height:54px; padding:14px; border:1px solid var(--line); border-radius:10px; }
+.disclosure-button { min-height:48px; justify-self:start; }
+.optional-details { display:grid; gap:16px; padding:18px; border-radius:12px; background:var(--soft); }
+.contact-step { gap:18px; }
+.consent-simple { font-size:15px; }
+.short-summary { display:grid; gap:8px; padding:18px; background:var(--soft); border-radius:12px; }
+.short-summary strong { font-size:18px; }
+.short-summary span { color:var(--muted); }
+.simple-wizard .wizard-actions .button { min-height:52px; font-size:16px; }
+
+.simple-tracking { max-width:720px; min-height:calc(100dvh - 100px); padding-bottom:max(44px,env(safe-area-inset-bottom)); }
+.simple-tracking-card { padding:32px; }
+.simple-quote { padding:22px; margin-bottom:20px; border-radius:14px; background:#fff6e8; text-align:center; }
+.simple-quote-amount { display:block; margin:9px 0 18px; font-size:42px; line-height:1; }
+.simple-current-state { padding:8px 0 22px; }
+.simple-current-state h1 { margin:8px 0; font-size:34px; }
+.simple-current-state p { color:var(--muted); font-size:16px; }
+.simple-reference { margin:18px 0; }
+.simple-vehicle { display:flex; align-items:center; gap:9px; margin:14px 0; }
+.simple-tracking-actions .button { min-height:52px; font-size:15px; flex:1; }
+.progress-disclosure { border-top:1px solid var(--line); margin-top:22px; padding-top:8px; }
+.progress-disclosure summary,.internal-notes-disclosure summary { min-height:52px; display:flex; align-items:center; font-weight:750; cursor:pointer; }
+.progress-disclosure .timeline { margin-top:12px; }
+.simple-demo-handoff { margin-top:18px; padding:20px; }
+
+.simple-demo-guide { max-width:760px; padding-block:34px 56px; }
+.simple-demo-guide>h1 { margin:20px 0 8px; }
+.simple-demo-steps { display:grid; gap:10px; margin:28px 0; }
+.simple-demo-steps .demo-flow-step { display:flex; align-items:flex-start; gap:14px; }
+.simple-demo-steps .demo-flow-step p { margin-top:3px; }
+.demo-primary-actions { display:flex; gap:12px; flex-wrap:wrap; }
+
+.simple-owner-metrics { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:12px; margin-bottom:20px; }
+.simple-owner-metrics .metric { min-height:112px; }
+.simple-owner-metrics .metric strong { font-size:34px; }
+.simple-owner-metrics .metric span { display:block; margin-top:8px; color:var(--muted); }
+.simple-owner-list>h2 { margin-bottom:10px; }
+.simple-owner-row { display:flex; align-items:center; gap:16px; padding:16px 0; border-top:1px solid var(--line); }
+.simple-owner-row>div { display:grid; gap:6px; flex:1; min-width:0; }
+.simple-owner-row>div>span:not(.badge) { color:var(--muted); }
+.simple-owner-row .badge { width:max-content; }
+.simple-owner-row .button { min-width:76px; min-height:48px; }
+.simple-owner-detail { max-width:760px; }
+.simple-owner-detail>.panel { margin-bottom:16px; }
+.owner-request-summary dl { display:grid; gap:16px; }
+.owner-request-summary dl>div { display:grid; grid-template-columns:125px 1fr; gap:14px; }
+.owner-request-summary dt { color:var(--muted); }
+.owner-request-summary dd { margin:0; font-weight:650; }
+.simple-quote-panel .large-money-input input { min-height:64px; font-size:24px; }
+.simple-owner-control h2 { margin-bottom:16px; }
+.topbar-action { min-height:48px; }
+
+@media (max-width:700px) {
+  .button,.icon-button,button,a.text-link { min-height:48px; }
+  .simple-stepper button { min-height:48px; }
+  .simple-hero { padding:28px 16px 34px; }
+  .simple-hero-heading { text-align:left; margin-bottom:20px; }
+  .simple-hero-heading h1 { font-size:42px; }
+  .simple-hero-heading p { font-size:17px; line-height:1.45; }
+  .simple-request-card { border-radius:18px; padding:20px; }
+  .simple-home-kinds { grid-template-columns:1fr; }
+  .simple-home-kinds button { min-height:58px; flex-direction:row; justify-content:flex-start; padding:12px 16px; font-size:16px; }
+  .simple-services .services-grid { grid-template-columns:1fr; }
+  .simple-services .service-card { min-height:92px; }
+  .simple-wizard-form { padding:24px 18px; }
+  .simple-wizard-form>h1 { font-size:30px; }
+  .simple-service-choices { grid-template-columns:1fr; }
+  .simple-service-choices .service-choice { min-height:58px; flex-direction:row; justify-content:flex-start; text-align:left; }
+  .choice-chips { grid-template-columns:repeat(2,minmax(0,1fr)); }
+  .four-chips { grid-template-columns:repeat(4,minmax(0,1fr)); }
+  .simple-wizard .wizard-actions { position:sticky; bottom:0; z-index:4; margin-inline:-18px; padding:14px 18px max(14px,env(safe-area-inset-bottom)); background:#fff; box-shadow:0 -8px 18px #183d3412; }
+  .simple-wizard .wizard-actions .button-primary { flex:1; }
+  .simple-tracking-card { padding:20px; }
+  .simple-current-state h1 { font-size:30px; }
+  .simple-quote-amount { font-size:38px; }
+  .simple-tracking-actions { display:grid; grid-template-columns:1fr; }
+  .simple-owner-metrics { grid-template-columns:1fr; }
+  .simple-owner-metrics .metric { min-height:88px; }
+  .simple-owner-row { align-items:flex-end; }
+  .owner-request-summary dl>div { grid-template-columns:1fr; gap:4px; }
+  .topbar-action { padding-inline:11px; font-size:12px; }
 }

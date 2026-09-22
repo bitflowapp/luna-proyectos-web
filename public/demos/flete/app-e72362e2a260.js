@@ -1001,7 +1001,32 @@ const domain_js_1 = require("./domain.js");
 const { h } = preact_mjs_1;
 const { Icon, Field, TransportArt } = ui_js_1;
 
-function CommercialHome({ business, draft, errors, onDraft, onStart, onQuickSubmit, onScroll }) {
+function CommercialHome({ draft, errors, onDraft, onStart, onQuickSubmit }) {
+    const choices = [
+        ['freight', 'Flete / carga', 'truck'],
+        ['passengers', 'Pasajeros', 'users'],
+        ['special', 'Otro traslado', 'route'],
+    ];
+    return h('main', { id: 'main', tabIndex: -1, class: 'commercial-home simple-home' },
+        h('section', { class: 'container simple-hero', 'aria-labelledby': 'hero-title' },
+            h('div', { class: 'simple-hero-heading' },
+                h('h1', { id: 'hero-title', tabIndex: -1 }, 'Pedí tu traslado'),
+                h('p', null, 'Indicá origen y destino. Te enviamos una cotización.')),
+            h('form', { class: 'quick-card simple-request-card', onSubmit: onQuickSubmit, noValidate: true },
+                h('fieldset', { class: 'quick-kind simple-home-kinds' },
+                    h('legend', null, '¿Qué necesitás?'),
+                    choices.map(([kind, label, icon]) => h('button', { key: kind, type: 'button', 'aria-pressed': draft.kind === kind, class: draft.kind === kind ? 'selected' : '', onClick: () => onDraft({ kind }) }, h(Icon, { name: icon, size: 23 }), h('span', null, label)))),
+                h('div', { class: 'quick-stops' },
+                    h(Field, { id: 'quick-origin', label: 'Origen', error: errors.origin }, h('input', { id: 'quick-origin', autoComplete: 'street-address', enterKeyHint: 'next', placeholder: '¿Desde dónde?', maxLength: 240, value: draft.origin, onInput: event => onDraft({ origin: event.currentTarget.value }), 'aria-invalid': Boolean(errors.origin) })),
+                    h(Field, { id: 'quick-destination', label: 'Destino', error: errors.destination }, h('input', { id: 'quick-destination', enterKeyHint: 'go', placeholder: '¿Hasta dónde?', maxLength: 240, value: draft.destination, onInput: event => onDraft({ destination: event.currentTarget.value }), 'aria-invalid': Boolean(errors.destination) }))),
+                h('button', { class: 'button button-primary button-large full', type: 'submit' }, 'Continuar', h(Icon, { name: 'arrow', size: 19 })))),
+        h('section', { class: 'container simple-services', 'aria-label': 'Servicios' },
+            h('h2', null, 'Servicios'),
+            h('div', { class: 'services-grid' }, choices.map(([kind, label, icon]) => h('button', { class: `service-card service-${kind}`, key: kind, onClick: () => onStart(kind) }, h(Icon, { name: icon, size: 26 }), h('strong', null, label), h('span', null, 'Pedir'))))),
+        h('div', { class: 'container simple-existing' }, h('a', { class: 'text-link', href: '#/seguimiento' }, 'Consultar una solicitud', h(Icon, { name: 'arrow', size: 17 }))));
+}
+
+function LegacyCommercialHome({ business, draft, errors, onDraft, onStart, onQuickSubmit, onScroll }) {
     const coverage = typeof business.coverage === 'string' ? business.coverage.trim() : '';
     const hasCoverage = Boolean(coverage && coverage !== domain_js_1.defaultConfig.coverage);
     const services = [
@@ -1084,6 +1109,26 @@ function CommercialHome({ business, draft, errors, onDraft, onStart, onQuickSubm
 }
 
 function DemoGuide({ onStart, onExample, onReset, busy }) {
+    const steps = [
+        ['1', 'Cliente pide', 'Indica qué necesita, el recorrido y su teléfono.'],
+        ['2', 'Dueño cotiza', 'Revisa la solicitud y envía un importe.'],
+        ['3', 'Cliente acepta', 'Ve la cotización y la acepta.'],
+        ['4', 'Dueño confirma', 'Confirma y asigna un vehículo.'],
+        ['5', 'Servicio listo', 'El estado queda disponible para consultar.'],
+    ];
+    return h('main', { id: 'main', class: 'container demo-guide simple-demo-guide' },
+        h('a', { href: '#/', class: 'text-link back-link' }, h(Icon, { name: 'back', size: 17 }), 'Volver'),
+        h('h1', { tabIndex: -1 }, 'Probá el recorrido completo'),
+        h('p', { class: 'demo-guide-disclaimer' }, 'Demo comercial · datos ficticios'),
+        h('div', { class: 'demo-flow-steps simple-demo-steps' }, steps.map(([num, title, desc]) => h('article', { class: 'demo-flow-step', key: num }, h('span', { class: 'step-badge' }, num), h('div', null, h('strong', null, title), h('p', null, desc))))),
+        h('div', { class: 'demo-primary-actions' },
+            h('button', { class: 'button button-primary button-large', onClick: onStart }, 'Empezar recorrido', h(Icon, { name: 'arrow', size: 18 })),
+            h('button', { class: 'button button-light', onClick: onExample }, 'Ver cotización lista')),
+        h('p', { class: 'demo-guide-notice' }, 'Ahora personalizamos servicios, vehículos, cobertura y forma de trabajo.'),
+        h('button', { class: 'text-link', onClick: onReset, disabled: busy }, 'Reiniciar datos'));
+}
+
+function LegacyDemoGuide({ onStart, onExample, onReset, busy }) {
     const steps = [
         { num: '01', title: 'Cliente pide', desc: 'Ingresa origen, destino, fecha y detalles desde el formulario rápido o wizard.' },
         { num: '02', title: 'Dueño recibe', desc: 'La solicitud ingresa al panel, en la bandeja de Nuevas.' },
@@ -1194,6 +1239,7 @@ exports.TrackingView = TrackingView;
 const preact_mjs_1 = require("./vendor/preact.mjs");
 const ui_js_1 = require("./ui.js");
 const domain_js_1 = require("./domain.js");
+const { h } = preact_mjs_1;
 
 const serviceIcon = { freight: 'truck', passengers: 'users', special: 'route' };
 
@@ -1219,7 +1265,41 @@ const descriptions = {
     cancelled: 'No hay un servicio activo asociado a esta solicitud. Podés comenzar una nueva consulta cuando lo necesites.',
 };
 
-function TrackingView({ tracking: t, error, success, business, preview, busy, lookup, pendingPhotos, onCopy, onRefresh, onManage, onAccept, onRetryPhotos }) {
+function TrackingView({ tracking: t, error, success, preview, busy, refreshing, lookup, pendingPhotos, onCopy, onRefresh, onManage, onAccept, onRetryPhotos }) {
+    const accepted = Boolean(t?.quote_accepted_at);
+    const awaiting = t?.status === 'quoted' && accepted;
+    if (!t)
+        return h('main', { id: 'main', class: 'container tracking-main' },
+            h('a', { class: 'text-link back-link', href: '#/' }, h(ui_js_1.Icon, { name: 'back', size: 17 }), 'Volver'),
+            error ? h('section', { class: 'tracking-card' }, h(ui_js_1.Empty, { icon: 'lock', title: 'No encontramos ese enlace', text: error })) : h(ui_js_1.Loading, { label: 'Consultando tu solicitud…' }));
+
+    return h('main', { id: 'main', class: 'container tracking-main simple-tracking' },
+        h('a', { class: 'text-link back-link', href: '#/' }, h(ui_js_1.Icon, { name: 'back', size: 17 }), 'Volver'),
+        h('section', { class: 'tracking-card simple-tracking-card' },
+            t.quote_cents !== null && h('section', { class: 'simple-quote' },
+                h('span', { class: 'eyebrow' }, accepted ? 'COTIZACIÓN ACEPTADA' : 'TU COTIZACIÓN'),
+                h('strong', { class: 'simple-quote-amount' }, (0, domain_js_1.money)(t.quote_cents)),
+                preview && t.status === 'quoted' && !accepted && h('button', { class: 'button button-primary button-large full', disabled: busy || Boolean(error), onClick: event => onAccept(event.currentTarget) }, 'Aceptar', h(ui_js_1.Icon, { name: 'check', size: 19 }))),
+            h('div', { class: `simple-current-state state-${t.status}` },
+                h('span', { class: 'eyebrow' }, 'ESTADO ACTUAL'),
+                h('h1', { tabIndex: -1 }, awaiting ? 'Cotización aceptada' : titles[t.status]),
+                h('p', null, awaiting ? 'El dueño va a confirmar el servicio.' : t.status === 'new' || t.status === 'reviewing' ? 'Estamos preparando tu cotización.' : descriptions[t.status])),
+            h(ui_js_1.RouteCard, { origin: t.origin, destination: t.destination, scheduledAt: t.scheduled_at }),
+            h('p', { class: 'simple-reference' }, 'Referencia: ', h('strong', null, t.code)),
+            t.vehicle && h('p', { class: 'simple-vehicle' }, h(ui_js_1.Icon, { name: 'truck', size: 18 }), t.vehicle.name),
+            error && h(ui_js_1.Notice, { type: 'error' }, error),
+            pendingPhotos > 0 && success && h(ui_js_1.Notice, { type: 'error' }, `Falta adjuntar ${pendingPhotos} foto(s).`, h('button', { class: 'text-link', disabled: busy, onClick: onRetryPhotos }, 'Reintentar')),
+            h('div', { class: 'tracking-buttons simple-tracking-actions' },
+                h('button', { class: 'button button-dark', onClick: onCopy, disabled: busy }, h(ui_js_1.Icon, { name: 'external', size: 18 }), 'Compartir seguimiento'),
+                h('button', { class: 'button button-light', onClick: onRefresh, disabled: busy || refreshing, 'aria-busy': refreshing }, h(ui_js_1.Icon, { name: 'refresh', size: 17 }), refreshing ? 'Actualizando…' : 'Actualizar')),
+            lookup && h(ui_js_1.Field, { id: 'copy-link', label: 'Enlace listo para copiar' }, h('input', { id: 'copy-link', readOnly: true, value: lookup, onFocus: event => event.currentTarget.select() })),
+            h('details', { class: 'progress-disclosure' },
+                h('summary', null, 'Ver progreso'),
+                h(JourneyTimeline, { tracking: t }))),
+        preview && h('div', { class: 'demo-handoff simple-demo-handoff' }, h('p', null, '¿Querés verlo del lado del dueño?'), h('button', { class: 'button button-light', onClick: onManage }, 'Abrir panel')));
+}
+
+function LegacyTrackingView({ tracking: t, error, success, business, preview, busy, lookup, pendingPhotos, onCopy, onRefresh, onManage, onAccept, onRetryPhotos }) {
     const accepted = Boolean(t?.quote_accepted_at);
     const awaiting = t?.status === 'quoted' && accepted;
     const contact = t ? (0, domain_js_1.whatsappUrl)(business.whatsapp, `Hola, quisiera consultar por mi solicitud ${t.code}.`) : null;
@@ -1491,14 +1571,11 @@ const { h } = preact_mjs_1;
 const { Icon } = ui_js_1;
 
 const serviceIcon = { freight: 'truck', passengers: 'users', special: 'route' };
-const steps = ['Servicio', 'Recorrido', 'Fecha', 'Detalles', 'Contacto', 'Resumen'];
+const steps = ['Recorrido', 'Detalles', 'Contacto'];
 const stepFields = [
-    ['kind'],
-    ['origin', 'destination'],
-    ['when', 'scheduled_at'],
-    ['details', 'description', 'quantity', 'cargo_size', 'needs_help', 'helpers', 'passengers', 'luggage', 'round_trip', 'return_at', 'notes'],
-    ['contact', 'name', 'phone', 'whatsapp', 'email', 'consent'],
-    []
+    ['kind', 'origin', 'destination'],
+    ['when', 'scheduled_at', 'details', 'description', 'quantity', 'cargo_size', 'needs_help', 'helpers', 'passengers', 'luggage', 'round_trip', 'return_at', 'notes'],
+    ['contact', 'name', 'phone', 'whatsapp', 'email', 'consent']
 ];
 
 const value = (e) => e.currentTarget.value;
@@ -1522,7 +1599,7 @@ function recover() {
         if (saved && /^[a-f0-9]{64}$/.test(saved.token) && ['freight', 'passengers', 'special'].includes(saved.draft?.kind) &&
             typeof saved.draft.origin === 'string' && typeof saved.draft.destination === 'string' &&
             typeof saved.draft.details?.notes === 'string' && typeof saved.draft.contact?.name === 'string')
-            return { draft: saved.draft, token: saved.token, step: Math.max(0, Math.min(5, Number(saved.step) || 0)) };
+            return { draft: saved.draft, token: saved.token, step: Math.max(0, Math.min(2, Number(saved.step) || 0)) };
     }
     catch { }
     return { draft: (0, domain_js_1.blankPayload)(), token: (0, domain_js_1.randomToken)(), step: 0 };
@@ -1614,7 +1691,8 @@ class App extends preact_mjs_1.Component {
             user: null, checkedSession: false, loadingAdmin: false, dashboard: null, detail: null, loginEmail: '', loginPassword: '',
             quote: '', note: '', cancellation: null, editing: null, vehicleEditor: null, settings: null,
             search: '', statusFilter: '', serviceFilter: '', dateFilter: '', customer: null,
-            showDemoTools: new URLSearchParams(window.location.search).get('modo') === 'demo', quickErrors: {}, stickyCta: false, acceptance: null
+            showDemoTools: new URLSearchParams(window.location.search).get('modo') === 'demo', quickErrors: {}, stickyCta: false, acceptance: null,
+            showMoreDetails: false, showEmail: false, refreshing: false
         };
     }
 
@@ -1701,7 +1779,8 @@ class App extends preact_mjs_1.Component {
         this.state.photos.forEach(p => URL.revokeObjectURL(p.url));
     }
 
-    componentDidCatch() {
+    componentDidCatch(error) {
+        console.error(error);
         this.set({ bootError: 'Ocurrió un error al mostrar la pantalla. Recargá para recuperar el último borrador.' });
     }
 
@@ -1882,7 +1961,7 @@ class App extends preact_mjs_1.Component {
 
     stepNext(e) {
         e.preventDefault();
-        if (this.state.step === 5) {
+        if (this.state.step === 2) {
             void this.submit();
             return;
         }
@@ -2002,22 +2081,51 @@ class App extends preact_mjs_1.Component {
     async copyLink() {
         const token = this.state.path.split('/')[2] ?? '';
         const link = `${window.location.href.split('#')[0]}#/seguimiento/${token}`;
+        const shareData = { title: 'Seguimiento de mi solicitud', text: 'Podés consultar el estado desde este enlace.', url: link };
+        if (typeof navigator.share === 'function') {
+            try {
+                await navigator.share(shareData);
+                this.notify('Enlace compartido.', 'success');
+                return;
+            }
+            catch (error) {
+                if (error instanceof DOMException && error.name === 'AbortError')
+                    return;
+            }
+        }
         try {
+            if (!navigator.clipboard?.writeText)
+                throw new Error('Clipboard unavailable');
             await navigator.clipboard.writeText(link);
-            this.notify('Enlace copiado. Compartilo sólo con personas de confianza.', 'success');
+            this.notify('Enlace copiado.', 'success');
         }
         catch {
             this.set({ lookup: link });
-            this.notify('Tu navegador no permite copiar automáticamente. Seleccioná el enlace del campo de abajo.');
+            window.requestAnimationFrame(() => {
+                const input = document.getElementById('copy-link');
+                input?.focus();
+                input?.select();
+            });
+            this.notify('Enlace listo para copiar.', 'success');
         }
+    }
+
+    async refreshTracking() {
+        if (this.state.refreshing)
+            return;
+        this.set({ refreshing: true, flash: null });
+        await this.loadTracking(true);
+        if (!this.state.trackingError)
+            this.notify('Estado actualizado.', 'success');
+        this.set({ refreshing: false });
     }
 
     fillDemo() {
         const p = (0, domain_js_1.blankPayload)();
         p.kind = this.state.draft.kind;
-        p.origin = 'Origen de demostración';
-        p.destination = 'Destino de demostración';
-        p.details.description = p.kind === 'special' ? 'Traslado de equipos para un evento. Datos de prueba.' : 'Una heladera y cuatro cajas medianas. Datos de prueba.';
+        p.origin = 'Centro';
+        p.destination = 'Barrio Norte';
+        p.details.description = p.kind === 'special' ? 'Traslado de equipos para un evento.' : '4 cajas y un mueble';
         p.details.quantity = 5;
         p.details.passengers = 3;
         p.details.luggage = 'Valijas';
@@ -2104,17 +2212,9 @@ class App extends preact_mjs_1.Component {
             (0, preact_mjs_1.h)("div", { class: "container header-inner" },
                 (0, preact_mjs_1.h)(ui_js_1.Brand, { name: this.state.runtime?.business.name }),
                 (0, preact_mjs_1.h)("nav", { "aria-label": "Navegaci\u00F3n principal" },
-                    (0, preact_mjs_1.h)("button", { class: "nav-link desktop-link", onClick: () => this.scrollHome('servicios') }, "Servicios"),
-                    (0, preact_mjs_1.h)("button", { class: "nav-link desktop-link", onClick: () => this.scrollHome('como-funciona') }, "C\u00F3mo funciona"),
                     (0, preact_mjs_1.h)("a", { class: "nav-link tracking-nav", href: "#/seguimiento", "aria-label": "Mi solicitud" },
                         (0, preact_mjs_1.h)(ui_js_1.Icon, { name: "search", size: 18 }),
                         (0, preact_mjs_1.h)("span", null, "Mi solicitud")
-                    ),
-                    this.state.path !== '/solicitar' && (
-                        (0, preact_mjs_1.h)("button", { class: "button button-small button-dark header-request", onClick: () => this.start() },
-                            "Solicitar",
-                            (0, preact_mjs_1.h)("span", { class: "desktop-cta" }, " servicio")
-                        )
                     )
                 )
             )
@@ -2144,8 +2244,8 @@ class App extends preact_mjs_1.Component {
             this.set({ quickErrors: errors }, () => document.querySelector('.quick-card input[aria-invalid="true"]')?.focus());
             return;
         }
-        this.set({ step: 2, errors: {}, quickErrors: {} });
-        this.stash(this.state.draft, 2);
+        this.set({ step: 1, errors: {}, quickErrors: {} });
+        this.stash(this.state.draft, 1);
         this.go('/solicitar');
     }
 
@@ -2228,10 +2328,7 @@ class App extends preact_mjs_1.Component {
                     (0, preact_mjs_1.h)("small", null, "ARS")
                 ),
                 (0, preact_mjs_1.h)("p", { id: "accept-description" },
-                    "Est\u00E1s de acuerdo con este importe. Las condiciones del servicio todav\u00EDa deben definirse con el prestador. No se realiza ning\u00FAn cobro."
-                ),
-                (0, preact_mjs_1.h)("p", { class: "tiny muted" },
-                    "Prueba de demostración: no se contrata un traslado real."
+                    "Aceptás este importe. El dueño todavía debe confirmar el servicio."
                 ),
                 (0, preact_mjs_1.h)("div", { class: "form-actions" },
                     (0, preact_mjs_1.h)("button", {
@@ -2716,6 +2813,97 @@ class App extends preact_mjs_1.Component {
         );
     }
 
+    simpleWizard() {
+        const { step, draft: p, errors: e, busy } = this.state;
+        const cargoChoices = ['Cajas', 'Muebles', 'Electrodomésticos', 'Mercadería'];
+        const cargoChoice = cargoChoices.includes(p.details.description) ? p.details.description : (p.details.description ? 'Otro' : '');
+        const chooseCargo = (description) => {
+            if (description === 'Otro') {
+                this.detailDraft({ description: '' });
+                this.set({ showMoreDetails: true });
+            }
+            else
+                this.detailDraft({ description });
+        };
+        const titles = ['¿Qué necesitás?', '¿Cuándo y qué llevás?', '¿Cómo te contactamos?'];
+        const summaryWhen = p.when === 'scheduled' ? (0, domain_js_1.dateText)(p.scheduled_at) : 'Lo antes posible';
+
+        return h('main', { id: 'main', class: 'container wizard-main simple-wizard', 'data-step': step },
+            h('div', { class: 'wizard-top' },
+                h('a', { href: '#/', class: 'text-link' }, h(Icon, { name: 'back', size: 17 }), 'Volver'),
+                h('span', { class: 'muted' }, `Paso ${step + 1} de 3`)),
+            h('ol', { class: 'stepper simple-stepper', 'aria-label': 'Pasos de la solicitud' },
+                steps.map((name, index) => h('li', { class: index === step ? 'current' : index < step ? 'done' : '', key: name, 'aria-current': index === step ? 'step' : undefined },
+                    h('button', { type: 'button', disabled: index >= step || busy, onClick: () => { this.set({ step: index, errors: {} }); this.stash(this.state.draft, index); this.focusHeading(); }, 'aria-label': index < step ? `Volver al paso ${index + 1}: ${name}` : `Paso ${index + 1}: ${name}` },
+                        h('span', null, index < step ? h(Icon, { name: 'check', size: 14 }) : index + 1), h('b', null, name))))),
+            h('section', { class: 'wizard-form simple-wizard-form', 'data-step': step },
+                h('h1', { tabIndex: -1 }, titles[step]),
+                this.state.flash && h(ui_js_1.Notice, { type: this.state.flash.type }, this.state.flash.text),
+                h('form', { onSubmit: event => this.stepNext(event), noValidate: true, 'aria-busy': busy },
+                    step === 0 && h('div', { class: 'form-fields' },
+                        h('div', { class: 'service-choices simple-service-choices' },
+                            [['freight', 'Flete / carga'], ['passengers', 'Pasajeros'], ['special', 'Otro traslado']].map(([kind, label]) => h('button', {
+                                type: 'button', class: `service-choice${p.kind === kind ? ' selected' : ''}`, 'aria-pressed': p.kind === kind,
+                                onClick: () => this.draft({ kind }), key: kind
+                            }, h(Icon, { name: serviceIcon[kind], size: 24 }), h('strong', null, label)))),
+                        h(ui_js_1.Field, { id: 'origin', label: 'Origen', error: e.origin },
+                            h('input', { id: 'origin', name: 'origin', autoComplete: 'street-address', enterKeyHint: 'next', maxLength: 240, value: p.origin, placeholder: '¿Desde dónde?', onInput: event => this.draft({ origin: value(event) }), 'aria-invalid': Boolean(e.origin) })),
+                        h(ui_js_1.Field, { id: 'destination', label: 'Destino', error: e.destination },
+                            h('input', { id: 'destination', name: 'destination', enterKeyHint: 'go', maxLength: 240, value: p.destination, placeholder: '¿Hasta dónde?', onInput: event => this.draft({ destination: value(event) }), 'aria-invalid': Boolean(e.destination) }))),
+                    step === 1 && h('div', { class: 'form-fields' },
+                        h('div', { class: 'segmented large-segments', 'aria-label': 'Cuándo necesitás el servicio' },
+                            h('button', { type: 'button', 'aria-pressed': p.when === 'asap', class: p.when === 'asap' ? 'selected' : '', onClick: () => this.draft({ when: 'asap', scheduled_at: null }) }, 'Lo antes posible'),
+                            h('button', { type: 'button', 'aria-pressed': p.when === 'scheduled', class: p.when === 'scheduled' ? 'selected' : '', onClick: () => this.draft({ when: 'scheduled' }) }, 'Programar')),
+                        p.when === 'scheduled' && h(ui_js_1.Field, { id: 'scheduled_at', label: 'Fecha y hora', error: e.scheduled_at },
+                            h('input', { id: 'scheduled_at', type: 'datetime-local', value: toArgInput(p.scheduled_at), onInput: event => this.draft({ scheduled_at: fromArgInput(value(event)) }) })),
+                        p.kind === 'freight' && h('div', { class: 'request-details' },
+                            h('h2', null, '¿Qué llevás?'),
+                            h('div', { class: 'choice-chips cargo-chips' }, [...cargoChoices, 'Otro'].map(item => h('button', { type: 'button', class: cargoChoice === item ? 'selected' : '', 'aria-pressed': cargoChoice === item, onClick: () => chooseCargo(item), key: item }, item))),
+                            (cargoChoice === 'Otro' || (!cargoChoice && e.description)) && h(ui_js_1.Field, { id: 'description', label: 'Contanos qué llevás', error: e.description },
+                                h('textarea', { id: 'description', rows: 2, maxLength: 1500, value: p.details.description, onInput: event => this.detailDraft({ description: value(event) }), placeholder: 'Por ejemplo: 4 cajas y un mueble' })),
+                            h(ui_js_1.Field, { id: 'quantity', label: 'Cantidad aproximada (opcional)', error: e.quantity },
+                                h('input', { id: 'quantity', type: 'number', inputMode: 'numeric', min: 1, max: 500, value: p.details.quantity, onInput: event => this.detailDraft({ quantity: Math.max(1, Number(value(event)) || 1) }) })),
+                            h('label', { class: 'check-label large-check' }, h('input', { type: 'checkbox', checked: p.details.needs_help, onChange: event => this.detailDraft({ needs_help: checked(event) }) }), h('span', null, 'Necesito ayuda para cargar')),
+                            h('button', { class: 'text-link disclosure-button', type: 'button', 'aria-expanded': this.state.showMoreDetails, onClick: () => this.set({ showMoreDetails: !this.state.showMoreDetails }) }, this.state.showMoreDetails ? 'Ocultar detalles' : 'Agregar más detalles'),
+                            this.state.showMoreDetails && h('div', { class: 'optional-details' },
+                                h(ui_js_1.Field, { id: 'cargo_size', label: 'Tamaño aproximado', error: e.cargo_size },
+                                    h('select', { id: 'cargo_size', value: p.details.cargo_size, onChange: event => this.detailDraft({ cargo_size: value(event) }) }, ['Pequeña', 'Mediana', 'Grande', 'No sé'].map(item => h('option', { value: item, key: item }, item)))),
+                                p.details.needs_help && h(ui_js_1.Field, { id: 'helpers', label: 'Personas para ayudar', error: e.helpers },
+                                    h('input', { id: 'helpers', type: 'number', inputMode: 'numeric', min: 1, max: 10, value: p.details.helpers, onInput: event => this.detailDraft({ helpers: Math.max(1, Number(value(event)) || 1) }) })),
+                                h(ui_js_1.Field, { id: 'notes', label: 'Observaciones (opcional)', error: e.notes },
+                                    h('textarea', { id: 'notes', rows: 3, maxLength: 1500, value: p.details.notes, onInput: event => this.detailDraft({ notes: value(event) }), placeholder: 'Medidas, acceso u otro dato útil' })),
+                                h('div', { class: 'photo-section' }, h('strong', null, 'Fotos (opcional)'),
+                                    h('div', { class: 'photo-grid' },
+                                        this.state.photos.map((photo, index) => h('div', { class: 'photo-preview', key: photo.id }, h('img', { src: photo.url, alt: `Foto ${index + 1}` }), h('button', { type: 'button', 'aria-label': `Quitar foto ${index + 1}`, onClick: () => this.removePhoto(photo.id) }, h(Icon, { name: 'close', size: 16 })))),
+                                        this.state.photos.length < 3 && h('label', { class: 'photo-add' }, h(Icon, { name: 'image', size: 25 }), h('span', null, 'Agregar fotos'), h('input', { type: 'file', accept: 'image/jpeg,image/png,image/webp', multiple: true, disabled: busy, onChange: event => void this.addPhotos(event), 'aria-label': 'Agregar fotos' }))))))),
+                        p.kind === 'passengers' && h('div', { class: 'request-details' },
+                            h('h2', null, 'Pasajeros'),
+                            h('div', { class: 'choice-chips four-chips' }, [1, 2, 3, 4].map(number => h('button', { type: 'button', class: p.details.passengers === number ? 'selected' : '', 'aria-pressed': p.details.passengers === number, onClick: () => this.detailDraft({ passengers: number }), key: number }, number === 4 ? '4+' : String(number)))),
+                            h('h2', null, 'Equipaje'),
+                            h('div', { class: 'choice-chips' }, ['Sin equipaje', 'Poco', 'Mucho'].map(item => h('button', { type: 'button', class: p.details.luggage === item ? 'selected' : '', 'aria-pressed': p.details.luggage === item, onClick: () => this.detailDraft({ luggage: item }), key: item }, item))),
+                            h('div', { class: 'segmented large-segments' },
+                                h('button', { type: 'button', class: !p.details.round_trip ? 'selected' : '', 'aria-pressed': !p.details.round_trip, onClick: () => this.detailDraft({ round_trip: false, return_at: null }) }, 'Ida'),
+                                h('button', { type: 'button', class: p.details.round_trip ? 'selected' : '', 'aria-pressed': p.details.round_trip, onClick: () => this.detailDraft({ round_trip: true }) }, 'Ida y vuelta')),
+                            p.details.round_trip && h(ui_js_1.Field, { id: 'return_at', label: 'Regreso', error: e.return_at }, h('input', { id: 'return_at', type: 'datetime-local', value: toArgInput(p.details.return_at), onInput: event => this.detailDraft({ return_at: fromArgInput(value(event)) }) }))),
+                        p.kind === 'special' && h(ui_js_1.Field, { id: 'description', label: 'Contanos qué necesitás', error: e.description },
+                            h('textarea', { id: 'description', rows: 4, maxLength: 1500, value: p.details.description, onInput: event => this.detailDraft({ description: value(event) }), placeholder: 'Escribí lo más importante' }))),
+                    step === 2 && h('div', { class: 'form-fields contact-step' },
+                        h(ui_js_1.Field, { id: 'name', label: 'Nombre', error: e.name }, h('input', { id: 'name', autoComplete: 'name', value: p.contact.name, onInput: event => this.contactDraft({ name: value(event) }), 'aria-invalid': Boolean(e.name) })),
+                        h(ui_js_1.Field, { id: 'phone', label: 'Teléfono / WhatsApp', error: e.phone }, h('input', { id: 'phone', type: 'tel', inputMode: 'tel', autoComplete: 'tel', value: p.contact.phone, placeholder: '+54 9…', onInput: event => this.contactDraft({ phone: value(event), whatsapp: value(event) }), 'aria-invalid': Boolean(e.phone) })),
+                        h('button', { type: 'button', class: 'text-link disclosure-button', 'aria-expanded': this.state.showEmail, onClick: () => this.set({ showEmail: !this.state.showEmail }) }, this.state.showEmail ? 'Quitar email' : 'Agregar email'),
+                        this.state.showEmail && h(ui_js_1.Field, { id: 'email', label: 'Email (opcional)', error: e.email }, h('input', { id: 'email', type: 'email', autoComplete: 'email', value: p.contact.email, onInput: event => this.contactDraft({ email: value(event) }) })),
+                        h('label', { class: 'check-label consent-simple' }, h('input', { id: 'consent', type: 'checkbox', checked: p.contact.consent, onChange: event => this.contactDraft({ consent: checked(event) }) }), h('span', null, 'Acepto que me contacten por esta solicitud.')),
+                        e.consent && h('p', { class: 'error-text', role: 'alert' }, e.consent),
+                        h('section', { class: 'short-summary', 'aria-label': 'Resumen de la solicitud' },
+                            h('strong', null, domain_js_1.serviceLabels[p.kind]),
+                            h('span', null, `${p.origin} → ${p.destination}`),
+                            h('span', null, summaryWhen),
+                            h('span', null, p.contact.phone || 'Teléfono pendiente'))),
+                    h('div', { class: 'wizard-actions' },
+                        step > 0 && h('button', { class: 'button button-light', type: 'button', disabled: busy, onClick: () => this.stepBack() }, 'Volver'),
+                        h('button', { class: 'button button-primary', type: 'button', disabled: busy, onClick: event => this.stepNext(event) }, busy ? 'Enviando…' : step === 2 ? 'Enviar solicitud' : 'Continuar', !busy && h(Icon, { name: 'arrow', size: 19 })))));
+    }
+
     trackingPage() {
         return (0, preact_mjs_1.h)(tracking_js_1.TrackingView, {
             tracking: this.state.tracking,
@@ -2727,7 +2915,8 @@ class App extends preact_mjs_1.Component {
             lookup: this.state.lookup,
             pendingPhotos: this.state.photos.filter(p => !p.uploaded).length,
             onCopy: () => void this.copyLink(),
-            onRefresh: () => void this.loadTracking(),
+            onRefresh: () => void this.refreshTracking(),
+            refreshing: this.state.refreshing,
             onManage: () => void this.previewRequest(),
             onRetryPhotos: () => void this.retryPhotos(),
             onAccept: (btn) => {
@@ -3093,6 +3282,23 @@ class App extends preact_mjs_1.Component {
         );
     }
 
+    simpleOverview() {
+        const requests = this.state.dashboard?.requests ?? [];
+        const newRequests = requests.filter(request => ['new', 'reviewing'].includes(request.status) && request.quote_cents === null);
+        const accepted = requests.filter(request => request.status === 'quoted' && request.quote_accepted_at);
+        const active = requests.filter(request => ['confirmed', 'en_route', 'in_service'].includes(request.status));
+        const priority = [...newRequests, ...accepted, ...active].filter((request, index, list) => list.findIndex(item => item.id === request.id) === index);
+        return h('div', { class: 'simple-overview' },
+            h('div', { class: 'page-heading' }, h('div', null, h('span', { class: 'eyebrow' }, 'HOY'), h('h1', { tabIndex: -1 }, '¿Qué tenés que atender?'))),
+            h('div', { class: 'simple-owner-metrics' },
+                [['Nuevas solicitudes', newRequests.length], ['Cotizaciones aceptadas', accepted.length], ['Servicios en curso', active.length]].map(([label, count]) => h('div', { class: 'metric', key: label }, h('strong', null, count), h('span', null, label)))),
+            h('section', { class: 'panel simple-owner-list' },
+                h('h2', null, 'Solicitudes'),
+                priority.length ? priority.map(request => h('article', { class: 'simple-owner-row', key: request.id },
+                    h('div', null, h('strong', null, request.payload.contact.name), h('span', null, `${request.payload.origin} → ${request.payload.destination}`), h(ui_js_1.Badge, { status: request.status })),
+                    h('button', { class: 'button button-light', onClick: () => this.go(`/admin/solicitudes/${request.id}`) }, 'Ver'))) : h(ui_js_1.Empty, { icon: 'check', title: 'Todo al día', text: 'No hay solicitudes pendientes.' })));
+    }
+
     overview() {
         const requests = this.state.dashboard?.requests ?? [];
         const today = (0, domain_js_1.argentinaDay)(new Date().toISOString());
@@ -3211,6 +3417,51 @@ class App extends preact_mjs_1.Component {
                 this.requestRows(rows)
             )
         );
+    }
+
+    simpleRequestDetail() {
+        const detail = this.state.detail;
+        if (!detail)
+            return h(ui_js_1.Loading, { label: 'Abriendo la solicitud…' });
+        const r = detail.request;
+        const p = r.payload;
+        const terminal = ['completed', 'cancelled'].includes(r.status);
+        const canQuote = ['new', 'reviewing', 'quoted'].includes(r.status);
+        const vehicles = this.state.dashboard?.vehicles ?? [];
+        const need = p.kind === 'passengers' ? `${p.details.passengers} pasajero(s) · ${p.details.luggage}` : p.details.description;
+        return h('div', { class: 'simple-owner-detail' },
+            h('a', { class: 'text-link back-link', href: '#/admin' }, h(Icon, { name: 'back', size: 17 }), 'Volver'),
+            h('div', { class: 'page-heading detail-heading' }, h('div', null, h('h1', { tabIndex: -1 }, p.contact.name), h('p', null, r.code)), h(ui_js_1.Badge, { status: r.status })),
+            r.quote_accepted_at && h('section', { class: 'operator-accepted' }, h(Icon, { name: 'check', size: 22 }), h('strong', null, 'El cliente aceptó la cotización.')),
+            h('section', { class: 'panel owner-request-summary' },
+                h('dl', null,
+                    h('div', null, h('dt', null, 'Cliente'), h('dd', null, p.contact.name, ' · ', p.contact.phone)),
+                    h('div', null, h('dt', null, 'Recorrido'), h('dd', null, `${p.origin} → ${p.destination}`)),
+                    h('div', null, h('dt', null, 'Cuándo'), h('dd', null, (0, domain_js_1.dateText)(p.scheduled_at))),
+                    h('div', null, h('dt', null, 'Qué necesita'), h('dd', null, need))),
+                api_js_1.IS_PREVIEW && h('button', { class: 'text-link', onClick: () => void this.previewTracking(r.id) }, 'Ver seguimiento del cliente')),
+            h('section', { class: 'panel quote-panel simple-quote-panel' },
+                h('span', { class: 'eyebrow' }, 'COTIZAR'),
+                r.quote_cents !== null && h('div', { class: 'quote-total' }, (0, domain_js_1.money)(r.quote_cents)),
+                canQuote ? h('form', { onSubmit: event => void this.saveQuote(event) },
+                    h(ui_js_1.Field, { id: 'quote-amount', label: 'Importe' }, h('div', { class: 'money-input large-money-input' }, h('span', null, '$'), h('input', { id: 'quote-amount', inputMode: 'decimal', value: this.state.quote, onInput: event => this.set({ quote: value(event) }), placeholder: '0' }))),
+                    h('button', { class: 'button button-primary full', type: 'submit', disabled: this.state.busy }, this.state.busy ? 'Enviando…' : 'Enviar cotización')) : h('p', null, 'El importe ya no se puede cambiar.')),
+            h('section', { class: 'panel simple-owner-control' },
+                h('h2', null, 'Asignar vehículo'),
+                h(ui_js_1.Field, { id: 'assign-vehicle', label: 'Vehículo' }, h('select', { id: 'assign-vehicle', value: r.vehicle_id ?? '', disabled: terminal || this.state.busy, onChange: event => void this.mutate({ action: 'assign', vehicle_id: value(event) || null }) }, h('option', { value: '' }, 'Sin asignar'), vehicles.filter(vehicle => vehicle.active || vehicle.id === r.vehicle_id).map(vehicle => h('option', { value: vehicle.id, key: vehicle.id }, vehicle.name))))),
+            h('section', { class: 'panel simple-owner-control' },
+                h('h2', null, 'Cambiar estado'),
+                terminal ? h('p', null, domain_js_1.labels[r.status]) : h('div', { class: 'state-actions' }, domain_js_1.transitions[r.status].filter(status => status !== 'cancelled').map(status => h('button', {
+                    class: 'button button-light full', disabled: this.state.busy, key: status,
+                    onClick: () => status === 'quoted' ? document.getElementById('quote-amount')?.focus() : void this.mutate({ action: 'status', status })
+                }, { reviewing: 'Revisar', quoted: 'Cargar cotización', confirmed: 'Confirmar servicio', en_route: 'En camino', in_service: 'Iniciar servicio', completed: 'Finalizar servicio' }[status])))),
+            h('details', { class: 'panel internal-notes-disclosure' },
+                h('summary', null, 'Notas internas'),
+                h('p', { class: 'tiny muted' }, 'Privadas: el cliente no puede verlas.'),
+                h('form', { onSubmit: event => { event.preventDefault(); void this.mutate({ action: 'note', text: this.state.note }); } },
+                    h(ui_js_1.Field, { id: 'internal-note', label: 'Nueva nota' }, h('textarea', { id: 'internal-note', rows: 3, maxLength: 2000, value: this.state.note, onInput: event => this.set({ note: value(event) }) })),
+                    h('button', { class: 'button button-light', type: 'submit', disabled: this.state.busy }, 'Guardar nota')),
+                h('div', { class: 'notes-list' }, detail.notes.map(note => h('article', { key: note.id }, h('p', null, note.text), h('small', null, (0, domain_js_1.dateText)(note.created_at)))))));
     }
 
     requestDetail() {
@@ -3668,7 +3919,7 @@ class App extends preact_mjs_1.Component {
                     (0, preact_mjs_1.h)("div", { class: "panel-heading" },
                         (0, preact_mjs_1.h)("h2", null, editor.id ? 'Editar vehículo' : 'Nuevo vehículo'),
                         (0, preact_mjs_1.h)("button", {
-                            class: "icon-button",
+                            class: "button button-light button-small topbar-action",
                             "aria-label": "Cerrar edici\u00F3n de veh\u00EDculo",
                             onClick: () => {
                                 const target = this.restoreFocus;
@@ -3915,7 +4166,7 @@ class App extends preact_mjs_1.Component {
         if (!this.state.dashboard)
             page = (0, preact_mjs_1.h)(ui_js_1.Loading, { label: "Cargando el panel…" });
         else if (/^\/admin\/solicitudes\//.test(path))
-            page = this.requestDetail();
+            page = this.simpleRequestDetail();
         else if (path === '/admin/solicitudes')
             page = this.requestsPage();
         else if (path === '/admin/vehiculos')
@@ -3925,7 +4176,7 @@ class App extends preact_mjs_1.Component {
         else if (path === '/admin/ajustes')
             page = this.settingsPage();
         else
-            page = this.overview();
+            page = this.simpleOverview();
 
         return (0, preact_mjs_1.h)("div", { class: "admin-shell" },
             (0, preact_mjs_1.h)("aside", { class: "admin-sidebar" },
@@ -3981,7 +4232,7 @@ class App extends preact_mjs_1.Component {
                                 if (this.state.detail)
                                     void this.loadDetail(this.state.detail.request.id, true);
                             }
-                        }, (0, preact_mjs_1.h)(ui_js_1.Icon, { name: "refresh", size: 18 })),
+                        }, (0, preact_mjs_1.h)(ui_js_1.Icon, { name: "refresh", size: 18 }), (0, preact_mjs_1.h)("span", null, "Actualizar")),
                         (0, preact_mjs_1.h)("span", { class: "topbar-user" },
                             (0, preact_mjs_1.h)("span", { class: "person-avatar small" }, "OP"),
                             (0, preact_mjs_1.h)("span", null, "Administración",
@@ -3989,10 +4240,10 @@ class App extends preact_mjs_1.Component {
                             )
                         ),
                         (0, preact_mjs_1.h)("button", {
-                            class: "icon-button mobile-logout",
+                            class: "button button-light button-small mobile-logout topbar-action",
                             "aria-label": api_js_1.IS_PREVIEW ? "Volver a vista cliente" : "Cerrar sesión",
                             onClick: () => void this.logout()
-                        }, (0, preact_mjs_1.h)(ui_js_1.Icon, { name: "logout", size: 17 }))
+                        }, (0, preact_mjs_1.h)(ui_js_1.Icon, { name: "logout", size: 17 }), (0, preact_mjs_1.h)("span", null, "Salir"))
                     )
                 ),
                 (0, preact_mjs_1.h)("main", { id: "main", class: "admin-main" },
@@ -4091,7 +4342,7 @@ class App extends preact_mjs_1.Component {
         const admin = this.state.path.startsWith('/admin');
         const banner = (0, preact_mjs_1.h)("div", { class: `mode-banner${admin ? ' admin-mode-banner' : ''}` },
             (0, preact_mjs_1.h)("span", { class: "status-dot" }),
-            (0, preact_mjs_1.h)("span", null, api_js_1.IS_PREVIEW ? (this.state.runtime.temporary ? 'Demo comercial temporal · datos ficticios; no se coordinan viajes reales' : 'Demo comercial · datos ficticios; no se coordinan viajes reales') : 'DEMO COMERCIAL · usá datos de prueba'),
+            (0, preact_mjs_1.h)("span", null, api_js_1.IS_PREVIEW ? 'Demo comercial · datos ficticios' : 'Demo comercial'),
             api_js_1.IS_PREVIEW && (
                 (0, preact_mjs_1.h)("button", {
                     class: "demo-toggle",
@@ -4122,7 +4373,7 @@ class App extends preact_mjs_1.Component {
 
         let content;
         if (this.state.path === '/solicitar')
-            content = this.wizard();
+            content = this.simpleWizard();
         else if (this.state.path === '/seguimiento')
             content = this.lookupPage();
         else if (this.state.path.startsWith('/seguimiento/') || this.state.path.startsWith('/recibida/'))
@@ -4158,25 +4409,6 @@ class App extends preact_mjs_1.Component {
             ),
             content,
             this.footer(),
-            this.state.path === '/' && (
-                (0, preact_mjs_1.h)("div", {
-                    class: `mobile-request-bar${this.state.stickyCta ? ' visible' : ''}`,
-                    "aria-hidden": !this.state.stickyCta
-                },
-                    (0, preact_mjs_1.h)("div", null,
-                        (0, preact_mjs_1.h)("strong", null, "¿Listo para trasladar?"),
-                        (0, preact_mjs_1.h)("span", null, "Cotización antes de salir")
-                    ),
-                    (0, preact_mjs_1.h)("button", {
-                        tabIndex: this.state.stickyCta ? 0 : -1,
-                        class: "button button-primary",
-                        onClick: () => this.start()
-                    },
-                        "Solicitar servicio",
-                        (0, preact_mjs_1.h)(ui_js_1.Icon, { name: "arrow", size: 18 })
-                    )
-                )
-            ),
             this.acceptanceDialog()
         );
     }

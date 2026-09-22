@@ -74,7 +74,7 @@ test('Flete: portada, recorrido rápido, FAQ, controles y CTA móvil', async ({ 
   await page.getByRole('button', { name: 'Mostrar controles de demostración' }).click()
   await expect(page.locator('#demo-controls')).toHaveCount(0)
   if ((page.viewportSize()?.width ?? 1440) < 800) {
-    await page.locator('#servicios').scrollIntoViewIfNeeded()
+    await page.locator('#como-funciona').evaluate(el => el.scrollIntoView({ block: 'start', behavior: 'instant' }))
     await expect(page.locator('.mobile-request-bar')).toHaveClass('mobile-request-bar visible')
     await page.locator('#quick-origin').focus()
     await expect(page.locator('.mobile-request-bar')).not.toHaveClass('mobile-request-bar visible')

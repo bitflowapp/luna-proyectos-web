@@ -1,20 +1,66 @@
 {
-  "version": "0.3.1",
+  "version": "0.4.0",
   "mode": "browser-demo",
   "projectStatus": "DEMO_READY",
   "scope": "COMMERCIAL_DEMO",
   "productionReady": false,
   "storage": "IndexedDB: same-browser only",
-  "files": [
+  "sourceFiles": [
     {
-      "file": "app-5c9853b2975f.js",
-      "sha256": "5c9853b2975f27dc3e7fc0e86f3d31c6f41f449ff37aae1991bf35f1d2a4b75c",
-      "bytes": 269722
+      "file": "scripts/flete-src/vendor/preact.mjs",
+      "sha256": "d31094cf21665d8b139228289b34adf625e0a79c4aad2520661c89293d145744"
     },
     {
-      "file": "styles-8cf9a8e2592b.css",
-      "sha256": "8cf9a8e2592bc759c70a58480fe41edd3fe5754189f4500011c543acb314bf5d",
-      "bytes": 99001
+      "file": "scripts/flete-src/business-config.js",
+      "sha256": "419d7ba678226538f25ee821affdf278b15c424d8c158de391fa9a9bb5defc60"
+    },
+    {
+      "file": "scripts/flete-src/domain.js",
+      "sha256": "5fda8278e1f192ccbc69846bc391026b8e3f4481776eca27c4d5edb6cbcb0454"
+    },
+    {
+      "file": "scripts/flete-src/build-mode.js",
+      "sha256": "01331f33d6d098d06b78244f73f7cff1e6096bb5412e0094997d14fbc3818583"
+    },
+    {
+      "file": "scripts/flete-src/preview-store.js",
+      "sha256": "d037712a7728ef4b990113cdfeeea3b03f0e8310640ad819a30a81b8be0cc93c"
+    },
+    {
+      "file": "scripts/flete-src/api.js",
+      "sha256": "ece2e179e5b405ead513d6ca4f2c94cd59f0396dace76bd7529430fa0fd3ffac"
+    },
+    {
+      "file": "scripts/flete-src/ui.js",
+      "sha256": "5e894c65bad3d67182832552b44b85f71129d03401ef1161da008aa460941c20"
+    },
+    {
+      "file": "scripts/flete-src/commercial.js",
+      "sha256": "004614807f94be0572d18761e6cbf453c9afbe35c294c38a529b03af98070bf3"
+    },
+    {
+      "file": "scripts/flete-src/tracking.js",
+      "sha256": "ec1fa2d0e6aa6f3cda78498cbad4f6173a5e1edf377d947730ad0922e282c98f"
+    },
+    {
+      "file": "scripts/flete-src/app.js",
+      "sha256": "aeb61628d2e5476622bce7193ce9239b922c1419840cc968f52951cc335d6fcf"
+    },
+    {
+      "file": "scripts/flete-src/styles.css",
+      "sha256": "60d651e0b67ef5da9ed4948abf3fbf047b16c23d4bf3cbfaec5ba2b50c9debfc"
+    }
+  ],
+  "files": [
+    {
+      "file": "app-e188d48427ab.js",
+      "sha256": "e188d48427ab7411f2941345fe7221465dc664fca2968eef303460e598a7d608",
+      "bytes": 257978
+    },
+    {
+      "file": "styles-60d651e0b67e.css",
+      "sha256": "60d651e0b67ef5da9ed4948abf3fbf047b16c23d4bf3cbfaec5ba2b50c9debfc",
+      "bytes": 69547
     },
     {
       "file": "boot-check.js",

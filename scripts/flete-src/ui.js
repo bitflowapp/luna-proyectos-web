@@ -42,7 +42,8 @@ function Icon({ name, size = 20 }) {
     return (0, preact_mjs_1.h)("svg", { width: size, height: size, viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", "stroke-width": "1.7", "stroke-linecap": "round", "stroke-linejoin": "round", "aria-hidden": "true" }, (0, preact_mjs_1.h)("path", { d: paths[name] }));
 }
 function Brand({ name = 'Flete', admin = false }) {
-    return (0, preact_mjs_1.h)("a", { class: "brand", href: admin ? '#/admin' : '#/', "aria-label": `${name}, inicio` }, (0, preact_mjs_1.h)("span", { class: "brand-mark" }, (0, preact_mjs_1.h)(Icon, { name: "route", size: 25 })), (0, preact_mjs_1.h)("span", { class: "brand-word" }, name, (0, preact_mjs_1.h)("span", { class: "brand-caption" }, admin ? 'PANEL DE OPERACIONES' : 'TRANSPORTE A TU MEDIDA')));
+    const displayName = name === 'Flete · Demo' ? 'Flete' : name;
+    return (0, preact_mjs_1.h)("a", { class: "brand", href: admin ? '#/admin' : '#/', "aria-label": `${name}, inicio` }, (0, preact_mjs_1.h)("span", { class: "brand-mark" }, (0, preact_mjs_1.h)(Icon, { name: "route", size: 25 })), (0, preact_mjs_1.h)("span", { class: "brand-word" }, displayName, (0, preact_mjs_1.h)("span", { class: "brand-caption" }, admin ? 'PANEL DE OPERACIONES' : 'TRANSPORTE A TU MEDIDA')));
 }
 function Badge({ status }) {
     return (0, preact_mjs_1.h)("span", { class: `badge status-${status}` }, (0, preact_mjs_1.h)("span", { class: "status-dot" }), domain_js_1.labels[status]);

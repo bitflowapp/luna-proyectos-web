@@ -52,15 +52,15 @@ function seed() {
         { name: 'Camioneta utilitaria · DEMO', plate: 'DEMO-03', type: 'pickup', capacity: 'Caja abierta · dato demo', seats: 4 },
     ].map(v => ({ ...v, type: v.type, id: (0, domain_js_1.randomId)(), active: true, notes: 'Vehículo ficticio para recorrer la demo.', is_demo: true, version: 1 }));
     const samples = [
-        ['freight', 'new', 'Origen de ejemplo 01', 'Destino de ejemplo 01', 'Una heladera y cuatro cajas medianas', null, 1],
-        ['passengers', 'quoted', 'Origen de ejemplo 02', 'Destino de ejemplo 02', '', 9500000, 4],
-        ['freight', 'reviewing', 'Origen de ejemplo 03', 'Destino de ejemplo 03', 'Dos muebles de madera', null, 1],
-        ['passengers', 'confirmed', 'Origen de ejemplo 04', 'Destino de ejemplo 04', '', 18000000, 3],
-        ['special', 'new', 'Origen de ejemplo 05', 'Destino de ejemplo 05', 'Equipamiento para un evento', null, 1],
-        ['freight', 'in_service', 'Origen de ejemplo 06', 'Destino de ejemplo 06', 'Artículos de ferretería', 4200000, 1],
-        ['freight', 'completed', 'Origen de ejemplo 07', 'Destino de ejemplo 07', 'Mesa y seis sillas', 3500000, 1],
-        ['passengers', 'completed', 'Origen de ejemplo 08', 'Destino de ejemplo 08', '', 2800000, 2],
-        ['special', 'cancelled', 'Origen de ejemplo 09', 'Destino de ejemplo 09', 'Traslado de equipos', 6000000, 1],
+        ['freight', 'new', 'Domicilio de retiro', 'Domicilio de entrega', 'Una heladera y cuatro cajas medianas', null, 1],
+        ['passengers', 'quoted', 'Punto de encuentro', 'Alojamiento de destino', '', 9500000, 4],
+        ['freight', 'reviewing', 'Local de muebles', 'Domicilio del cliente', 'Dos muebles de madera', null, 1],
+        ['passengers', 'confirmed', 'Alojamiento de salida', 'Terminal de destino', '', 18000000, 3],
+        ['special', 'new', 'Depósito de equipos', 'Salón del evento', 'Equipamiento para un evento', null, 1],
+        ['freight', 'in_service', 'Ferretería de origen', 'Obra de destino', 'Artículos de ferretería', 4200000, 1],
+        ['freight', 'completed', 'Domicilio de retiro', 'Nueva vivienda', 'Mesa y seis sillas', 3500000, 1],
+        ['passengers', 'completed', 'Terminal de salida', 'Punto de encuentro', '', 2800000, 2],
+        ['special', 'cancelled', 'Depósito de origen', 'Local de entrega', 'Traslado de equipos', 6000000, 1],
     ];
     samples.forEach(([kind, status, origin, destination, description, price, passengers], i) => {
         const p = (0, domain_js_1.blankPayload)();
@@ -69,7 +69,7 @@ function seed() {
         p.destination = destination;
         p.details.description = description;
         p.details.passengers = passengers;
-        p.contact = { name: `Cliente de ejemplo ${String(i + 1).padStart(2, '0')}`, phone: `+5400000000${10 + i}`, whatsapp: '', email: 'demo@example.invalid', consent: true };
+        p.contact = { name: ['Carolina R.', 'Matías L.', 'Lucía G.', 'Diego M.', 'Valentina S.', 'Nicolás P.', 'Julieta A.', 'Gabriel T.', 'Camila V.'][i], phone: `+5400000000${10 + i}`, whatsapp: '', email: 'demo@example.invalid', consent: true };
         p.when = i === 0 ? 'asap' : 'scheduled';
         p.scheduled_at = p.when === 'asap' ? null : new Date(Date.now() + (i < 5 ? (i + 1) * 3600000 : -(i - 4) * 86400000)).toISOString();
         const r = insert(data, (0, domain_js_1.cleanPayload)(p), (0, domain_js_1.randomToken)());

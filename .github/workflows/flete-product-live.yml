@@ -1,0 +1,82 @@
+name: Flete product 0.4 public acceptance
+on:
+  push:
+    branches: [verify/flete-product-0.4-live]
+    paths: [.github/workflows/flete-product-live.yml]
+permissions:
+  contents: read
+jobs:
+  public-acceptance:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020
+        with:
+          node-version: '24'
+          cache: npm
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium webkit
+      - name: Verify actual published release, assets and SRI
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          import urllib.request,pathlib,time,hashlib,base64,json
+          base='https://bitflowapp.github.io/luna-proyectos-web/demos/flete/'
+          expected={'app-e188d48427ab.js':'e188d48427ab7411f2941345fe7221465dc664fca2968eef303460e598a7d608','styles-60d651e0b67e.css':'60d651e0b67ef5da9ed4948abf3fbf047b16c23d4bf3cbfaec5ba2b50c9debfc','boot-check.js':'a7ab5875a85e495fa1cc0e118ede81ad49cf24a37fb3ec54c41e5fd31971f134'}
+          def read(path):
+              request=urllib.request.Request(base+path+'?qa='+str(time.time_ns()),headers={'User-Agent':'Flete-Product-QA/0.4','Cache-Control':'no-cache'})
+              with urllib.request.urlopen(request,timeout=20) as response:
+                  assert response.status==200
+                  return response.read()
+          for attempt in range(40):
+              try:
+                  release=json.loads(read('release.json'))
+                  assert release['version']=='0.4.0'
+                  assert release['mode']=='browser-demo' and release['productionReady'] is False
+                  assert {f['file']:f['sha256'] for f in release['files']}==expected
+                  html=read('').decode('utf-8')
+                  assert 'content="0.4.0"' in html
+                  for file,digest in expected.items():
+                      content=read(file)
+                      assert hashlib.sha256(content).hexdigest()==digest,file
+                      assert file in html
+                      assert 'sha384-'+base64.b64encode(hashlib.sha384(content).digest()).decode() in html
+                  result={'status':'PASS','version':'0.4.0','public_url':base,'http':200,'asset_sha256':expected,'sri':'PASS','checked_at':time.strftime('%Y-%m-%dT%H:%M:%SZ',time.gmtime())}
+                  out=pathlib.Path('artifacts/flete-product-live');out.mkdir(parents=True,exist_ok=True)
+                  (out/'delivery.json').write_text(json.dumps(result,indent=2))
+                  print('PUBLIC_DELIVERY_RESULT='+json.dumps(result))
+                  break
+              except Exception as error:
+                  print('Waiting for exact public version',attempt+1,type(error).__name__,str(error))
+                  time.sleep(10)
+          else:
+              raise RuntimeError('The exact reviewed release was not published in the verification window')
+          PY
+      - name: Test Flete against the public site in both browser engines
+        env:
+          PUBLIC_TEST_URL: https://bitflowapp.github.io/luna-proyectos-web/
+        run: npx playwright test tests/flete-preview.spec.ts tests/flete-finish.spec.ts --max-failures=3
+      - name: Record exact public browser counts
+        run: |
+          node --input-type=module <<'JS'
+          import fs from 'node:fs';
+          const report=JSON.parse(fs.readFileSync('artifacts/playwright-results.json','utf8'));
+          const cases=[];
+          function visit(s){for(const spec of s.specs??[])for(const t of spec.tests??[])cases.push({title:spec.title,project:t.projectName,status:t.status});for(const child of s.suites??[])visit(child);}
+          for(const s of report.suites??[])visit(s);
+          const result={scope:'COMMERCIAL_DEMO',public_url:'https://bitflowapp.github.io/luna-proyectos-web/demos/flete/',version:'0.4.0',stats:report.stats,total:cases.length,chromium:cases.filter(t=>t.project.startsWith('chromium')).length,webkit:cases.filter(t=>t.project.startsWith('webkit')).length};
+          console.log('PUBLIC_BROWSER_RESULT='+JSON.stringify(result));
+          if(cases.length!==90 || report.stats.expected!==90 || report.stats.unexpected || report.stats.flaky || report.stats.skipped)throw new Error('Public browser acceptance incomplete');
+          fs.writeFileSync('artifacts/flete-product-live/browsers.json',JSON.stringify(result,null,2));
+          JS
+      - uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f
+        if: always()
+        with:
+          name: flete-product-0.4-public-qa
+          path: |
+            artifacts/flete-product-live/
+            artifacts/playwright-results.json
+            test-results/
+            playwright-report/
+          retention-days: 7

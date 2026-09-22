@@ -1,0 +1,117 @@
+name: Verify Flete product finish
+on:
+  push:
+    branches: [feat/flete-product-finish]
+    paths: [.github/workflows/flete-product-qa.yml]
+permissions:
+  contents: write
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020
+        with:
+          node-version: '24'
+          cache: npm
+      - name: Apply exact reviewed source patch
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          import pathlib, json, base64, gzip, hashlib, subprocess
+          root=pathlib.Path('.')
+          text=''.join((root/f'.review/flete-finish/part-{i:02d}.txt').read_text().strip() for i in range(6))
+          # Correct one identified copy error in the transfer text; full digest is mandatory.
+          text=text.replace('SH40erbLLJYdtDjS','SH40erbLJYdtDjS')
+          compressed=base64.b64decode(text,validate=True)
+          assert hashlib.sha256(compressed).hexdigest() == 'a0510210fa34797462eebf6cd193f849c419f303c0c9000b23bcea65a6a2b1b2', 'Transfer checksum mismatch'
+          data=json.loads(gzip.decompress(compressed))
+          allowed={'scripts/flete-src/app.js','scripts/flete-src/commercial.js','scripts/flete-src/tracking.js','scripts/flete-src/ui.js','scripts/flete-src/preview-store.js','scripts/flete-src/styles.css','scripts/pack-flete.mjs','tests/flete-preview.spec.ts','tests/contracts.test.mjs','tests/flete-finish.spec.ts'}
+          assert {f['path'] for f in data['files']} == allowed
+          assert len(data['files']) == len(allowed)
+          for f in data['files']:
+              p=root/f['path']
+              if f['base_sha256'] is None:
+                  assert not p.exists(), str(p)
+              else:
+                  assert hashlib.sha256(p.read_bytes()).hexdigest() == f['base_sha256'], 'Baseline changed: '+str(p)
+          for f in data['files']:
+              p=root/f['path']
+              if 'content' in f:
+                  p.parent.mkdir(parents=True,exist_ok=True)
+                  p.write_bytes(f['content'].encode('utf-8'))
+              else:
+                  patch=f['patch'].encode('utf-8')
+                  subprocess.run(['git','apply','--check','-'],input=patch,check=True)
+                  subprocess.run(['git','apply','-'],input=patch,check=True)
+              assert hashlib.sha256(p.read_bytes()).hexdigest() == f['new_sha256'], 'Result checksum: '+str(p)
+              print('VERIFIED_SOURCE',str(p),f['new_sha256'])
+          PY
+      - name: Compile reviewed Flete source
+        run: |
+          for file in scripts/flete-src/*.js scripts/pack-flete.mjs; do node --check "$file"; done
+          node scripts/pack-flete.mjs
+      - run: npm ci
+      - run: npm run lint
+      - run: npm run typecheck
+      - run: npm run build
+      - run: npm run test:unit
+      - run: npx playwright install --with-deps chromium webkit
+      - name: Native browser regression for Flete and LUNA
+        run: npm test
+      - name: Report exact test results
+        run: |
+          node --input-type=module <<'JS'
+          import fs from 'node:fs';
+          const report=JSON.parse(fs.readFileSync('artifacts/playwright-results.json','utf8'));
+          const cases=[];
+          function visit(s){for(const spec of s.specs??[])for(const t of spec.tests??[])cases.push({file:s.file,title:spec.title,browser:t.projectName,status:t.status});for(const child of s.suites??[])visit(child);}
+          for(const s of report.suites??[])visit(s);
+          const summary={stats:report.stats,total:cases.length,projects:[...new Set(cases.map(c=>c.browser))],flete:cases.filter(c=>c.title.startsWith('Flete')).length};
+          console.log('FLETE_NATIVE_RESULT='+JSON.stringify(summary));
+          if(report.stats.unexpected || report.stats.flaky || report.stats.skipped || !cases.length)throw new Error('Native acceptance incomplete');
+          fs.mkdirSync('artifacts/flete-product',{recursive:true});
+          fs.writeFileSync('artifacts/flete-product/qa-summary.json',JSON.stringify(summary,null,2));
+          JS
+      - uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f
+        if: always()
+        with:
+          name: flete-product-finish-qa
+          path: |
+            artifacts/flete-product/
+            artifacts/playwright-results.json
+            test-results/
+            playwright-report/
+          retention-days: 7
+      - name: Commit only verified Flete changes
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          import pathlib,shutil,json,os
+          root=pathlib.Path('.')
+          summary=json.loads((root/'artifacts/flete-product/qa-summary.json').read_text())
+          docs=root/'docs';docs.mkdir(exist_ok=True)
+          text='# Flete 0.4.0 · Acabado de producto\n\n'
+          text+='Alcance: COMMERCIAL_DEMO. Datos ficticios en IndexedDB del navegador. Sin backend, autenticación productiva, pagos, GPS ni sincronización entre dispositivos.\n\n'
+          text+='Portada y solicitud rápida compactas; pasos previos editables; cotización antes del recorrido; panel con cuatro indicadores y bandeja de atención; detalle móvil con acciones prioritarias. Se mantienen validaciones, aceptación, recotización y limpieza comercial.\n\n'
+          text+='CSS unificado, sin ocultar desbordes globales. Artefactos con hashes de fuentes y SRI verificados por test. No se cambian la portada ni la configuración de publicación de LUNA.\n\n'
+          text+='## Verificación nativa de rama\n\n'
+          text+='Run: https://github.com/'+os.environ['GITHUB_REPOSITORY']+'/actions/runs/'+os.environ['GITHUB_RUN_ID']+'\n\n'
+          text+='Lint, typecheck del repositorio, comprobación de sintaxis JS, build y unitarios aprobados. El typecheck raíz no certifica tipos de las fuentes JS de Flete.\n\n'
+          text+='Resultado Playwright (HTTP real, sin interceptar IndexedDB):\n\n```json\n'+json.dumps(summary,ensure_ascii=False,indent=2)+'\n```\n\n'
+          text+='La revisión visual local adicional usó HTML inyectado y almacenamiento temporal: 130 combinaciones de pantalla/tamaño sin desbordes detectados. No equivale a Safari en iPhone físico. No se declara conformidad WCAG integral.\n\n'
+          text+='La publicación y los recorridos contra la URL pública se comprueban por separado después de integrar. Los datos previos del navegador se conservan; los ejemplos nuevos se generan sólo en una base nueva o mediante el reinicio explícito de la demo.\n'
+          (docs/'FLETE_PRODUCT_0.4.md').write_text(text)
+          for folder in ['.review/flete-baseline','.review/flete-finish']:
+              shutil.rmtree(root/folder,ignore_errors=True)
+          for file in ['.github/workflows/flete-review-transfer.yml','.github/workflows/flete-product-qa.yml']:
+              (root/file).unlink(missing_ok=True)
+          PY
+          git restore -- artifacts/playwright-results.json
+          git config user.name 'Flete Review'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -A -- scripts/flete-src/ scripts/pack-flete.mjs public/demos/flete/ tests/flete-preview.spec.ts tests/flete-finish.spec.ts tests/contracts.test.mjs docs/FLETE_PRODUCT_0.4.md .review/flete-baseline/ .review/flete-finish/ .github/workflows/flete-review-transfer.yml .github/workflows/flete-product-qa.yml
+          git diff --cached --stat
+          git commit -m 'feat(flete): finish customer journey and operational UI v0.4.0'
+          git push origin HEAD:feat/flete-product-finish

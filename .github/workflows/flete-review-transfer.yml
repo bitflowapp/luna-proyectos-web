@@ -1,0 +1,41 @@
+name: Flete source review transfer
+on:
+  push:
+    branches: [feat/flete-product-finish]
+    paths: [.github/workflows/flete-review-transfer.yml]
+permissions:
+  contents: write
+jobs:
+  snapshot:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          fetch-depth: 0
+      - run: python3 -m pip install --disable-pip-version-check bsdiff4==1.2.6
+      - name: Export only Flete source for the review workspace
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          import pathlib, subprocess, json, hashlib, base64, bsdiff4
+          root=pathlib.Path('.')
+          base='b1432e0b77a8822b7ce3bd3c53dffbeaece4961f'
+          old=subprocess.check_output(['git','show',base+':public/demos/flete/app-3dcd3ff910c8.js'])+subprocess.check_output(['git','show',base+':public/demos/flete/styles-eda93720cb44.css'])
+          paths=sorted(p for p in (root/'scripts/flete-src').rglob('*') if p.is_file())
+          paths += [root/p for p in ['scripts/pack-flete.mjs','tests/flete-preview.spec.ts','tests/contracts.test.mjs','package.json','playwright.config.ts','public/demos/flete/index.html','public/demos/flete/boot-check.js','public/demos/flete/README.md','public/demos/flete/release.json']]
+          meta=[{'path':p.as_posix(),'bytes':len(p.read_bytes()),'sha256':hashlib.sha256(p.read_bytes()).hexdigest()} for p in paths]
+          content=json.dumps(meta,separators=(',',':')).encode()+b'\n'+b''.join(p.read_bytes() for p in paths)
+          patch=bsdiff4.diff(old,content)
+          out=root/'.review/flete-baseline';out.mkdir(parents=True,exist_ok=True)
+          text=base64.b64encode(patch).decode()
+          for i in range(0,len(text),8000):
+              (out/f'part-{i//8000:02d}.txt').write_text(text[i:i+8000]+'\n')
+          (out/'manifest.json').write_text(json.dumps({'baseCommit':base,'currentCommit':'e13ecc8010418426ea482134d412748740ff14d8','oldSha256':hashlib.sha256(old).hexdigest(),'contentSha256':hashlib.sha256(content).hexdigest(),'patchSha256':hashlib.sha256(patch).hexdigest(),'parts':(len(text)+7999)//8000,'patchBytes':len(patch),'contentBytes':len(content),'files':meta},indent=2)+'\n')
+          print('REVIEW_EXPORT',len(patch),len(content),(len(text)+7999)//8000)
+          PY
+          git config user.name 'Flete Review'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add .review/flete-baseline
+          git commit -m 'chore(flete): transfer current source snapshot for review'
+          git push origin HEAD:feat/flete-product-finish

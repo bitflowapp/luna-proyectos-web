@@ -1,0 +1,24 @@
+name: Flete simple source snapshot
+on:
+  push:
+    branches: [fix/flete-simple-journey]
+    paths: [.github/workflows/flete-simple-snapshot.yml]
+permissions:
+  contents: read
+jobs:
+  snapshot:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - run: |
+          mkdir -p /tmp/flete-review
+          git archive --format=zip HEAD -o /tmp/flete-review/source.zip
+          git rev-parse HEAD > /tmp/flete-review/commit.txt
+      - uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f
+        with:
+          name: flete-simple-source
+          path: /tmp/flete-review/
+          retention-days: 2

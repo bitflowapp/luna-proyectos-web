@@ -1813,9 +1813,14 @@ class App extends preact_mjs_1.Component {
         else if (wasOpen && !isOpen) {
             const target = this.restoreFocus;
             this.restoreFocus = null;
-            if (target && target.isConnected) {
-                target.focus();
-            } else {
+            window.requestAnimationFrame(() => {
+                if (!this.alive)
+                    return;
+                if (target && target.isConnected) {
+                    target.focus({ preventScroll: true });
+                    if (document.activeElement === target)
+                        return;
+                }
                 const fallback = document.querySelector('.accepted-receipt, main h1, .tracking-card');
                 if (fallback instanceof HTMLElement) {
                     fallback.setAttribute('tabindex', '-1');
@@ -1823,7 +1828,7 @@ class App extends preact_mjs_1.Component {
                 } else {
                     this.focusHeading();
                 }
-            }
+            });
         }
     }
 

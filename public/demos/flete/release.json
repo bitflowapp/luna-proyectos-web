@@ -7,9 +7,9 @@
   "storage": "IndexedDB: same-browser only",
   "files": [
     {
-      "file": "app-7dde937c3529.js",
-      "sha256": "7dde937c3529546b1f4476d80a75d5fbe06d198ed9b8dd3f69741e25076ed222",
-      "bytes": 269491
+      "file": "app-5c9853b2975f.js",
+      "sha256": "5c9853b2975f27dc3e7fc0e86f3d31c6f41f449ff37aae1991bf35f1d2a4b75c",
+      "bytes": 269722
     },
     {
       "file": "styles-8cf9a8e2592b.css",

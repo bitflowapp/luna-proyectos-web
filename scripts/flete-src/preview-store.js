@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.previewApi = void 0;
 const domain_js_1 = require("./domain.js");
-const DATABASE = 'flete-commercial-preview-v2';
+const DATABASE = 'flete-commercial-preview-v3';
 const now = () => new Date().toISOString();
 const failure = (status, message) => Object.assign(new Error(message), { status });
 let database;
@@ -45,22 +45,22 @@ function insert(data, p, token) {
     return r;
 }
 function seed() {
-    const data = { schema: 2, business: { ...domain_js_1.defaultConfig }, requests: [], vehicles: [], customers: [], history: {}, notes: {}, photos: [], tokens: {} };
+    const data = { schema: 3, business: { ...domain_js_1.defaultConfig }, requests: [], vehicles: [], customers: [], history: {}, notes: {}, photos: [], tokens: {} };
     data.vehicles = [
-        { name: 'Utilitario · Demo', plate: 'DEMO-01', type: 'van', capacity: 'Carga mediana', seats: 2 },
-        { name: 'Combi · Demo', plate: 'DEMO-02', type: 'minibus', capacity: '8 pasajeros', seats: 8 },
-        { name: 'Camioneta · Demo', plate: 'DEMO-03', type: 'pickup', capacity: 'Caja abierta', seats: 4 },
+        { name: 'Furgón · DEMO', plate: 'DEMO-01', type: 'van', capacity: 'Carga mediana · dato demo', seats: 2 },
+        { name: 'Combi · DEMO', plate: 'DEMO-02', type: 'minibus', capacity: '8 pasajeros · dato demo', seats: 8 },
+        { name: 'Camioneta utilitaria · DEMO', plate: 'DEMO-03', type: 'pickup', capacity: 'Caja abierta · dato demo', seats: 4 },
     ].map(v => ({ ...v, type: v.type, id: (0, domain_js_1.randomId)(), active: true, notes: 'Vehículo ficticio para recorrer la demo.', is_demo: true, version: 1 }));
     const samples = [
-        ['freight', 'new', 'Centro, Aluminé', 'Barrio Pehuén, Aluminé', 'Una heladera y cuatro cajas medianas', null, 1],
-        ['passengers', 'quoted', 'Terminal de Aluminé', 'Centro, Junín de los Andes', '', 9500000, 4],
-        ['freight', 'reviewing', 'Barrio Ruca Hueney, Aluminé', 'Centro, Aluminé', 'Dos muebles de madera', null, 1],
-        ['passengers', 'confirmed', 'Centro, Aluminé', 'Aeropuerto de Chapelco', '', 18000000, 3],
-        ['special', 'new', 'Centro, Aluminé', 'Villa Pehuenia, Neuquén', 'Equipamiento para un evento', null, 1],
-        ['freight', 'in_service', 'Zona comercial, Aluminé', 'Barrio Centro, Aluminé', 'Artículos de ferretería', 4200000, 1],
-        ['freight', 'completed', 'Centro, Aluminé', 'Barrio Pehuén, Aluminé', 'Mesa y seis sillas', 3500000, 1],
-        ['passengers', 'completed', 'Terminal de Aluminé', 'Centro, Aluminé', '', 2800000, 2],
-        ['special', 'cancelled', 'Centro, Aluminé', 'Rahue, Neuquén', 'Traslado de equipos', 6000000, 1],
+        ['freight', 'new', 'Origen de ejemplo 01', 'Destino de ejemplo 01', 'Una heladera y cuatro cajas medianas', null, 1],
+        ['passengers', 'quoted', 'Origen de ejemplo 02', 'Destino de ejemplo 02', '', 9500000, 4],
+        ['freight', 'reviewing', 'Origen de ejemplo 03', 'Destino de ejemplo 03', 'Dos muebles de madera', null, 1],
+        ['passengers', 'confirmed', 'Origen de ejemplo 04', 'Destino de ejemplo 04', '', 18000000, 3],
+        ['special', 'new', 'Origen de ejemplo 05', 'Destino de ejemplo 05', 'Equipamiento para un evento', null, 1],
+        ['freight', 'in_service', 'Origen de ejemplo 06', 'Destino de ejemplo 06', 'Artículos de ferretería', 4200000, 1],
+        ['freight', 'completed', 'Origen de ejemplo 07', 'Destino de ejemplo 07', 'Mesa y seis sillas', 3500000, 1],
+        ['passengers', 'completed', 'Origen de ejemplo 08', 'Destino de ejemplo 08', '', 2800000, 2],
+        ['special', 'cancelled', 'Origen de ejemplo 09', 'Destino de ejemplo 09', 'Traslado de equipos', 6000000, 1],
     ];
     samples.forEach(([kind, status, origin, destination, description, price, passengers], i) => {
         const p = (0, domain_js_1.blankPayload)();
@@ -108,9 +108,9 @@ async function transaction(write, fn) {
         request.onsuccess = () => {
             try {
                 const existing = request.result;
-                const data = existing?.schema === 2 ? existing : seed();
+                const data = existing?.schema === 3 ? existing : seed();
                 result = fn(data);
-                if (write || existing?.schema !== 2)
+                if (write || existing?.schema !== 3)
                     store.put(data, 'state');
             }
             catch (error) {
@@ -276,7 +276,7 @@ exports.previewApi = {
         return result;
     }),
     business: (business) => transaction(true, data => {
-        if (business.name.trim().length < 2 || business.name.length > 60 || business.coverage.length > 400 ||
+        if (business.name.trim().length < 2 || business.name.length > 60 || (business.coverage ?? '').length > 400 ||
             (business.whatsapp && !(0, domain_js_1.normalizePhone)(business.whatsapp)) || (business.email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(business.email)))
             throw failure(422, 'Revisá los datos del negocio.');
         data.business = { ...business, name: business.name.trim(), demo_mode: true };

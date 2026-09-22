@@ -73,6 +73,8 @@ export function buildFleteBundle({ version = '0.3.1' } = {}) {
   const releaseManifest = {
     version,
     mode: 'browser-demo',
+    projectStatus: 'DEMO_READY',
+    scope: 'COMMERCIAL_DEMO',
     productionReady: false,
     storage: 'IndexedDB: same-browser only',
     files: [
@@ -105,12 +107,16 @@ export function buildFleteBundle({ version = '0.3.1' } = {}) {
     `<script defer src="${jsFileName}" integrity="sha384-${jsSha384}" crossorigin="anonymous"></script>`);
   indexHtml = indexHtml.replace(/<meta name="flete-release" content="[^"]+">/,
     `<meta name="flete-release" content="${version}">`);
+  indexHtml = indexHtml.replace(/<meta name="description" content="[^"]+">/,
+    '<meta name="description" content="Demo comercial de fletes, cargas y traslados de pasajeros. Probá una solicitud, su cotización y el panel del dueño con datos ficticios. No se realizan viajes ni cobros.">');
+  indexHtml = indexHtml.replace(/<title>[^<]+<\/title>/,
+    '<title>Flete · Demo comercial · Presentación interactiva</title>');
 
   fs.writeFileSync('public/demos/flete/index.html', indexHtml);
 
   // Update README.md version if needed
   let readme = fs.readFileSync('public/demos/flete/README.md', 'utf8');
-  readme = readme.replace(/# Flete · Presentación comercial \d+\.\d+\.\d+/, `# Flete · Presentación comercial ${version}`);
+  readme = readme.replace(/^# Flete · (?:Demo )?comercial \d+\.\d+\.\d+$/m, `# Flete · Demo comercial ${version}`);
   fs.writeFileSync('public/demos/flete/README.md', readme);
 
   console.log(`Successfully built Flete v${version}:`);

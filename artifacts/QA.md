@@ -16,7 +16,7 @@ La suite completa se guarda en `playwright-results.json`. La matriz local final 
 2. Cambio real de capturas de TABA y OFICIO; ampliación; tabulación, cierre con Escape y retorno al control que abrió el visor.
 3. Skip link por teclado, navegación a proyectos, menú móvil, contacto y FAQ con Enter.
 4. Exclusividad de Bit Flow: ambos badges, mensaje de indisponibilidad y ausencia de enlaces, botones, imágenes o videos.
-5. Axe: WCAG A/AA, contraste y prácticas de accesibilidad, sin exclusiones para ocultar errores.
+5. Revisión básica de accesibilidad: contraste, teclado y focus verificados con la matriz automatizada. No es una auditoría ni una certificación WCAG integral.
 6. Título, idioma, canonical, datos estructurados, manifest, sitemap, robots, iconos, imagen social y texto comercial en HTML sin depender de JS.
 
 Tres contratos adicionales verifican hashes de las once imágenes publicadas, prerender comercial y ausencia de archivos privados/binarios en `public`.
@@ -64,7 +64,7 @@ Los bloqueos temporales de la máquina se resolvieron usando los navegadores ins
 - Build y prerender: PASS.
 - Contratos: 3/3 PASS.
 - Playwright: 60/60 PASS en Chromium y WebKit, las cinco resoluciones; cero fallos o skips.
-- Consola, enlaces internos, imágenes, foco, teclado, contraste y SEO: PASS dentro del alcance probado.
+- Consola, enlaces internos, imágenes, foco, teclado, contraste y SEO: PASS dentro del alcance probado; la revisión de accesibilidad no es una certificación WCAG integral.
 - Evidencia real y exclusividad de Bit Flow: PASS.
 - Auditoría comercial simulada: PASS, con los límites indicados en README-COMERCIAL.
 

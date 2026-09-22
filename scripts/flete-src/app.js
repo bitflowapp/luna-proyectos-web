@@ -527,8 +527,8 @@ class App extends preact_mjs_1.Component {
     fillDemo() {
         const p = (0, domain_js_1.blankPayload)();
         p.kind = this.state.draft.kind;
-        p.origin = 'Origen de ejemplo, Centro, Aluminé';
-        p.destination = 'Destino de ejemplo, Barrio Pehuén, Aluminé';
+        p.origin = 'Origen de demostración';
+        p.destination = 'Destino de demostración';
         p.details.description = p.kind === 'special' ? 'Traslado de equipos para un evento. Datos de prueba.' : 'Una heladera y cuatro cajas medianas. Datos de prueba.';
         p.details.quantity = 5;
         p.details.passengers = 3;
@@ -688,7 +688,7 @@ class App extends preact_mjs_1.Component {
                 this.restoreFocus = null;
                 this.set({ acceptance: null });
                 await this.loadTracking();
-                this.notify('Cotización aceptada. Estamos confirmando disponibilidad. No se realizó ningún cobro.', 'success');
+                this.notify('Cotización aceptada. Quedan por definir las condiciones del servicio. No se realizó ningún cobro.', 'success');
                 window.setTimeout(() => {
                     const receipt = document.querySelector('.accepted-receipt, .next-step-card');
                     if (receipt instanceof HTMLElement) {
@@ -740,7 +740,7 @@ class App extends preact_mjs_1.Component {
                     (0, preact_mjs_1.h)("small", null, "ARS")
                 ),
                 (0, preact_mjs_1.h)("p", { id: "accept-description" },
-                    "Est\u00E1s de acuerdo con este importe. El operador todav\u00EDa debe confirmar la disponibilidad del servicio. No se realiza ning\u00FAn cobro."
+                    "Est\u00E1s de acuerdo con este importe. Las condiciones del servicio todav\u00EDa deben definirse con el prestador. No se realiza ning\u00FAn cobro."
                 ),
                 (0, preact_mjs_1.h)("p", { class: "tiny muted" },
                     "Prueba de demostración: no se contrata un traslado real."
@@ -779,10 +779,10 @@ class App extends preact_mjs_1.Component {
         ];
         const subtitles = [
             'Elegí el tipo de servicio. Después coordinamos los detalles.',
-            'Escribí origen y destino con localidad. Podés sumar detalles en el siguiente paso.',
+            'Escribí origen y destino. Podés sumar detalles en el siguiente paso.',
             'Elegí si lo necesitás lo antes posible o preferís programar una fecha y hora.',
-            'Estos datos nos ayudan a calcular la cotización y asignar la unidad correcta.',
-            'Usaremos tus datos únicamente para enviarte la propuesta y coordinar el traslado.',
+            'Estos datos ayudan a preparar una cotización y evaluar el servicio solicitado.',
+            'Usaremos tus datos para esta presentación y, al personalizarla, para coordinar el traslado.',
             'Enviar la solicitud no confirma el viaje ni genera ningún cobro.'
         ];
 
@@ -908,8 +908,8 @@ class App extends preact_mjs_1.Component {
                                 ) : (
                                     (0, preact_mjs_1.h)("div", { class: "soft-panel" },
                                         (0, preact_mjs_1.h)(ui_js_1.Icon, { name: "clock", size: 30 }),
-                                        (0, preact_mjs_1.h)("h3", null, "Coordinación según disponibilidad inmediata."),
-                                        (0, preact_mjs_1.h)("p", null, "El operador revisa qué unidad está disponible para cotizar y dar respuesta lo antes posible.")
+                                        (0, preact_mjs_1.h)("h3", null, "Coordinación según disponibilidad."),
+                                        (0, preact_mjs_1.h)("p", null, "El prestador revisa la solicitud y define los próximos pasos.")
                                     )
                                 )
                             )
@@ -1173,7 +1173,7 @@ class App extends preact_mjs_1.Component {
                                     )
                                 ),
                                 (0, preact_mjs_1.h)(ui_js_1.Notice, null,
-                                    "El precio y la disponibilidad se confirman después de revisar tu solicitud. No hay cobros automáticos."
+                                    "El importe y las condiciones se definen después de revisar tu solicitud. No hay cobros automáticos."
                                 )
                             )
                         ),
@@ -1211,11 +1211,11 @@ class App extends preact_mjs_1.Component {
                         (0, preact_mjs_1.h)("h3", null, domain_js_1.serviceLabels[p.kind]),
                         (0, preact_mjs_1.h)(ui_js_1.RouteCard, { origin: p.origin, destination: p.destination, scheduledAt: p.scheduled_at, compact: true }),
                         (0, preact_mjs_1.h)("div", { class: "aside-note" },
-                            (0, preact_mjs_1.h)(ui_js_1.Icon, { name: "shield" }),
-                            (0, preact_mjs_1.h)("p", null, "Vos compartís lo que necesitás. El operador revisa, cotiza y confirma la disponibilidad.")
+                            (0, preact_mjs_1.h)(ui_js_1.Icon, { name: "info" }),
+                            (0, preact_mjs_1.h)("p", null, "Vos compartís lo que necesitás. El prestador revisa la solicitud y prepara una cotización.")
                         ),
                         (0, preact_mjs_1.h)("span", { class: "quote-pending" },
-                            "Cotización antes de salir",
+                            "Cotización antes de confirmar",
                             (0, preact_mjs_1.h)("span", null, "Sin cargos automáticos")
                         )
                     )
@@ -1317,7 +1317,7 @@ class App extends preact_mjs_1.Component {
                 (0, preact_mjs_1.h)("h2", null, "Quién puede verlo"),
                 (0, preact_mjs_1.h)("p", null, api_js_1.IS_PREVIEW ? "En esta presentación el panel es de libre acceso local sin cuenta, con el fin de recorrer cliente y dueño desde el mismo navegador." : "El panel del operador requiere autenticación. El enlace privado de seguimiento permite consultar recorrido, estado y cotización; no muestra teléfono, notas internas ni fotos a terceros."),
                 (0, preact_mjs_1.h)("h2", null, "Dónde se guarda en este entorno"),
-                (0, preact_mjs_1.h)("p", null, api_js_1.IS_PREVIEW ? 'Esta demo guarda las solicitudes y fotos en IndexedDB únicamente en este navegador. No se transmiten a servidores externos ni a otros dispositivos.' : this.state.runtime?.mode === 'local' ? 'Guarda en SQLite local del equipo que ejecuta la demo.' : 'Utiliza Supabase para base de datos y autenticación.'),
+                (0, preact_mjs_1.h)("p", null, api_js_1.IS_PREVIEW ? 'Esta demo guarda las solicitudes y fotos en IndexedDB únicamente en este navegador. No se transmiten a servidores externos ni a otros dispositivos.' : this.state.runtime?.mode === 'local' ? 'Guarda en SQLite local del equipo que ejecuta la demo.' : 'El almacenamiento y la autenticación quedan a definir.'),
                 (0, preact_mjs_1.h)("h2", null, "Servicios externos"),
                 (0, preact_mjs_1.h)("p", null, "WhatsApp y Google Maps sólo se abren si tocás sus enlaces explícitos. No hay analítica de terceros, cobros automáticos ni geolocalización en segundo plano."),
                 (0, preact_mjs_1.h)(ui_js_1.Notice, null, "La plataforma definitiva se ajustará a la normativa comercial, política de privacidad y condiciones que el transportista defina para su negocio.")
@@ -1626,7 +1626,7 @@ class App extends preact_mjs_1.Component {
                 (0, preact_mjs_1.h)("div", null,
                     (0, preact_mjs_1.h)("span", { class: "eyebrow" }, "CONTROL DE OPERACIONES"),
                     (0, preact_mjs_1.h)("h1", { tabIndex: -1 }, "¿Qué hay para resolver hoy?"),
-                    (0, preact_mjs_1.h)("p", null, "Prioridad operativa inmediata: cotizaciones, confirmaciones y servicios en curso.")
+                    (0, preact_mjs_1.h)("p", null, "Prioridad operativa de la demo: cotizaciones, confirmaciones y estados en curso.")
                 ),
                 (0, preact_mjs_1.h)("a", { class: "button button-light", href: "#/solicitar", target: "_blank", rel: "noopener noreferrer" },
                     (0, preact_mjs_1.h)(ui_js_1.Icon, { name: "plus", size: 18 }),
@@ -1639,7 +1639,7 @@ class App extends preact_mjs_1.Component {
                 ['Cotizaciones aceptadas', counts.accepted, 'check', counts.accepted > 0 ? 'metric-action' : ''],
                 ['Servicios de hoy', counts.today, 'calendar', ''],
                 ['En curso', counts.active, 'truck', ''],
-                ['Cotizaciones vigentes', (0, domain_js_1.money)(counts.amount), 'box', ''],
+                ['Cotizaciones de ejemplo', (0, domain_js_1.money)(counts.amount), 'box', ''],
             ].map(([label, total, icon, cls]) => (0, preact_mjs_1.h)("div", { class: `metric ${cls}`, key: label },
                 (0, preact_mjs_1.h)("span", null,
                     label,
@@ -1647,7 +1647,7 @@ class App extends preact_mjs_1.Component {
                 ),
                 (0, preact_mjs_1.h)("strong", null, total),
                 (0, preact_mjs_1.h)("small", null,
-                    label === 'Cotizaciones vigentes' ? 'Importes cotizados, no cobros'
+                    label === 'Cotizaciones de ejemplo' ? 'Importes de demostración, no cobros'
                         : label === 'Servicios de hoy' ? 'Hora de Argentina'
                         : 'Acción operativa inmediata'
                 )
@@ -1657,7 +1657,7 @@ class App extends preact_mjs_1.Component {
                     (0, preact_mjs_1.h)("div", null,
                         (0, preact_mjs_1.h)("span", { class: "eyebrow" }, "REQUIERE TU CONFIRMACI\u00D3N"),
                         (0, preact_mjs_1.h)("h2", null, accepted.length, " ", accepted.length === 1 ? 'cotización aceptada' : 'cotizaciones aceptadas'),
-                        (0, preact_mjs_1.h)("p", null, "El cliente dio su conformidad con el precio. Revisá disponibilidad y confirmá el viaje.")
+                        (0, preact_mjs_1.h)("p", null, "El cliente dio su conformidad con el importe. Revisá las condiciones pendientes y continuá la coordinación.")
                     ),
                     (0, preact_mjs_1.h)("button", {
                         class: "button button-dark",
@@ -1684,7 +1684,7 @@ class App extends preact_mjs_1.Component {
                                     : 'Todo al día en la operación.'
                             ),
                             (0, preact_mjs_1.h)("p", null,
-                                accepted.length ? 'El cliente ya aceptó el importe. Confirmá el servicio para asignarle unidad.'
+                                accepted.length ? 'El cliente ya aceptó el importe. Revisá las condiciones y asigná una unidad de demo si corresponde.'
                                     : counts.new ? 'Revisá origen, destino y detalles para cargar el importe en pesos.'
                                     : needsVehicle.length ? 'Asigná una unidad activa antes de dar salida al recorrido.'
                                     : 'No hay solicitudes pendientes de respuesta o asignación.'
@@ -1737,7 +1737,7 @@ class App extends preact_mjs_1.Component {
                             (0, preact_mjs_1.h)(ui_js_1.Icon, { name: "chevron", size: 16 })
                         ))
                     ) : (
-                        (0, preact_mjs_1.h)("p", { class: "muted" }, "No hay traslados en curso ni confirmados para las próximas horas.")
+                        (0, preact_mjs_1.h)("p", { class: "muted" }, "No hay datos demo en curso ni confirmados para las próximas horas.")
                     )
                 )
             ),
@@ -2146,7 +2146,7 @@ class App extends preact_mjs_1.Component {
                         ),
                         (0, preact_mjs_1.h)("h2", null, "Veh\u00EDculo"),
                         (0, preact_mjs_1.h)("p", { class: "muted tiny" },
-                            vehicle ? `${vehicle.name} · ${vehicle.plate}` : 'Todavía no se asignó una unidad.'
+                            vehicle ? `${vehicle.name} · ${vehicle.is_demo ? 'ID DEMO · ' : ''}${vehicle.plate}` : 'Todavía no se asignó una unidad.'
                         ),
                         !terminal && !underway && (
                             (0, preact_mjs_1.h)(ui_js_1.Field, { id: "assign-vehicle", label: "Asignar unidad" },
@@ -2256,7 +2256,7 @@ class App extends preact_mjs_1.Component {
                 (0, preact_mjs_1.h)("div", null,
                     (0, preact_mjs_1.h)("span", { class: "eyebrow" }, "LAS UNIDADES DEL NEGOCIO"),
                     (0, preact_mjs_1.h)("h1", { tabIndex: -1 }, "Veh\u00EDculos."),
-                    (0, preact_mjs_1.h)("p", null, "Gestioná la flota disponible y asigná la unidad apropiada.")
+                    (0, preact_mjs_1.h)("p", null, "Gestioná las unidades y su información para asignarlas cuando corresponda.")
                 ),
                 (0, preact_mjs_1.h)("button", {
                     class: "button button-primary",
@@ -2381,13 +2381,13 @@ class App extends preact_mjs_1.Component {
                         (0, preact_mjs_1.h)("span", { class: "vehicle-illustration" },
                             (0, preact_mjs_1.h)(ui_js_1.Icon, { name: v.type === 'car' || v.type === 'minibus' ? 'car' : 'truck', size: 44 })
                         ),
-                        (0, preact_mjs_1.h)("span", { class: `availability${v.active ? ' available' : ''}` }, v.active ? 'Activa' : 'Inactiva')
+                        (0, preact_mjs_1.h)("span", { class: `availability${v.active ? ' available' : ''}` }, v.is_demo ? 'DEMO' : v.active ? 'Activa' : 'Inactiva')
                     ),
                     (0, preact_mjs_1.h)("div", { class: "vehicle-name" },
                         (0, preact_mjs_1.h)("h2", null, v.name),
                         v.is_demo && (0, preact_mjs_1.h)("span", { class: "demo-tag" }, "DEMO")
                     ),
-                    (0, preact_mjs_1.h)("span", { class: "plate" }, v.plate),
+                    (0, preact_mjs_1.h)("span", { class: "plate" }, v.is_demo ? `ID DEMO · ${v.plate}` : v.plate),
                     (0, preact_mjs_1.h)("p", null, v.capacity || 'Capacidad a detallar'),
                     (0, preact_mjs_1.h)("div", { class: "vehicle-seats" },
                         (0, preact_mjs_1.h)(ui_js_1.Icon, { name: "users", size: 18 }),
@@ -2469,8 +2469,8 @@ class App extends preact_mjs_1.Component {
                     (0, preact_mjs_1.h)(ui_js_1.Field, { id: "business-email", label: "Correo del negocio (opcional)" },
                         (0, preact_mjs_1.h)("input", { id: "business-email", type: "email", value: b.email, onInput: (e) => update({ email: value(e) }) })
                     ),
-                    (0, preact_mjs_1.h)(ui_js_1.Field, { id: "business-coverage", label: "Mensaje sobre cobertura y coordinación", hint: "Texto claro sobre disponibilidad de recorridos." },
-                        (0, preact_mjs_1.h)("textarea", { id: "business-coverage", rows: 4, maxLength: 500, value: b.coverage, onInput: (e) => update({ coverage: value(e) }) })
+                    (0, preact_mjs_1.h)(ui_js_1.Field, { id: "business-coverage", label: "Mensaje sobre cobertura y coordinación", hint: "Dejalo vacío hasta definir la zona y las condiciones con el prestador." },
+                        (0, preact_mjs_1.h)("textarea", { id: "business-coverage", rows: 4, maxLength: 500, value: b.coverage ?? '', onInput: (e) => update({ coverage: value(e) }) })
                     ),
                     (0, preact_mjs_1.h)("button", { class: "button button-primary", type: "submit", disabled: this.state.busy },
                         "Guardar cambios",
@@ -2485,11 +2485,11 @@ class App extends preact_mjs_1.Component {
                 ),
                 (0, preact_mjs_1.h)("div", { class: "spec-row" },
                     (0, preact_mjs_1.h)("span", null, "Persistencia"),
-                    (0, preact_mjs_1.h)("strong", null, api_js_1.IS_PREVIEW ? (this.state.runtime?.temporary ? 'Sesión temporal en memoria' : 'IndexedDB en este navegador') : this.state.runtime?.mode === 'local' ? 'SQLite en este equipo' : 'Supabase PostgreSQL')
+                    (0, preact_mjs_1.h)("strong", null, api_js_1.IS_PREVIEW ? (this.state.runtime?.temporary ? 'Sesión temporal en memoria' : 'IndexedDB en este navegador') : this.state.runtime?.mode === 'local' ? 'SQLite en este equipo' : 'Almacenamiento a definir')
                 ),
                 (0, preact_mjs_1.h)("div", { class: "spec-row" },
                     (0, preact_mjs_1.h)("span", null, "Autenticaci\u00F3n"),
-                    (0, preact_mjs_1.h)("strong", null, api_js_1.IS_PREVIEW ? 'Rol de demostración · sin cuenta' : this.state.runtime?.mode === 'local' ? 'Acceso local de prueba' : 'Supabase Auth')
+                    (0, preact_mjs_1.h)("strong", null, api_js_1.IS_PREVIEW ? 'Rol de demostración · sin cuenta' : this.state.runtime?.mode === 'local' ? 'Acceso local de prueba' : 'Autenticación a definir')
                 ),
                 (0, preact_mjs_1.h)("div", { class: "spec-row" },
                     (0, preact_mjs_1.h)("span", null, "Pagos y facturaci\u00F3n"),
@@ -2499,7 +2499,11 @@ class App extends preact_mjs_1.Component {
                     (0, preact_mjs_1.h)("span", null, "Seguimiento"),
                     (0, preact_mjs_1.h)("strong", null, "Estados informados, sin GPS")
                 ),
-                (0, preact_mjs_1.h)("p", null, "Esta demo permite mostrar el potencial del producto. La puesta en producción real requerirá la marca definitiva, precios y datos reales del transportista.")
+                (0, preact_mjs_1.h)("div", { class: "spec-row" },
+                    (0, preact_mjs_1.h)("span", null, "Precios"),
+                    (0, preact_mjs_1.h)("strong", null, "Sólo cotización manual · regla pendiente")
+                ),
+                (0, preact_mjs_1.h)("p", null, "Esta presentación es una primera base configurable. Quedan pendientes la marca, cobertura, vehículos, condiciones y forma de trabajo del prestador.")
             )
         );
     }
@@ -2609,7 +2613,7 @@ class App extends preact_mjs_1.Component {
                     page,
                     (0, preact_mjs_1.h)("footer", { class: "admin-footnote" },
                         (0, preact_mjs_1.h)("span", null, api_js_1.IS_PREVIEW ? 'Demostración en este navegador · almacenamiento local' : 'Persistencia en base de datos'),
-                        (0, preact_mjs_1.h)("span", null, "Actualización cada 15 s · Horario de Argentina")
+                        (0, preact_mjs_1.h)("span", null, "Estados informados por el operador · Horario de Argentina")
                     )
                 ),
                 (0, preact_mjs_1.h)("nav", { class: "mobile-admin-nav", "aria-label": "Navegación móvil del panel" },
@@ -2693,7 +2697,7 @@ class App extends preact_mjs_1.Component {
         const admin = this.state.path.startsWith('/admin');
         const banner = (0, preact_mjs_1.h)("div", { class: `mode-banner${admin ? ' admin-mode-banner' : ''}` },
             (0, preact_mjs_1.h)("span", { class: "status-dot" }),
-            (0, preact_mjs_1.h)("span", null, api_js_1.IS_PREVIEW ? (this.state.runtime.temporary ? 'Demo temporal · no se coordinan viajes reales' : 'Demo · no se coordinan viajes reales') : 'Demostración · usá datos de prueba'),
+            (0, preact_mjs_1.h)("span", null, api_js_1.IS_PREVIEW ? (this.state.runtime.temporary ? 'DEMO COMERCIAL TEMPORAL · no se coordinan viajes reales' : 'DEMO COMERCIAL · no se coordinan viajes reales') : 'DEMO COMERCIAL · usá datos de prueba'),
             api_js_1.IS_PREVIEW && (
                 (0, preact_mjs_1.h)("button", {
                     class: "demo-toggle",

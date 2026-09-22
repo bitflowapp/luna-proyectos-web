@@ -40,6 +40,10 @@ exports.defaultConfig = {
     email: business_config_1.businessConfig.email,
     demo_mode: true,
     coverage: business_config_1.businessConfig.coverage,
+    hours: business_config_1.businessConfig.hours,
+    pricingMode: business_config_1.businessConfig.pricingMode,
+    vehiclesDemo: business_config_1.businessConfig.vehiclesDemo,
+    driversDemo: business_config_1.businessConfig.driversDemo,
 };
 
 function blankPayload() {
@@ -219,7 +223,7 @@ function directionsUrl(origin, destination) {
 }
 
 function quoteMessage(request, business) {
-    return `Hola ${request.payload.contact.name}, te escribimos de ${business}. La cotización de tu solicitud ${request.code} (${exports.serviceLabels[request.payload.kind]}), de ${request.payload.origin} a ${request.payload.destination}, es ${money(request.quote_cents)} ARS. Fecha: ${dateText(request.payload.scheduled_at)}. Respondé este mensaje para coordinar y confirmar disponibilidad. El servicio todavía no está confirmado.`;
+    return `Hola ${request.payload.contact.name}, te escribimos de ${business}. La cotización de tu solicitud ${request.code} (${exports.serviceLabels[request.payload.kind]}), de ${request.payload.origin} a ${request.payload.destination}, es ${money(request.quote_cents)} ARS. Fecha: ${dateText(request.payload.scheduled_at)}. Respondé este mensaje para coordinar y definir las condiciones del servicio. El servicio todavía no está confirmado.`;
 }
 
 function randomToken() {

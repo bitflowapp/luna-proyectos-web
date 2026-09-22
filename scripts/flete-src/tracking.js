@@ -11,21 +11,21 @@ const titles = {
     new: 'El próximo paso: revisar tu solicitud.',
     reviewing: 'Estamos revisando los detalles.',
     quoted: 'Tu cotización está lista.',
-    confirmed: 'Todo coordinado. Servicio confirmado.',
-    en_route: 'El vehículo va hacia tu origen.',
-    in_service: 'Tu traslado está en curso.',
+    confirmed: 'Servicio informado como confirmado.',
+    en_route: 'Salida informada por el prestador.',
+    in_service: 'Servicio informado en curso.',
     completed: 'Llegamos al final del recorrido.',
     cancelled: 'Esta solicitud fue cancelada.',
 };
 
 const descriptions = {
-    new: 'El operador revisa el recorrido, la fecha y lo que necesitás trasladar antes de preparar una propuesta.',
-    reviewing: 'Se está evaluando el trayecto y la disponibilidad de unidades. Acá vas a poder consultar la cotización cuando esté cargada.',
-    quoted: 'Revisá el importe antes de salir. Aceptar la cotización expresa tu acuerdo con el precio; la disponibilidad se confirma directamente con el operador.',
-    confirmed: 'El operador confirmó el servicio y la disponibilidad. Podés consultar las actualizaciones desde este mismo enlace.',
+    new: 'El prestador revisa el recorrido, la fecha y lo que necesitás trasladar antes de preparar una propuesta.',
+    reviewing: 'Se está revisando el recorrido y la información enviada. Acá vas a poder consultar la cotización cuando esté cargada.',
+    quoted: 'Revisá el importe antes de aceptarlo. Aceptar la cotización expresa tu acuerdo con ese importe; después se coordinan las condiciones del servicio con el prestador.',
+    confirmed: 'El prestador informó el servicio como confirmado. Consultá al prestador cualquier condición pendiente.',
     en_route: 'El operador informó la salida del vehículo hacia el punto de encuentro acordado. Estados informados por el operador, sin GPS.',
     in_service: 'El operador informó que comenzó el servicio. El siguiente paso es marcarlo como finalizado al llegar a destino.',
-    completed: 'El operador marcó el servicio como finalizado. El comprobante y el resumen quedan disponibles en este enlace.',
+    completed: 'El prestador marcó el servicio como finalizado.',
     cancelled: 'No hay un servicio activo asociado a esta solicitud. Podés comenzar una nueva consulta cuando lo necesites.',
 };
 
@@ -78,7 +78,7 @@ function TrackingView({ tracking: t, error, success, business, preview, busy, lo
                             (0, preact_mjs_1.h)("div", null,
                                 (0, preact_mjs_1.h)("span", { class: "eyebrow" }, awaiting ? 'PROPUESTA ACEPTADA' : 'ESTADO ACTUAL'),
                                 (0, preact_mjs_1.h)("h2", null, awaiting ? 'Aceptaste la cotización.' : titles[t.status]),
-                                (0, preact_mjs_1.h)("p", null, awaiting ? 'Cotización aceptada. Estamos confirmando disponibilidad con el operador. Todavía no hay un viaje confirmado y no se realizó ningún cobro.' : descriptions[t.status])
+                                (0, preact_mjs_1.h)("p", null, awaiting ? 'Cotización aceptada. Quedan por definir las condiciones del servicio con el prestador. Todavía no hay un viaje confirmado y no se realizó ningún cobro.' : descriptions[t.status])
                             )
                         ),
                         (0, preact_mjs_1.h)("div", { class: "tracking-code" },
@@ -97,14 +97,14 @@ function TrackingView({ tracking: t, error, success, business, preview, busy, lo
                             (0, preact_mjs_1.h)("section", { class: "quote-response quote-hero" },
                                 (0, preact_mjs_1.h)("div", { class: "price-block price-protagonist" },
                                     (0, preact_mjs_1.h)("div", { class: "price-headline" },
-                                        (0, preact_mjs_1.h)("span", { class: "eyebrow" }, t.status === 'quoted' ? 'COTIZACIÓN DEL SERVICIO' : 'IMPORTE ACORDADO'),
+                                            (0, preact_mjs_1.h)("span", { class: "eyebrow" }, t.is_demo ? 'EJEMPLO DE COTIZACIÓN · DATO DEMO' : t.status === 'quoted' ? 'COTIZACIÓN DEL SERVICIO' : 'IMPORTE ACORDADO'),
                                         (0, preact_mjs_1.h)("strong", null,
                                             (0, domain_js_1.money)(t.quote_cents),
                                             (0, preact_mjs_1.h)("small", null, " ARS")
                                         )
                                     ),
                                     (0, preact_mjs_1.h)("div", { class: "price-badge" },
-                                        (0, preact_mjs_1.h)(ui_js_1.Icon, { name: "shield", size: 16 }),
+                                        (0, preact_mjs_1.h)(ui_js_1.Icon, { name: "info", size: 16 }),
                                         (0, preact_mjs_1.h)("span", null, "Sin cobros", (0, preact_mjs_1.h)("br", null), "autom\u00E1ticos")
                                     )
                                 ),
@@ -120,7 +120,7 @@ function TrackingView({ tracking: t, error, success, business, preview, busy, lo
                                         ),
                                         (0, preact_mjs_1.h)("p", { class: "accept-disclaimer" },
                                             (0, preact_mjs_1.h)(ui_js_1.Icon, { name: "info", size: 15 }),
-                                            "Al aceptar, confirmás tu acuerdo con el precio. Luego el operador confirma disponibilidad y unidad."
+                                            "Al aceptar, confirmás tu acuerdo con el importe. Luego se coordinan las condiciones del servicio con el prestador."
                                         )
                                     )
                                 ),
@@ -130,7 +130,7 @@ function TrackingView({ tracking: t, error, success, business, preview, busy, lo
                                         (0, preact_mjs_1.h)("div", null,
                                             (0, preact_mjs_1.h)("strong", null, "Cotizaci\u00F3n aceptada"),
                                             (0, preact_mjs_1.h)("span", null, " \u00B7 ", (0, domain_js_1.dateText)(t.quote_accepted_at ?? null)),
-                                            (0, preact_mjs_1.h)("small", null, "Estamos confirmando disponibilidad con el operador.")
+                                            (0, preact_mjs_1.h)("small", null, "Quedan por coordinar las condiciones del servicio con el prestador.")
                                         )
                                     )
                                 )
@@ -142,7 +142,7 @@ function TrackingView({ tracking: t, error, success, business, preview, busy, lo
                                     (0, preact_mjs_1.h)(ui_js_1.Icon, { name: t.kind === 'passengers' ? 'car' : 'truck', size: 28 })
                                 ),
                                 (0, preact_mjs_1.h)("div", null,
-                                    (0, preact_mjs_1.h)("span", { class: "eyebrow" }, "VEH\u00CDCULO ASIGNADO"),
+                                    (0, preact_mjs_1.h)("span", { class: "eyebrow" }, t.is_demo ? "VEH\u00CDCULO DE EJEMPLO" : "VEH\u00CDCULO ASIGNADO"),
                                     (0, preact_mjs_1.h)("h3", null, t.vehicle.name),
                                     (0, preact_mjs_1.h)("p", null, t.kind === 'passengers' ? `${t.vehicle.seats} asientos para pasajeros` : t.vehicle.capacity)
                                 )
@@ -198,7 +198,7 @@ function TrackingView({ tracking: t, error, success, business, preview, busy, lo
                                 (0, preact_mjs_1.h)("span", { class: "status-dot" }),
                                 "\u00DAltimo cambio: ", (0, domain_js_1.dateText)(t.updated_at)
                             ),
-                            (0, preact_mjs_1.h)("p", { class: "tiny muted" }, "Actualizaci\u00F3n en tiempo real. Son estados informados por el operador, sin requerir GPS.")
+                            (0, preact_mjs_1.h)("p", { class: "tiny muted" }, "Estados informados por el operador. Actualiz\u00E1 para consultar cambios; no requiere GPS.")
                         ),
                         (0, preact_mjs_1.h)("section", { class: "panel contact-panel" },
                             (0, preact_mjs_1.h)(ui_js_1.Icon, { name: "message", size: 24 }),

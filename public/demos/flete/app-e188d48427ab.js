@@ -564,15 +564,15 @@ function seed() {
         { name: 'Camioneta utilitaria · DEMO', plate: 'DEMO-03', type: 'pickup', capacity: 'Caja abierta · dato demo', seats: 4 },
     ].map(v => ({ ...v, type: v.type, id: (0, domain_js_1.randomId)(), active: true, notes: 'Vehículo ficticio para recorrer la demo.', is_demo: true, version: 1 }));
     const samples = [
-        ['freight', 'new', 'Origen de ejemplo 01', 'Destino de ejemplo 01', 'Una heladera y cuatro cajas medianas', null, 1],
-        ['passengers', 'quoted', 'Origen de ejemplo 02', 'Destino de ejemplo 02', '', 9500000, 4],
-        ['freight', 'reviewing', 'Origen de ejemplo 03', 'Destino de ejemplo 03', 'Dos muebles de madera', null, 1],
-        ['passengers', 'confirmed', 'Origen de ejemplo 04', 'Destino de ejemplo 04', '', 18000000, 3],
-        ['special', 'new', 'Origen de ejemplo 05', 'Destino de ejemplo 05', 'Equipamiento para un evento', null, 1],
-        ['freight', 'in_service', 'Origen de ejemplo 06', 'Destino de ejemplo 06', 'Artículos de ferretería', 4200000, 1],
-        ['freight', 'completed', 'Origen de ejemplo 07', 'Destino de ejemplo 07', 'Mesa y seis sillas', 3500000, 1],
-        ['passengers', 'completed', 'Origen de ejemplo 08', 'Destino de ejemplo 08', '', 2800000, 2],
-        ['special', 'cancelled', 'Origen de ejemplo 09', 'Destino de ejemplo 09', 'Traslado de equipos', 6000000, 1],
+        ['freight', 'new', 'Domicilio de retiro', 'Domicilio de entrega', 'Una heladera y cuatro cajas medianas', null, 1],
+        ['passengers', 'quoted', 'Punto de encuentro', 'Alojamiento de destino', '', 9500000, 4],
+        ['freight', 'reviewing', 'Local de muebles', 'Domicilio del cliente', 'Dos muebles de madera', null, 1],
+        ['passengers', 'confirmed', 'Alojamiento de salida', 'Terminal de destino', '', 18000000, 3],
+        ['special', 'new', 'Depósito de equipos', 'Salón del evento', 'Equipamiento para un evento', null, 1],
+        ['freight', 'in_service', 'Ferretería de origen', 'Obra de destino', 'Artículos de ferretería', 4200000, 1],
+        ['freight', 'completed', 'Domicilio de retiro', 'Nueva vivienda', 'Mesa y seis sillas', 3500000, 1],
+        ['passengers', 'completed', 'Terminal de salida', 'Punto de encuentro', '', 2800000, 2],
+        ['special', 'cancelled', 'Depósito de origen', 'Local de entrega', 'Traslado de equipos', 6000000, 1],
     ];
     samples.forEach(([kind, status, origin, destination, description, price, passengers], i) => {
         const p = (0, domain_js_1.blankPayload)();
@@ -581,7 +581,7 @@ function seed() {
         p.destination = destination;
         p.details.description = description;
         p.details.passengers = passengers;
-        p.contact = { name: `Cliente de ejemplo ${String(i + 1).padStart(2, '0')}`, phone: `+5400000000${10 + i}`, whatsapp: '', email: 'demo@example.invalid', consent: true };
+        p.contact = { name: ['Carolina R.', 'Matías L.', 'Lucía G.', 'Diego M.', 'Valentina S.', 'Nicolás P.', 'Julieta A.', 'Gabriel T.', 'Camila V.'][i], phone: `+5400000000${10 + i}`, whatsapp: '', email: 'demo@example.invalid', consent: true };
         p.when = i === 0 ? 'asap' : 'scheduled';
         p.scheduled_at = p.when === 'asap' ? null : new Date(Date.now() + (i < 5 ? (i + 1) * 3600000 : -(i - 4) * 86400000)).toISOString();
         const r = insert(data, (0, domain_js_1.cleanPayload)(p), (0, domain_js_1.randomToken)());
@@ -964,7 +964,8 @@ function Icon({ name, size = 20 }) {
     return (0, preact_mjs_1.h)("svg", { width: size, height: size, viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", "stroke-width": "1.7", "stroke-linecap": "round", "stroke-linejoin": "round", "aria-hidden": "true" }, (0, preact_mjs_1.h)("path", { d: paths[name] }));
 }
 function Brand({ name = 'Flete', admin = false }) {
-    return (0, preact_mjs_1.h)("a", { class: "brand", href: admin ? '#/admin' : '#/', "aria-label": `${name}, inicio` }, (0, preact_mjs_1.h)("span", { class: "brand-mark" }, (0, preact_mjs_1.h)(Icon, { name: "route", size: 25 })), (0, preact_mjs_1.h)("span", { class: "brand-word" }, name, (0, preact_mjs_1.h)("span", { class: "brand-caption" }, admin ? 'PANEL DE OPERACIONES' : 'TRANSPORTE A TU MEDIDA')));
+    const displayName = name === 'Flete · Demo' ? 'Flete' : name;
+    return (0, preact_mjs_1.h)("a", { class: "brand", href: admin ? '#/admin' : '#/', "aria-label": `${name}, inicio` }, (0, preact_mjs_1.h)("span", { class: "brand-mark" }, (0, preact_mjs_1.h)(Icon, { name: "route", size: 25 })), (0, preact_mjs_1.h)("span", { class: "brand-word" }, displayName, (0, preact_mjs_1.h)("span", { class: "brand-caption" }, admin ? 'PANEL DE OPERACIONES' : 'TRANSPORTE A TU MEDIDA')));
 }
 function Badge({ status }) {
     return (0, preact_mjs_1.h)("span", { class: `badge status-${status}` }, (0, preact_mjs_1.h)("span", { class: "status-dot" }), domain_js_1.labels[status]);
@@ -997,241 +998,89 @@ exports.CommercialFooter = CommercialFooter;
 const preact_mjs_1 = require("./vendor/preact.mjs");
 const ui_js_1 = require("./ui.js");
 const domain_js_1 = require("./domain.js");
-
-const inputValue = (event) => event.currentTarget.value;
+const { h } = preact_mjs_1;
+const { Icon, Field, TransportArt } = ui_js_1;
 
 function CommercialHome({ business, draft, errors, onDraft, onStart, onQuickSubmit, onScroll }) {
-    const configuredCoverage = typeof business.coverage === 'string' ? business.coverage.trim() : '';
-    const hasCoverage = Boolean(configuredCoverage && configuredCoverage !== domain_js_1.defaultConfig.coverage);
-    const contact = (0, domain_js_1.whatsappUrl)(business.whatsapp, 'Hola, quisiera consultar por un traslado.');
-
-    return (0, preact_mjs_1.h)("main", { id: "main", class: "commercial-home" },
-        (0, preact_mjs_1.h)("section", { class: "hero container" },
-            (0, preact_mjs_1.h)("div", { class: "hero-copy" },
-                (0, preact_mjs_1.h)("div", { class: "eyebrow hero-eyebrow" },
-                    (0, preact_mjs_1.h)("span", { class: "little-line" }),
-                    " TRANSPORTE A TU MEDIDA"
-                ),
-                (0, preact_mjs_1.h)("h1", { tabIndex: -1 },
-                    "Tu traslado,",
-                    (0, preact_mjs_1.h)("br", null),
-                    (0, preact_mjs_1.h)("em", null, "bien coordinado.")
-                ),
-                (0, preact_mjs_1.h)("p", null,
-                    "Ac\u00E1 pod\u00E9s pedir un flete, carga o traslado e indicar origen, destino y detalles. Recib\u00ED una cotizaci\u00F3n antes de confirmar, sin crear una cuenta."
-                ),
-                (0, preact_mjs_1.h)("div", { class: "hero-actions" },
-                    (0, preact_mjs_1.h)("button", { class: "button button-primary button-large", onClick: () => onStart() },
-                        "Solicitar servicio",
-                        (0, preact_mjs_1.h)(ui_js_1.Icon, { name: "arrow" })
-                    ),
-                    (0, preact_mjs_1.h)("button", { class: "text-link how-link", onClick: () => onScroll('como-funciona') },
-                        "Ver c\u00F3mo funciona",
-                        (0, preact_mjs_1.h)(ui_js_1.Icon, { name: "chevron", size: 16 })
-                    )
-                ),
-                (0, preact_mjs_1.h)("div", { class: "hero-assurances" },
-                    (0, preact_mjs_1.h)("span", null, (0, preact_mjs_1.h)(ui_js_1.Icon, { name: "check", size: 17 }), " Cotizaci\u00F3n antes de confirmar"),
-                    (0, preact_mjs_1.h)("span", null, (0, preact_mjs_1.h)(ui_js_1.Icon, { name: "check", size: 17 }), " Sin crear una cuenta"),
-                    (0, preact_mjs_1.h)("span", null, (0, preact_mjs_1.h)(ui_js_1.Icon, { name: "check", size: 17 }), " Sin cobros autom\u00E1ticos")
-                ),
-                (0, preact_mjs_1.h)("div", { class: "hero-caption" },
-                    (0, preact_mjs_1.h)("span", { class: "caption-line" }),
-                    "De la primera consulta al \u00FAltimo kil\u00F3metro."
-                )
-            ),
-            (0, preact_mjs_1.h)("div", { class: "quick-card" },
-                (0, preact_mjs_1.h)("div", { class: "quick-card-heading" },
-                    (0, preact_mjs_1.h)("span", { class: "eyebrow" }, "EMPEZ\u00C1 POR EL RECORRIDO"),
-                    (0, preact_mjs_1.h)("h2", null, "\u00BFDe d\u00F3nde a d\u00F3nde?"),
-                    (0, preact_mjs_1.h)("p", null, "Contanos lo esencial. Despu\u00E9s, los detalles.")
-                ),
-                (0, preact_mjs_1.h)("form", { onSubmit: onQuickSubmit, noValidate: true },
-                    (0, preact_mjs_1.h)("fieldset", { class: "quick-kind" },
-                        (0, preact_mjs_1.h)("legend", { class: "sr-only" }, "Tipo de servicio"),
-                        ['freight', 'passengers', 'special'].map(kind => (0, preact_mjs_1.h)("button", {
-                            key: kind,
-                            type: "button",
-                            "aria-pressed": draft.kind === kind,
-                            class: draft.kind === kind ? 'selected' : '',
-                            onClick: () => onDraft({ kind })
-                        },
-                            (0, preact_mjs_1.h)(ui_js_1.Icon, { name: kind === 'freight' ? 'truck' : kind === 'passengers' ? 'users' : 'route', size: 18 }),
-                            kind === 'freight' ? 'Flete' : kind === 'passengers' ? 'Pasajeros' : 'Especial'
-                        ))
-                    ),
-                    (0, preact_mjs_1.h)("div", { class: "quick-stops" },
-                        (0, preact_mjs_1.h)(ui_js_1.Field, { id: "quick-origin", label: "Origen", error: errors.origin },
-                            (0, preact_mjs_1.h)("input", {
-                                id: "quick-origin",
-                                autoComplete: "off",
-                                placeholder: "Direcci\u00F3n y localidad de salida",
-                                maxLength: 240,
-                                value: draft.origin,
-                                onInput: (e) => onDraft({ origin: inputValue(e) }),
-                                "aria-invalid": Boolean(errors.origin),
-                                "aria-describedby": errors.origin ? 'quick-origin-hint' : undefined
-                            })
-                        ),
-                        (0, preact_mjs_1.h)(ui_js_1.Field, { id: "quick-destination", label: "Destino", error: errors.destination },
-                            (0, preact_mjs_1.h)("input", {
-                                id: "quick-destination",
-                                autoComplete: "off",
-                                placeholder: "Direcci\u00F3n y localidad de llegada",
-                                maxLength: 240,
-                                value: draft.destination,
-                                onInput: (e) => onDraft({ destination: inputValue(e) }),
-                                "aria-invalid": Boolean(errors.destination),
-                                "aria-describedby": errors.destination ? 'quick-destination-hint' : undefined
-                            })
-                        )
-                    ),
-                    (0, preact_mjs_1.h)("button", { class: "button button-dark full", type: "submit" },
-                        "Continuar solicitud",
-                        (0, preact_mjs_1.h)(ui_js_1.Icon, { name: "arrow", size: 18 })
-                    ),
-                    (0, preact_mjs_1.h)("p", { class: "quick-footnote" },
-                        (0, preact_mjs_1.h)(ui_js_1.Icon, { name: "info", size: 14 }),
-                        "Ped\u00ED una cotizaci\u00F3n antes de confirmar."
-                    )
-                )
-            )
-        ),
-        (0, preact_mjs_1.h)("section", { class: "container confidence-strip", "aria-label": "C\u00F3mo te acompa\u00F1amos" },
-            (0, preact_mjs_1.h)("div", null,
-                (0, preact_mjs_1.h)(ui_js_1.Icon, { name: "check" }),
-                (0, preact_mjs_1.h)("span", null, "Cotizaci\u00F3n antes", (0, preact_mjs_1.h)("br", null), (0, preact_mjs_1.h)("strong", null, "de confirmar"))
-            ),
-            (0, preact_mjs_1.h)("div", null,
-                (0, preact_mjs_1.h)(ui_js_1.Icon, { name: "lock" }),
-                (0, preact_mjs_1.h)("span", null, "Sin crear", (0, preact_mjs_1.h)("br", null), (0, preact_mjs_1.h)("strong", null, "una cuenta"))
-            ),
-            (0, preact_mjs_1.h)("div", null,
-                (0, preact_mjs_1.h)(ui_js_1.Icon, { name: "route" }),
-                (0, preact_mjs_1.h)("span", null, "Consultar el estado", (0, preact_mjs_1.h)("br", null), (0, preact_mjs_1.h)("strong", null, "de la solicitud"))
-            ),
-            (0, preact_mjs_1.h)("div", null,
-                (0, preact_mjs_1.h)(ui_js_1.Icon, { name: "phone" }),
-                (0, preact_mjs_1.h)("span", null, "Coordinaci\u00F3n", (0, preact_mjs_1.h)("br", null), (0, preact_mjs_1.h)("strong", null, "con el operador"))
-            )
-        ),
-        (0, preact_mjs_1.h)("section", { id: "servicios", class: "container services-section" },
-            (0, preact_mjs_1.h)("div", { class: "section-heading" },
-                (0, preact_mjs_1.h)("div", null,
-                    (0, preact_mjs_1.h)("span", { class: "eyebrow" }, "UN SERVICIO PARA CADA NECESIDAD"),
-                    (0, preact_mjs_1.h)("h2", null, "Lo que necesit\u00E1s mover.", (0, preact_mjs_1.h)("br", null), "El viaje que necesit\u00E1s hacer.")
-                ),
-                (0, preact_mjs_1.h)("p", null, "Eleg\u00ED tu servicio.", (0, preact_mjs_1.h)("br", null), "Nos ocupamos de coordinar los detalles.")
-            ),
-            (0, preact_mjs_1.h)("div", { class: "services-grid" }, [
-                ['freight', 'Fletes y cargas', 'Muebles, cajas y mercadería.', 'Indicá el tamaño, sumá fotos y contanos si necesitás ayuda para cargar.', 'truck'],
-                ['passengers', 'Traslado de pasajeros', 'Solo, en grupo o con equipaje.', 'Elegí la cantidad de pasajeros y coordiná un viaje de ida o ida y vuelta.', 'users'],
-                ['special', 'Traslados especiales', 'Un recorrido fuera de lo habitual.', 'Describí lo que necesitás para que podamos evaluar una solución a medida.', 'route'],
-            ].map(([kind, title, intro, text, icon], index) => (0, preact_mjs_1.h)("button", {
-                class: `service-card service-${kind}`,
-                onClick: () => onStart(kind),
-                key: kind,
-                "aria-label": `Solicitar ${title.toLowerCase()}`
-            },
-                (0, preact_mjs_1.h)("div", { class: "service-card-top" },
-                    (0, preact_mjs_1.h)("span", { class: "service-number" }, "0", index + 1),
-                    (0, preact_mjs_1.h)("span", { class: "service-icon" }, (0, preact_mjs_1.h)(ui_js_1.Icon, { name: icon, size: 28 }))
-                ),
-                (0, preact_mjs_1.h)("h3", null, title),
-                (0, preact_mjs_1.h)("p", null, (0, preact_mjs_1.h)("strong", null, intro), " ", text),
-                (0, preact_mjs_1.h)("span", { class: "card-link" },
-                    "Solicitar servicio",
-                    (0, preact_mjs_1.h)(ui_js_1.Icon, { name: "arrow", size: 18 })
-                )
-            )))
-        ),
-        (0, preact_mjs_1.h)("section", { id: "como-funciona", class: "how-section" },
-            (0, preact_mjs_1.h)("div", { class: "container" },
-                (0, preact_mjs_1.h)("div", { class: "section-heading" },
-                    (0, preact_mjs_1.h)("div", null,
-                        (0, preact_mjs_1.h)("span", { class: "eyebrow" }, "VOS SAB\u00C9S QU\u00C9 SIGUE"),
-                        (0, preact_mjs_1.h)("h2", null, "Menos idas y vueltas.", (0, preact_mjs_1.h)("br", null), "M\u00E1s claridad en cada paso.")
-                    ),
-                    (0, preact_mjs_1.h)("p", null, "Enviar la solicitud es el comienzo.", (0, preact_mjs_1.h)("br", null), "El viaje se confirma despu\u00E9s de coordinar.")
-                ),
-                (0, preact_mjs_1.h)("div", { class: "how-grid" }, [
-                    ['01', 'Pedí tu servicio', 'Origen, destino, fecha y los datos necesarios para cotizar sin vueltas.'],
-                    ['02', 'Revisá la propuesta', 'Conocé el precio y aceptá la cotización antes de avanzar.'],
-                    ['03', 'Seguí el traslado', 'El operador informa el estado del servicio hasta finalizar.'],
-                ].map(([n, title, text]) => (0, preact_mjs_1.h)("article", { class: "how-step", key: n },
-                    (0, preact_mjs_1.h)("span", null, n),
-                    (0, preact_mjs_1.h)("h3", null, title),
-                    (0, preact_mjs_1.h)("p", null, text)
-                ))),
-                (0, preact_mjs_1.h)("div", { class: "process-note" },
-                    (0, preact_mjs_1.h)(ui_js_1.Icon, { name: "info", size: 18 }),
-                    (0, preact_mjs_1.h)("p", null, "Aceptar una cotizaci\u00F3n no genera un cobro autom\u00E1tico. Las condiciones del servicio, la disponibilidad y el veh\u00EDculo se definen con el prestador.")
-                )
-            )
-        ),
-        (0, preact_mjs_1.h)("section", { id: "cobertura", class: "container coverage-section" },
-            (0, preact_mjs_1.h)(ui_js_1.TransportArt, null),
-            (0, preact_mjs_1.h)("div", { class: "coverage-copy" },
-                (0, preact_mjs_1.h)("span", { class: "eyebrow" }, "CADA RECORRIDO ES DIFERENTE"),
-                (0, preact_mjs_1.h)("h2", null, "\u00BFHasta d\u00F3nde", (0, preact_mjs_1.h)("br", null), (0, preact_mjs_1.h)("em", null, "necesit\u00E1s llegar?")),
-                (0, preact_mjs_1.h)("p", null, hasCoverage ? configuredCoverage : 'Consultá disponibilidad para tu recorrido. Indicá origen y destino y te preparamos una cotización.'),
-                (0, preact_mjs_1.h)("div", { class: "coverage-route", "aria-label": "El recorrido se consulta antes de confirmar" },
-                    (0, preact_mjs_1.h)("span", null, (0, preact_mjs_1.h)("i", { class: "origin-dot" }), "Tu origen"),
-                    (0, preact_mjs_1.h)("span", { class: "coverage-dashes" }),
-                    (0, preact_mjs_1.h)(ui_js_1.Icon, { name: "arrow", size: 17 }),
-                    (0, preact_mjs_1.h)("span", null, (0, preact_mjs_1.h)("i", { class: "destination-dot" }), "Tu destino")
-                ),
-                (0, preact_mjs_1.h)("p", { class: "tiny coverage-disclaimer" }, "Cobertura, veh\u00EDculos y condiciones se personalizan con el prestador. La ilustraci\u00F3n y los datos del recorrido son de demostraci\u00F3n."),
-                (0, preact_mjs_1.h)("button", { class: "text-link", onClick: () => onScroll('quick-origin') },
-                    "Consultar mi recorrido",
-                    (0, preact_mjs_1.h)(ui_js_1.Icon, { name: "arrow", size: 17 })
-                )
-            )
-        ),
-        (0, preact_mjs_1.h)("section", { id: "preguntas", class: "container faq-section" },
-            (0, preact_mjs_1.h)("div", { class: "faq-heading" },
-                (0, preact_mjs_1.h)("span", { class: "eyebrow" }, "ANTES DE ARRANCAR"),
-                (0, preact_mjs_1.h)("h2", null, "Algunas respuestas,", (0, preact_mjs_1.h)("br", null), "para viajar tranquilo."),
-                (0, preact_mjs_1.h)("p", null, "Lo importante, sin letra chica.")
-            ),
-            (0, preact_mjs_1.h)("div", { class: "faq-list" }, [
-                ['¿Cómo se calcula el precio?', 'El prestador revisa el recorrido y los detalles de tu solicitud y carga una cotización para revisar. Esta demo no aplica una tarifa automática.'],
-                ['¿Puedo programarlo para otro día?', 'Sí. En la solicitud podés indicar una fecha y horario de salida. La coordinación queda a definir con el prestador.'],
-                ['¿También puedo pedir un traslado de pasajeros?', 'Sí. Elegí “Pasajeros”, indicá cuántas personas viajan, el equipaje y si necesitás ida y vuelta. La unidad y sus plazas se coordinan antes de confirmar.'],
-                ['¿Cuándo queda confirmado mi servicio?', 'Primero recibís la cotización. Después podés aceptar el importe y coordinar las condiciones pendientes con el prestador. El enlace permite consultar el estado de la solicitud.'],
-            ].map(([question, answer]) => (0, preact_mjs_1.h)("details", { key: question },
-                (0, preact_mjs_1.h)("summary", null,
-                    question,
-                    (0, preact_mjs_1.h)("span", { class: "faq-plus" }, (0, preact_mjs_1.h)(ui_js_1.Icon, { name: "plus", size: 18 }))
-                ),
-                (0, preact_mjs_1.h)("p", null, answer)
-            )))
-        ),
-        (0, preact_mjs_1.h)("section", { class: "container closing-section" },
-            (0, preact_mjs_1.h)("div", { class: "closing-panel" },
-                (0, preact_mjs_1.h)("div", null,
-                    (0, preact_mjs_1.h)("span", { class: "eyebrow" }, "COORDINEMOS EL PR\u00D3XIMO RECORRIDO"),
-                    (0, preact_mjs_1.h)("h2", null, "Vos dec\u00EDs a d\u00F3nde.", (0, preact_mjs_1.h)("br", null), "Empecemos por ah\u00ED."),
-                    (0, preact_mjs_1.h)("p", null, "Una solicitud clara. Una propuesta antes de salir.")
-                ),
-                (0, preact_mjs_1.h)("button", { class: "button button-primary button-large", onClick: () => onStart() },
-                    "Solicitar servicio",
-                    (0, preact_mjs_1.h)(ui_js_1.Icon, { name: "arrow" })
-                )
-            ),
-            (0, preact_mjs_1.h)("div", { class: "contact-strip" },
-                (0, preact_mjs_1.h)("span", null, (0, preact_mjs_1.h)(ui_js_1.Icon, { name: "message" }), "\u00BFYa hiciste una solicitud?"),
-                (0, preact_mjs_1.h)("a", { class: "text-link", href: "#/seguimiento" },
-                    "Consultar el estado",
-                    (0, preact_mjs_1.h)(ui_js_1.Icon, { name: "arrow", size: 16 })
-                ),
-                contact && (0, preact_mjs_1.h)("a", { class: "text-link", href: contact, target: "_blank", rel: "noopener noreferrer" },
-                    "Consultar por WhatsApp",
-                    (0, preact_mjs_1.h)(ui_js_1.Icon, { name: "external", size: 16 })
-                )
-            )
-        )
-    );
+    const coverage = typeof business.coverage === 'string' ? business.coverage.trim() : '';
+    const hasCoverage = Boolean(coverage && coverage !== domain_js_1.defaultConfig.coverage);
+    const services = [
+        ['freight', 'Fletes y cargas', 'Muebles, cajas o mercadería.', 'Sumá una foto y los detalles de tu carga.', 'truck'],
+        ['passengers', 'Traslado de pasajeros', 'Tu próximo viaje, coordinado.', 'Indicá pasajeros, equipaje y si necesitás volver.', 'users'],
+        ['special', 'Traslados especiales', 'No todos los recorridos son iguales.', 'Contanos qué necesitás y evaluamos tu solicitud.', 'route'],
+    ];
+    const faq = [
+        ['¿Cómo se calcula el precio?', 'El operador revisa tu recorrido y los detalles antes de cotizar. No hay tarifas automáticas: primero conocés la propuesta.'],
+        ['¿Puedo programarlo para otro día?', 'Sí. Podés pedir una fecha y un horario. La disponibilidad se coordina con el prestador antes de confirmar el servicio.'],
+        ['¿También puedo pedir un traslado de pasajeros?', 'Sí. Elegí Pasajeros e indicá cuántas personas viajan, qué equipaje llevan y si necesitás ida y vuelta.'],
+        ['¿Cuándo queda confirmado mi servicio?', 'Aceptar el importe no confirma el viaje ni realiza un cobro. El operador revisa disponibilidad y condiciones y luego confirma el servicio.'],
+    ];
+    return h('main', { id: 'main', tabIndex: -1, class: 'commercial-home' },
+        h('section', { class: 'hero container', 'aria-labelledby': 'hero-title' },
+            h('div', { class: 'hero-copy' },
+                h('div', { class: 'eyebrow hero-eyebrow' }, h('span', { class: 'little-line' }), 'FLETES · PASAJEROS · ESPECIALES'),
+                h('h1', { id: 'hero-title', tabIndex: -1 }, 'Tu traslado,', h('br'), h('em', null, 'sin vueltas.')),
+                h('p', { class: 'hero-intro' }, 'Contanos de dónde a dónde. Recibí una cotización y seguí cada paso desde acá.'),
+                h('div', { class: 'hero-actions' },
+                    h('button', { class: 'button button-primary button-large', onClick: () => onStart() }, 'Solicitar servicio', h(Icon, { name: 'arrow', size: 18 })),
+                    h('button', { class: 'text-link how-link', onClick: () => onScroll('como-funciona') }, 'Ver cómo funciona', h(Icon, { name: 'chevron', size: 16 }))),
+                h('div', { class: 'hero-scene' }, h(TransportArt)),
+                h('div', { class: 'hero-assurances' },
+                    h('span', null, h(Icon, { name: 'check', size: 16 }), 'Primero la cotización'),
+                    h('span', null, h(Icon, { name: 'check', size: 16 }), 'Sin crear una cuenta'))),
+            h('div', { class: 'quick-card' },
+                h('div', { class: 'quick-card-heading' },
+                    h('span', { class: 'eyebrow' }, 'EMPEZAMOS POR ACÁ'),
+                    h('h2', null, '¿De dónde a dónde?'),
+                    h('p', null, 'Elegí el servicio y armá tu recorrido.')),
+                h('form', { onSubmit: onQuickSubmit, noValidate: true },
+                    h('fieldset', { class: 'quick-kind' },
+                        h('legend', { class: 'sr-only' }, 'Tipo de servicio'),
+                        services.map(([kind, , , , icon]) => h('button', {
+                            key: kind, type: 'button', 'aria-pressed': draft.kind === kind,
+                            class: draft.kind === kind ? 'selected' : '', onClick: () => onDraft({ kind }),
+                        }, h(Icon, { name: icon, size: 21 }), kind === 'freight' ? 'Flete' : kind === 'passengers' ? 'Pasajeros' : 'Especial'))),
+                    h('div', { class: 'quick-stops' },
+                        h(Field, { id: 'quick-origin', label: 'Origen', error: errors.origin },
+                            h('input', { id: 'quick-origin', autoComplete: 'off', enterKeyHint: 'next', placeholder: 'Dirección y localidad de salida', maxLength: 240, value: draft.origin,
+                                onInput: e => onDraft({ origin: e.currentTarget.value }), 'aria-invalid': Boolean(errors.origin), 'aria-describedby': errors.origin ? 'quick-origin-hint' : undefined })),
+                        h(Field, { id: 'quick-destination', label: 'Destino', error: errors.destination },
+                            h('input', { id: 'quick-destination', autoComplete: 'off', enterKeyHint: 'go', placeholder: 'Dirección y localidad de llegada', maxLength: 240, value: draft.destination,
+                                onInput: e => onDraft({ destination: e.currentTarget.value }), 'aria-invalid': Boolean(errors.destination), 'aria-describedby': errors.destination ? 'quick-destination-hint' : undefined }))),
+                    h('div', { class: 'quick-next' }, h(Icon, { name: 'calendar', size: 17 }), 'Después elegís la fecha y sumás los detalles.'),
+                    h('button', { class: 'button button-dark full', type: 'submit' }, 'Continuar solicitud', h(Icon, { name: 'arrow', size: 18 })),
+                    h('p', { class: 'quick-footnote' }, h(Icon, { name: 'lock', size: 14 }), 'Sin reservar ni pagar en este paso.')))),
+        h('section', { id: 'servicios', class: 'container services-section' },
+            h('div', { class: 'section-heading' },
+                h('div', null, h('span', { class: 'eyebrow' }, '¿QUÉ NECESITÁS TRASLADAR?'), h('h2', null, 'Un lugar para cada recorrido.')),
+                h('p', null, 'Elegí tu servicio. Los detalles vienen después.')),
+            h('div', { class: 'services-grid' }, services.map(([kind, title, intro, text, icon], i) => h('button', {
+                key: kind, class: `service-card service-${kind}`, onClick: () => onStart(kind), 'aria-label': `Solicitar ${title.toLowerCase()}`,
+            }, h('div', { class: 'service-card-top' }, h('span', { class: 'service-icon' }, h(Icon, { name: icon, size: 29 })), h('span', { class: 'service-number' }, '0', i + 1)),
+                h('h3', null, title), h('p', null, h('strong', null, intro), h('br'), text),
+                h('span', { class: 'card-link' }, 'Solicitar servicio', h(Icon, { name: 'arrow', size: 19 })))))),
+        h('section', { id: 'como-funciona', class: 'how-section' }, h('div', { class: 'container' },
+            h('div', { class: 'section-heading' }, h('div', null, h('span', { class: 'eyebrow' }, 'SABÉS QUÉ SIGUE'), h('h2', null, 'Del pedido al traslado.')),
+                h('p', null, 'Vos hacés la consulta. El operador coordina el servicio.')),
+            h('div', { class: 'how-grid' }, [
+                ['01', 'Pedí tu servicio', 'Recorrido, fecha y lo que necesitás trasladar.', 'route'],
+                ['02', 'Revisá la cotización', 'Conocé el importe. El viaje se confirma por separado.', 'check'],
+                ['03', 'Consultá el estado', 'Seguí las actualizaciones informadas por el operador.', 'truck'],
+            ].map(([n, title, text, icon]) => h('article', { class: 'how-step', key: n }, h('div', { class: 'how-step-head' }, h('span', null, n), h(Icon, { name: icon, size: 20 })), h('h3', null, title), h('p', null, text)))))),
+        h('section', { id: 'cobertura', class: 'container coverage-section' },
+            h('div', { class: 'coverage-copy' }, h('span', { class: 'eyebrow' }, 'CADA RECORRIDO ES DIFERENTE'), h('h2', null, 'Vos decís a dónde.'),
+                h('p', null, hasCoverage ? coverage : 'Consultá disponibilidad para tu recorrido. La zona y las condiciones se coordinan con el prestador.'),
+                h('button', { class: 'text-link', onClick: () => onScroll('quick-origin') }, 'Consultar mi recorrido', h(Icon, { name: 'arrow', size: 18 }))),
+            h('div', { class: 'coverage-route', 'aria-label': 'El recorrido se consulta antes de confirmar' },
+                h('span', null, h('i', { class: 'origin-dot' }), 'Tu origen'), h('span', { class: 'coverage-dashes' }), h(Icon, { name: 'arrow', size: 22 }), h('span', null, h('i', { class: 'destination-dot' }), 'Tu destino'))),
+        h('section', { id: 'preguntas', class: 'container faq-section' },
+            h('div', { class: 'faq-heading' }, h('span', { class: 'eyebrow' }, 'ANTES DE ARRANCAR'), h('h2', null, 'Las dudas, ', h('br'), 'sin vueltas.')),
+            h('div', { class: 'faq-list' }, faq.map(([question, answer]) => h('details', { key: question },
+                h('summary', null, question, h('span', { class: 'faq-plus' }, h(Icon, { name: 'plus', size: 18 }))), h('p', null, answer))))),
+        h('section', { class: 'container closing-section' },
+            h('div', { class: 'closing-panel' }, h('div', null, h('span', { class: 'eyebrow' }, 'TU PRÓXIMO RECORRIDO'), h('h2', null, 'Empecemos por tu solicitud.'), h('p', null, 'El primer paso es contarnos qué necesitás.')),
+                h('button', { class: 'button button-primary button-large', onClick: () => onStart() }, 'Solicitar servicio', h(Icon, { name: 'arrow' }))),
+            h('div', { class: 'contact-strip' }, h('span', null, '¿Ya hiciste una solicitud?'), h('a', { class: 'text-link', href: '#/seguimiento' }, 'Consultar el estado', h(Icon, { name: 'arrow', size: 17 })))));
 }
 
 function DemoGuide({ onStart, onExample, onReset, busy }) {
@@ -1349,22 +1198,22 @@ const domain_js_1 = require("./domain.js");
 const serviceIcon = { freight: 'truck', passengers: 'users', special: 'route' };
 
 const titles = {
-    new: 'El próximo paso: revisar tu solicitud.',
+    new: 'Recibimos tu solicitud.',
     reviewing: 'Estamos revisando los detalles.',
     quoted: 'Tu cotización está lista.',
-    confirmed: 'Servicio informado como confirmado.',
-    en_route: 'Salida informada por el prestador.',
-    in_service: 'Servicio informado en curso.',
+    confirmed: 'Tu servicio está confirmado.',
+    en_route: 'El vehículo está en camino.',
+    in_service: 'Tu traslado está en curso.',
     completed: 'Llegamos al final del recorrido.',
     cancelled: 'Esta solicitud fue cancelada.',
 };
 
 const descriptions = {
-    new: 'El prestador revisa el recorrido, la fecha y lo que necesitás trasladar antes de preparar una propuesta.',
-    reviewing: 'Se está revisando el recorrido y la información enviada. Acá vas a poder consultar la cotización cuando esté cargada.',
-    quoted: 'Revisá el importe antes de aceptarlo. Aceptar la cotización expresa tu acuerdo con ese importe; después se coordinan las condiciones del servicio con el prestador.',
-    confirmed: 'El prestador informó el servicio como confirmado. Consultá al prestador cualquier condición pendiente.',
-    en_route: 'El operador informó la salida del vehículo hacia el punto de encuentro acordado. Estados informados por el operador, sin GPS.',
+    new: 'El próximo paso es revisar los detalles y preparar tu cotización.',
+    reviewing: 'El operador está revisando los detalles. La cotización va a aparecer acá.',
+    quoted: 'Revisá el importe y los datos del recorrido. La disponibilidad se confirma después de aceptar.',
+    confirmed: 'Confirmación informada por el operador. Consultá cualquier ajuste del recorrido con el prestador.',
+    en_route: 'El operador informó la salida hacia el punto de origen. No es una ubicación GPS.',
     in_service: 'El operador informó que comenzó el servicio. El siguiente paso es marcarlo como finalizado al llegar a destino.',
     completed: 'El prestador marcó el servicio como finalizado.',
     cancelled: 'No hay un servicio activo asociado a esta solicitud. Podés comenzar una nueva consulta cuando lo necesites.',
@@ -1419,7 +1268,7 @@ function TrackingView({ tracking: t, error, success, business, preview, busy, lo
                             (0, preact_mjs_1.h)("div", null,
                                 (0, preact_mjs_1.h)("span", { class: "eyebrow" }, awaiting ? 'PROPUESTA ACEPTADA' : 'ESTADO ACTUAL'),
                                 (0, preact_mjs_1.h)("h2", null, awaiting ? 'Aceptaste la cotización.' : titles[t.status]),
-                                (0, preact_mjs_1.h)("p", null, awaiting ? 'Cotización aceptada. Quedan por definir las condiciones del servicio con el prestador. Todavía no hay un viaje confirmado y no se realizó ningún cobro.' : descriptions[t.status])
+                                (0, preact_mjs_1.h)("p", null, awaiting ? 'El importe quedó aceptado. Falta la confirmación del operador; todavía no hay un viaje confirmado ni un cobro.' : descriptions[t.status])
                             )
                         ),
                         (0, preact_mjs_1.h)("div", { class: "tracking-code" },
@@ -1429,11 +1278,6 @@ function TrackingView({ tracking: t, error, success, business, preview, busy, lo
                             ),
                             (0, preact_mjs_1.h)(ui_js_1.Badge, { status: t.status })
                         ),
-                        (0, preact_mjs_1.h)("div", { class: "tracking-service" },
-                            (0, preact_mjs_1.h)(ui_js_1.Icon, { name: serviceIcon[t.kind] }),
-                            (0, preact_mjs_1.h)("strong", null, domain_js_1.serviceLabels[t.kind])
-                        ),
-                        (0, preact_mjs_1.h)(ui_js_1.RouteCard, { origin: t.origin, destination: t.destination, scheduledAt: t.scheduled_at }),
                         t.quote_cents !== null && (
                             (0, preact_mjs_1.h)("section", { class: "quote-response quote-hero" },
                                 (0, preact_mjs_1.h)("div", { class: "price-block price-protagonist" },
@@ -1446,7 +1290,7 @@ function TrackingView({ tracking: t, error, success, business, preview, busy, lo
                                     ),
                                     (0, preact_mjs_1.h)("div", { class: "price-badge" },
                                         (0, preact_mjs_1.h)(ui_js_1.Icon, { name: "info", size: 16 }),
-                                        (0, preact_mjs_1.h)("span", null, "Sin cobros", (0, preact_mjs_1.h)("br", null), "autom\u00E1ticos")
+                                        (0, preact_mjs_1.h)("span", null, "Sin cobros ", (0, preact_mjs_1.h)("br", null), "autom\u00E1ticos")
                                     )
                                 ),
                                 preview && t.status === 'quoted' && !accepted && (
@@ -1461,7 +1305,7 @@ function TrackingView({ tracking: t, error, success, business, preview, busy, lo
                                         ),
                                         (0, preact_mjs_1.h)("p", { class: "accept-disclaimer" },
                                             (0, preact_mjs_1.h)(ui_js_1.Icon, { name: "info", size: 15 }),
-                                            "Al aceptar, confirmás tu acuerdo con el importe. Luego se coordinan las condiciones del servicio con el prestador."
+                                            "Aceptar el precio no confirma el viaje ni realiza un cobro."
                                         )
                                     )
                                 ),
@@ -1477,6 +1321,11 @@ function TrackingView({ tracking: t, error, success, business, preview, busy, lo
                                 )
                             )
                         ),
+                        (0, preact_mjs_1.h)("div", { class: "tracking-service" },
+                            (0, preact_mjs_1.h)(ui_js_1.Icon, { name: serviceIcon[t.kind] }),
+                            (0, preact_mjs_1.h)("strong", null, domain_js_1.serviceLabels[t.kind])
+                        ),
+                        (0, preact_mjs_1.h)(ui_js_1.RouteCard, { origin: t.origin, destination: t.destination, scheduledAt: t.scheduled_at }),
                         t.vehicle && (
                             (0, preact_mjs_1.h)("section", { class: "assigned-vehicle" },
                                 (0, preact_mjs_1.h)("span", { class: "assigned-icon" },
@@ -1637,6 +1486,9 @@ const ui_js_1 = require("./ui.js");
 const domain_js_1 = require("./domain.js");
 const tracking_js_1 = require("./tracking.js");
 const commercial_js_1 = require("./commercial.js");
+
+const { h } = preact_mjs_1;
+const { Icon } = ui_js_1;
 
 const serviceIcon = { freight: 'truck', passengers: 'users', special: 'route' };
 const steps = ['Servicio', 'Recorrido', 'Fecha', 'Detalles', 'Contacto', 'Resumen'];
@@ -2418,11 +2270,11 @@ class App extends preact_mjs_1.Component {
             'Escribí origen y destino. Podés sumar detalles en el siguiente paso.',
             'Elegí si lo necesitás lo antes posible o preferís programar una fecha y hora.',
             'Estos datos ayudan a preparar una cotización y evaluar el servicio solicitado.',
-            'Usaremos tus datos para esta presentación y, al personalizarla, para coordinar el traslado.',
+            'Usá datos ficticios para probar el formulario. No se enviarán mensajes.',
             'Enviar la solicitud no confirma el viaje ni genera ningún cobro.'
         ];
 
-        return (0, preact_mjs_1.h)("main", { id: "main", class: "container wizard-main" },
+        return (0, preact_mjs_1.h)("main", { id: "main", class: "container wizard-main", "data-step": step },
             (0, preact_mjs_1.h)("div", { class: "wizard-top" },
                 (0, preact_mjs_1.h)("a", { href: "#/", class: "text-link" },
                     (0, preact_mjs_1.h)(ui_js_1.Icon, { name: "back", size: 17 }),
@@ -2436,12 +2288,15 @@ class App extends preact_mjs_1.Component {
                     "aria-current": i === step ? 'step' : undefined,
                     key: name
                 },
-                    (0, preact_mjs_1.h)("span", null, i < step ? (0, preact_mjs_1.h)(ui_js_1.Icon, { name: "check", size: 14 }) : i + 1),
-                    (0, preact_mjs_1.h)("b", null, name)
+                    h('button', {
+                        type: 'button', disabled: i >= step || busy,
+                        'aria-label': i < step ? `Volver al paso ${i + 1}: ${name}` : `Paso ${i + 1}: ${name}`,
+                        onClick: () => { if (i < step) { this.set({ step: i, errors: {} }); this.stash(this.state.draft, i); this.focusHeading(); } }
+                    }, h('span', null, i < step ? h(Icon, { name: 'check', size: 14 }) : i + 1), h('b', null, name))
                 ))
             ),
             (0, preact_mjs_1.h)("div", { class: "wizard-layout" },
-                (0, preact_mjs_1.h)("section", { class: "wizard-form" },
+                (0, preact_mjs_1.h)("section", { class: "wizard-form", 'data-step': step },
                     (0, preact_mjs_1.h)("span", { class: "eyebrow" }, steps[step]),
                     (0, preact_mjs_1.h)("h1", { tabIndex: -1 }, titles[step]),
                     (0, preact_mjs_1.h)("p", { class: "subtitle" }, subtitles[step]),
@@ -2838,7 +2693,7 @@ class App extends preact_mjs_1.Component {
                     ),
                     (0, preact_mjs_1.h)("div", { class: "form-footnote" },
                         (0, preact_mjs_1.h)(ui_js_1.Icon, { name: "lock", size: 14 }),
-                        this.state.saved ? 'Borrador conservado en esta pestaña.' : 'Tus datos se envían al confirmar la solicitud.'
+                        this.state.saved ? 'Borrador conservado en esta pestaña.' : 'La solicitud se guarda cuando confirmás el envío.'
                     )
                 ),
                 (0, preact_mjs_1.h)("aside", { class: "wizard-aside" },
@@ -2846,6 +2701,7 @@ class App extends preact_mjs_1.Component {
                         (0, preact_mjs_1.h)("span", { class: "eyebrow" }, "AS\u00CD VA TU SOLICITUD"),
                         (0, preact_mjs_1.h)("h3", null, domain_js_1.serviceLabels[p.kind]),
                         (0, preact_mjs_1.h)(ui_js_1.RouteCard, { origin: p.origin, destination: p.destination, scheduledAt: p.scheduled_at, compact: true }),
+                        step > 1 && h('button', { type: 'button', class: 'text-link edit-route', onClick: () => { this.set({ step: 1, errors: {} }); this.stash(this.state.draft, 1); this.focusHeading(); } }, h(Icon, { name: 'edit', size: 14 }), 'Editar recorrido'),
                         (0, preact_mjs_1.h)("div", { class: "aside-note" },
                             (0, preact_mjs_1.h)(ui_js_1.Icon, { name: "info" }),
                             (0, preact_mjs_1.h)("p", null, "Vos compartís lo que necesitás. El prestador revisa la solicitud y prepara una cotización.")
@@ -3186,7 +3042,7 @@ class App extends preact_mjs_1.Component {
                             ),
                             (0, preact_mjs_1.h)("td", null,
                                 (0, preact_mjs_1.h)("span", { class: "table-date" }, (0, domain_js_1.dateText)(r.payload.scheduled_at, true)),
-                                r.is_demo && (0, preact_mjs_1.h)("span", { class: "demo-tag" }, "DEMO")
+                                null
                             ),
                             (0, preact_mjs_1.h)("td", null,
                                 (0, preact_mjs_1.h)(ui_js_1.Badge, { status: r.status })
@@ -3214,7 +3070,7 @@ class App extends preact_mjs_1.Component {
                     key: r.id
                 },
                     (0, preact_mjs_1.h)("div", { class: "request-mobile-top" },
-                        (0, preact_mjs_1.h)("span", null, r.code, r.is_demo && (0, preact_mjs_1.h)("small", null, "DEMO")),
+                        (0, preact_mjs_1.h)("span", null, r.code, null),
                         (0, preact_mjs_1.h)(ui_js_1.Badge, { status: r.status })
                     ),
                     (0, preact_mjs_1.h)("strong", null, r.payload.contact.name),
@@ -3240,157 +3096,59 @@ class App extends preact_mjs_1.Component {
     overview() {
         const requests = this.state.dashboard?.requests ?? [];
         const today = (0, domain_js_1.argentinaDay)(new Date().toISOString());
-
-        const counts = {
-            new: requests.filter(r => r.status === 'new').length,
-            waitingQuote: requests.filter(r => (r.status === 'new' || r.status === 'reviewing') && r.quote_cents === null).length,
-            accepted: requests.filter(r => r.status === 'quoted' && r.quote_accepted_at).length,
-            today: requests.filter(r => (0, domain_js_1.argentinaDay)(r.payload.scheduled_at ?? r.created_at) === today && !['completed', 'cancelled'].includes(r.status)).length,
-            active: requests.filter(r => ['en_route', 'in_service'].includes(r.status)).length,
-            confirmed: requests.filter(r => r.status === 'confirmed').length,
-            done: requests.filter(r => r.status === 'completed').length,
-            amount: requests.filter(r => ['quoted', 'confirmed', 'en_route', 'in_service'].includes(r.status)).reduce((n, r) => n + (r.quote_cents ?? 0), 0),
-        };
-
+        const unquoted = requests.filter(r => ['new', 'reviewing'].includes(r.status) && r.quote_cents === null);
         const accepted = requests.filter(r => r.status === 'quoted' && r.quote_accepted_at);
-        const unquoted = requests.filter(r => r.status === 'new');
         const needsVehicle = requests.filter(r => r.status === 'confirmed' && !r.vehicle_id);
-        const next = requests.filter(r => ['confirmed', 'en_route', 'in_service'].includes(r.status)).sort((a, b) => Date.parse(a.payload.scheduled_at ?? a.created_at) - Date.parse(b.payload.scheduled_at ?? b.created_at));
-
-        return (0, preact_mjs_1.h)("div", null,
-            (0, preact_mjs_1.h)("div", { class: "page-heading" },
-                (0, preact_mjs_1.h)("div", null,
-                    (0, preact_mjs_1.h)("span", { class: "eyebrow" }, "CONTROL DE OPERACIONES"),
-                    (0, preact_mjs_1.h)("h1", { tabIndex: -1 }, "¿Qué hay para resolver hoy?"),
-                    (0, preact_mjs_1.h)("p", null, "Prioridad operativa de la demo: cotizaciones, confirmaciones y estados en curso.")
-                ),
-                (0, preact_mjs_1.h)("a", { class: "button button-light", href: "#/solicitar", target: "_blank", rel: "noopener noreferrer" },
-                    (0, preact_mjs_1.h)(ui_js_1.Icon, { name: "plus", size: 18 }),
-                    "Abrir una solicitud"
-                )
-            ),
-            (0, preact_mjs_1.h)("div", { class: "metrics-grid operational-metrics" }, [
-                ['Nuevas solicitudes', counts.new, 'list', counts.new > 0 ? 'metric-urgent' : ''],
-                ['Esperando cotización', counts.waitingQuote, 'clock', counts.waitingQuote > 0 ? 'metric-warn' : ''],
-                ['Cotizaciones aceptadas', counts.accepted, 'check', counts.accepted > 0 ? 'metric-action' : ''],
-                ['Servicios de hoy', counts.today, 'calendar', ''],
-                ['En curso', counts.active, 'truck', ''],
-                ['Cotizaciones de ejemplo', (0, domain_js_1.money)(counts.amount), 'box', ''],
-            ].map(([label, total, icon, cls]) => (0, preact_mjs_1.h)("div", { class: `metric ${cls}`, key: label },
-                (0, preact_mjs_1.h)("span", null,
-                    label,
-                    (0, preact_mjs_1.h)(ui_js_1.Icon, { name: icon, size: 17 })
-                ),
-                (0, preact_mjs_1.h)("strong", null, total),
-                (0, preact_mjs_1.h)("small", null,
-                    label === 'Cotizaciones de ejemplo' ? 'Importes de demostración, no cobros'
-                        : label === 'Servicios de hoy' ? 'Hora de Argentina'
-                        : 'Acción operativa inmediata'
-                )
-            ))),
-            accepted.length > 0 && (
-                (0, preact_mjs_1.h)("section", { class: "accepted-queue panel urgent-action-panel" },
-                    (0, preact_mjs_1.h)("div", null,
-                        (0, preact_mjs_1.h)("span", { class: "eyebrow" }, "REQUIERE TU CONFIRMACI\u00D3N"),
-                        (0, preact_mjs_1.h)("h2", null, accepted.length, " ", accepted.length === 1 ? 'cotización aceptada' : 'cotizaciones aceptadas'),
-                        (0, preact_mjs_1.h)("p", null, "El cliente dio su conformidad con el importe. Revisá las condiciones pendientes y continuá la coordinación.")
-                    ),
-                    (0, preact_mjs_1.h)("button", {
-                        class: "button button-dark",
-                        onClick: () => {
-                            const r = accepted[0];
-                            if (r)
-                                this.go(`/admin/solicitudes/${r.id}`);
-                        }
-                    },
-                        "Revisar aceptaci\u00F3n",
-                        (0, preact_mjs_1.h)(ui_js_1.Icon, { name: "arrow", size: 18 })
-                    )
-                )
-            ),
-            (0, preact_mjs_1.h)("div", { class: "overview-grid" },
-                (0, preact_mjs_1.h)("section", { class: "panel needs-attention" },
-                    (0, preact_mjs_1.h)("span", { class: "eyebrow" }, "REQUIERE ATENCIÓN"),
-                    (0, preact_mjs_1.h)("div", { class: "attention-content" },
-                        (0, preact_mjs_1.h)("div", null,
-                            (0, preact_mjs_1.h)("h2", null,
-                                accepted.length ? `${accepted.length} ${accepted.length === 1 ? 'cotización espera' : 'cotizaciones esperan'} tu confirmación.`
-                                    : counts.new ? `${counts.new} ${counts.new === 1 ? 'solicitud nueva espera' : 'solicitudes nuevas esperan'} cotización.`
-                                    : needsVehicle.length ? `${needsVehicle.length} ${needsVehicle.length === 1 ? 'servicio confirmado' : 'servicios confirmados'} sin vehículo.`
-                                    : 'Todo al día en la operación.'
-                            ),
-                            (0, preact_mjs_1.h)("p", null,
-                                accepted.length ? 'El cliente ya aceptó el importe. Revisá las condiciones y asigná una unidad de demo si corresponde.'
-                                    : counts.new ? 'Revisá origen, destino y detalles para cargar el importe en pesos.'
-                                    : needsVehicle.length ? 'Asigná una unidad activa antes de dar salida al recorrido.'
-                                    : 'No hay solicitudes pendientes de respuesta o asignación.'
-                            ),
-                            (0, preact_mjs_1.h)("button", {
-                                class: "button button-dark",
-                                onClick: () => {
-                                    if (accepted.length) {
-                                        this.go(`/admin/solicitudes/${accepted[0].id}`);
-                                    } else if (counts.new) {
-                                        this.set({ statusFilter: 'new', search: '', serviceFilter: '', dateFilter: '', customer: null });
-                                        this.go('/admin/solicitudes');
-                                    } else {
-                                        this.set({ statusFilter: '', search: '', serviceFilter: '', dateFilter: '', customer: null });
-                                        this.go('/admin/solicitudes');
-                                    }
-                                }
-                            },
-                                accepted.length ? "Revisar y confirmar" : counts.new ? "Cotizar solicitudes" : "Ver todas las solicitudes",
-                                (0, preact_mjs_1.h)(ui_js_1.Icon, { name: "arrow", size: 18 })
-                            )
-                        ),
-                        (0, preact_mjs_1.h)("span", { class: "attention-icon" },
-                            (0, preact_mjs_1.h)(ui_js_1.Icon, { name: "route", size: 65 })
-                        )
-                    )
-                ),
-                (0, preact_mjs_1.h)("section", { class: "panel agenda-panel" },
-                    (0, preact_mjs_1.h)("div", { class: "panel-heading" },
-                        (0, preact_mjs_1.h)("h2", null, "En coordinación inmediata"),
-                        (0, preact_mjs_1.h)("span", { class: "count-pill" }, next.length)
-                    ),
-                    next.length ? (
-                        next.slice(0, 3).map(r => (0, preact_mjs_1.h)("button", {
-                            class: "agenda-item",
-                            key: r.id,
-                            onClick: () => this.go(`/admin/solicitudes/${r.id}`)
-                        },
-                            (0, preact_mjs_1.h)("span", { class: "agenda-icon" },
-                                (0, preact_mjs_1.h)(ui_js_1.Icon, { name: serviceIcon[r.payload.kind], size: 18 })
-                            ),
-                            (0, preact_mjs_1.h)("span", null,
-                                (0, preact_mjs_1.h)("strong", null, r.payload.contact.name),
-                                (0, preact_mjs_1.h)("small", null,
-                                    (0, domain_js_1.dateText)(r.payload.scheduled_at),
-                                    " \u00B7 ",
-                                    domain_js_1.labels[r.status]
-                                )
-                            ),
-                            (0, preact_mjs_1.h)(ui_js_1.Icon, { name: "chevron", size: 16 })
-                        ))
-                    ) : (
-                        (0, preact_mjs_1.h)("p", { class: "muted" }, "No hay datos demo en curso ni confirmados para las próximas horas.")
-                    )
-                )
-            ),
-            (0, preact_mjs_1.h)("section", { class: "panel recent-panel" },
-                (0, preact_mjs_1.h)("div", { class: "panel-heading" },
-                    (0, preact_mjs_1.h)("div", null,
-                        (0, preact_mjs_1.h)("h2", null, "\u00DAltimas solicitudes recibidas"),
-                        (0, preact_mjs_1.h)("p", null, "Seguimiento general de pedidos.")
-                    ),
-                    (0, preact_mjs_1.h)("a", { href: "#/admin/solicitudes", class: "text-link" },
-                        "Ver todas",
-                        (0, preact_mjs_1.h)(ui_js_1.Icon, { name: "arrow", size: 16 })
-                    )
-                ),
-                this.requestRows(requests.slice(0, 5), true)
-            )
-        );
+        const next = requests.filter(r => ['confirmed', 'en_route', 'in_service'].includes(r.status))
+            .sort((a, b) => Date.parse(a.payload.scheduled_at ?? a.created_at) - Date.parse(b.payload.scheduled_at ?? b.created_at));
+        const todayCount = requests.filter(r => !['completed', 'cancelled'].includes(r.status) &&
+            (0, domain_js_1.argentinaDay)(r.payload.scheduled_at ?? r.created_at) === today).length;
+        const activeCount = requests.filter(r => ['en_route', 'in_service'].includes(r.status)).length;
+        const queue = unquoted.length ? unquoted : needsVehicle;
+        const hasWork = unquoted.length || accepted.length || needsVehicle.length;
+        const total = requests.filter(r => !['cancelled', 'new', 'reviewing'].includes(r.status))
+            .reduce((n, r) => n + (r.quote_cents ?? 0), 0);
+        return h('div', { class: 'operations-overview' },
+            h('div', { class: 'page-heading' }, h('div', null,
+                h('span', { class: 'eyebrow' }, 'TU OPERACIÓN, EN ORDEN'),
+                h('h1', { tabIndex: -1 }, '¿Qué hay para resolver hoy?'),
+                h('p', null, 'Revisá las solicitudes y decidí el próximo paso.')),
+                h('a', { class: 'button button-dark', href: '#/solicitar' }, h(Icon, { name: 'plus', size: 18 }), 'Nueva solicitud')),
+            h('div', { class: 'metrics-grid operational-metrics' }, [
+                ['Por cotizar', unquoted.length, 'list', 'Recorridos por revisar', 'metric-urgent'],
+                ['Esperan confirmación', accepted.length, 'check', 'El cliente aceptó el importe', 'metric-action'],
+                ['Servicios de hoy', todayCount, 'calendar', 'Fecha solicitada · hora argentina', ''],
+                ['En curso', activeCount, 'truck', 'En camino o realizando el servicio', ''],
+            ].map(([label, count, icon, hint, cls]) => h('div', { key: label, class: `metric ${cls}` },
+                h('span', null, label, h(Icon, { name: icon, size: 17 })), h('strong', null, count), h('small', null, hint)))),
+            accepted.length > 0 && h('section', { class: 'accepted-queue panel urgent-action-panel' },
+                h('div', null, h('span', { class: 'eyebrow' }, 'EL CLIENTE YA RESPONDIÓ'),
+                    h('h2', null, `${accepted.length} ${accepted.length === 1 ? 'cotización aceptada' : 'cotizaciones aceptadas'}`),
+                    h('p', null, 'Revisá disponibilidad y condiciones antes de confirmar el viaje.')),
+                h('button', { class: 'button button-dark', onClick: () => this.go(`/admin/solicitudes/${accepted[0].id}`) }, 'Revisar aceptación', h(Icon, { name: 'arrow', size: 18 }))),
+            h('div', { class: 'overview-grid' },
+                h('section', { class: 'panel needs-attention' },
+                    h('div', { class: 'panel-heading' }, h('h2', null, 'Requiere atención'), h('span', { class: 'count-pill' }, queue.length)),
+                    h('p', { class: 'attention-summary' }, unquoted.length ? 'Estas solicitudes todavía no tienen precio.' : needsVehicle.length ? 'Falta asignar una unidad a estos servicios.' : hasWork ? 'Las cotizaciones aceptadas están listas para tu revisión.' : 'No hay solicitudes pendientes de respuesta.'),
+                    queue.length > 0 ? h('div', { class: 'attention-list' }, queue.slice(0, 3).map(r =>
+                        h('button', { class: 'attention-row', key: r.id, onClick: () => this.go(`/admin/solicitudes/${r.id}`) },
+                            h(Icon, { name: serviceIcon[r.payload.kind], size: 19 }),
+                            h('span', null, h('strong', null, r.payload.contact.name), h('small', null, `${r.code} · ${unquoted.length ? 'Preparar cotización' : 'Asignar vehículo'}`)),
+                            h(Icon, { name: 'arrow', size: 17 })))) : h('div', { class: 'attention-clear' }, h(Icon, { name: 'check', size: 30 }), 'Todo revisado en esta bandeja.'),
+                    h('a', { class: 'text-link', href: '#/admin/solicitudes' }, 'Abrir bandeja de solicitudes', h(Icon, { name: 'arrow', size: 16 }))),
+                h('section', { class: 'panel agenda-panel' },
+                    h('div', { class: 'panel-heading' }, h('h2', null, 'Próximos movimientos'), h('span', { class: 'count-pill' }, next.length)),
+                    next.length ? next.slice(0, 3).map(r => h('button', { class: 'agenda-item', key: r.id, onClick: () => this.go(`/admin/solicitudes/${r.id}`) },
+                        h('span', { class: 'agenda-icon' }, h(Icon, { name: serviceIcon[r.payload.kind], size: 18 })),
+                        h('span', null, h('strong', null, r.payload.contact.name), h('small', null, (0, domain_js_1.dateText)(r.payload.scheduled_at)),
+                            h('small', null, r.payload.origin, ' → ', r.payload.destination)), h(ui_js_1.Badge, { status: r.status }))) :
+                        h('p', { class: 'muted' }, 'Los servicios confirmados y en curso van a aparecer acá.'))),
+            h('section', { class: 'panel recent-panel' },
+                h('div', { class: 'panel-heading' }, h('div', null, h('h2', null, 'Últimas solicitudes'), h('p', null, 'Recorrido, estado y cotización de un vistazo.')),
+                    h('a', { href: '#/admin/solicitudes', class: 'text-link' }, 'Ver todas', h(Icon, { name: 'arrow', size: 16 }))),
+                this.requestRows(requests.slice(0, 5), true)),
+            h('div', { class: 'page-footnote' }, h('span', null, `${requests.length} solicitudes en este navegador`),
+                h('span', null, 'Importes cotizados de ejemplo: ', (0, domain_js_1.money)(total), ' · no son cobros')));
     }
 
     requestsPage() {
@@ -4178,7 +3936,7 @@ class App extends preact_mjs_1.Component {
                         href: `#${href}`,
                         key: href,
                         class: path === href || (href !== '/admin' && path.startsWith(`${href}/`)) ? 'active' : '',
-                        "aria-current": path === href ? 'page' : undefined
+                        "aria-current": path === href || (href !== '/admin' && path.startsWith(`${href}/`)) ? 'page' : undefined
                     },
                         (0, preact_mjs_1.h)(ui_js_1.Icon, { name: icon, size: 20 }),
                         (0, preact_mjs_1.h)("span", null, label),
@@ -4333,7 +4091,7 @@ class App extends preact_mjs_1.Component {
         const admin = this.state.path.startsWith('/admin');
         const banner = (0, preact_mjs_1.h)("div", { class: `mode-banner${admin ? ' admin-mode-banner' : ''}` },
             (0, preact_mjs_1.h)("span", { class: "status-dot" }),
-            (0, preact_mjs_1.h)("span", null, api_js_1.IS_PREVIEW ? (this.state.runtime.temporary ? 'DEMO COMERCIAL TEMPORAL · no se coordinan viajes reales' : 'DEMO COMERCIAL · no se coordinan viajes reales') : 'DEMO COMERCIAL · usá datos de prueba'),
+            (0, preact_mjs_1.h)("span", null, api_js_1.IS_PREVIEW ? (this.state.runtime.temporary ? 'Demo comercial temporal · datos ficticios; no se coordinan viajes reales' : 'Demo comercial · datos ficticios; no se coordinan viajes reales') : 'DEMO COMERCIAL · usá datos de prueba'),
             api_js_1.IS_PREVIEW && (
                 (0, preact_mjs_1.h)("button", {
                     class: "demo-toggle",
@@ -4342,7 +4100,7 @@ class App extends preact_mjs_1.Component {
                     "aria-controls": "demo-controls",
                     onClick: () => this.set({ showDemoTools: !this.state.showDemoTools })
                 },
-                    "Controles",
+                    "Explorar",
                     (0, preact_mjs_1.h)(ui_js_1.Icon, { name: "settings", size: 13 })
                 )
             )
@@ -4350,7 +4108,7 @@ class App extends preact_mjs_1.Component {
 
         if (admin)
             return (0, preact_mjs_1.h)("div", null,
-                (0, preact_mjs_1.h)("a", { class: "skip-link", href: "#main", onClick: (e) => { e.preventDefault(); document.getElementById('main')?.focus(); } }, "Saltar al contenido"),
+                (0, preact_mjs_1.h)("a", { class: "skip-link", href: "#main", onClick: (e) => { e.preventDefault(); const main = document.getElementById('main'); if (main) { main.tabIndex = -1; main.focus(); } } }, "Saltar al contenido"),
                 this.previewToolbar(),
                 banner,
                 this.state.loadingAdmin && !this.state.checkedSession ? (

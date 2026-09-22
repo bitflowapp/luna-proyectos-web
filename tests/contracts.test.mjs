@@ -47,3 +47,25 @@ test('Flete public bundle contains neutral commercial claims', async () => {
   assert.match(published, /demo comercial/);
   assert.match(published, /ejemplo de cotizaci/);
 });
+
+
+test('Flete artifact matches source hashes and SRI references', async () => {
+  const root = 'public/demos/flete/';
+  const release = JSON.parse(await readFile(root + 'release.json', 'utf8'));
+  assert.equal(release.productionReady, false);
+  assert.equal(release.scope, 'COMMERCIAL_DEMO');
+  assert.equal(release.sourceFiles.length, 11);
+  for (const source of release.sourceFiles) {
+    assert.ok(source.file.startsWith('scripts/flete-src/'));
+    assert.equal(createHash('sha256').update(await readFile(source.file)).digest('hex'), source.sha256, source.file);
+  }
+  const html = await readFile(root + 'index.html', 'utf8');
+  for (const file of release.files) {
+    const bytes = await readFile(root + file.file);
+    assert.equal(bytes.length, file.bytes, file.file);
+    assert.equal(createHash('sha256').update(bytes).digest('hex'), file.sha256, file.file);
+    assert.ok(html.includes(file.file));
+    assert.ok(html.includes('sha384-' + createHash('sha384').update(bytes).digest('base64')));
+  }
+  assert.ok(html.includes("connect-src 'none'"));
+});

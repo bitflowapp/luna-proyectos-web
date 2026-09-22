@@ -1,8 +1,9 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import crypto from 'node:crypto';
+import { Script } from 'node:vm';
 
-export function buildFleteBundle({ version = '0.3.1' } = {}) {
+export function buildFleteBundle({ version = '0.4.0' } = {}) {
   const moduleOrder = [
     'vendor/preact.mjs',
     'business-config.js',
@@ -57,6 +58,9 @@ export function buildFleteBundle({ version = '0.3.1' } = {}) {
   const bootSha256 = crypto.createHash('sha256').update(bootBuffer).digest('hex');
   const bootSha384 = crypto.createHash('sha384').update(bootBuffer).digest('base64');
 
+  // Fail before overwriting a good build if a source has invalid JavaScript.
+  new Script(jsBuffer.toString('utf8'), { filename: jsFileName });
+
   // Clean old app-*.js and styles-*.css in public/demos/flete
   const fleteFiles = fs.readdirSync('public/demos/flete');
   for (const f of fleteFiles) {
@@ -77,6 +81,10 @@ export function buildFleteBundle({ version = '0.3.1' } = {}) {
     scope: 'COMMERCIAL_DEMO',
     productionReady: false,
     storage: 'IndexedDB: same-browser only',
+    sourceFiles: [...moduleOrder, 'styles.css'].map(file => ({
+      file: `scripts/flete-src/${file}`,
+      sha256: crypto.createHash('sha256').update(fs.readFileSync(`scripts/flete-src/${file}`)).digest('hex'),
+    })),
     files: [
       {
         file: jsFileName,
@@ -124,6 +132,6 @@ export function buildFleteBundle({ version = '0.3.1' } = {}) {
   console.log(`  CSS: ${cssFileName} (${cssBuffer.length} bytes, sha256: ${cssSha256})`);
 }
 
-if (process.argv[1].endsWith('pack-flete.mjs')) {
+if (process.argv[1]?.endsWith('pack-flete.mjs')) {
   buildFleteBundle();
 }

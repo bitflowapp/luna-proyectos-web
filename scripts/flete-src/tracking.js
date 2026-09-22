@@ -8,22 +8,22 @@ const domain_js_1 = require("./domain.js");
 const serviceIcon = { freight: 'truck', passengers: 'users', special: 'route' };
 
 const titles = {
-    new: 'El próximo paso: revisar tu solicitud.',
+    new: 'Recibimos tu solicitud.',
     reviewing: 'Estamos revisando los detalles.',
     quoted: 'Tu cotización está lista.',
-    confirmed: 'Servicio informado como confirmado.',
-    en_route: 'Salida informada por el prestador.',
-    in_service: 'Servicio informado en curso.',
+    confirmed: 'Tu servicio está confirmado.',
+    en_route: 'El vehículo está en camino.',
+    in_service: 'Tu traslado está en curso.',
     completed: 'Llegamos al final del recorrido.',
     cancelled: 'Esta solicitud fue cancelada.',
 };
 
 const descriptions = {
-    new: 'El prestador revisa el recorrido, la fecha y lo que necesitás trasladar antes de preparar una propuesta.',
-    reviewing: 'Se está revisando el recorrido y la información enviada. Acá vas a poder consultar la cotización cuando esté cargada.',
-    quoted: 'Revisá el importe antes de aceptarlo. Aceptar la cotización expresa tu acuerdo con ese importe; después se coordinan las condiciones del servicio con el prestador.',
-    confirmed: 'El prestador informó el servicio como confirmado. Consultá al prestador cualquier condición pendiente.',
-    en_route: 'El operador informó la salida del vehículo hacia el punto de encuentro acordado. Estados informados por el operador, sin GPS.',
+    new: 'El próximo paso es revisar los detalles y preparar tu cotización.',
+    reviewing: 'El operador está revisando los detalles. La cotización va a aparecer acá.',
+    quoted: 'Revisá el importe y los datos del recorrido. La disponibilidad se confirma después de aceptar.',
+    confirmed: 'Confirmación informada por el operador. Consultá cualquier ajuste del recorrido con el prestador.',
+    en_route: 'El operador informó la salida hacia el punto de origen. No es una ubicación GPS.',
     in_service: 'El operador informó que comenzó el servicio. El siguiente paso es marcarlo como finalizado al llegar a destino.',
     completed: 'El prestador marcó el servicio como finalizado.',
     cancelled: 'No hay un servicio activo asociado a esta solicitud. Podés comenzar una nueva consulta cuando lo necesites.',
@@ -78,7 +78,7 @@ function TrackingView({ tracking: t, error, success, business, preview, busy, lo
                             (0, preact_mjs_1.h)("div", null,
                                 (0, preact_mjs_1.h)("span", { class: "eyebrow" }, awaiting ? 'PROPUESTA ACEPTADA' : 'ESTADO ACTUAL'),
                                 (0, preact_mjs_1.h)("h2", null, awaiting ? 'Aceptaste la cotización.' : titles[t.status]),
-                                (0, preact_mjs_1.h)("p", null, awaiting ? 'Cotización aceptada. Quedan por definir las condiciones del servicio con el prestador. Todavía no hay un viaje confirmado y no se realizó ningún cobro.' : descriptions[t.status])
+                                (0, preact_mjs_1.h)("p", null, awaiting ? 'El importe quedó aceptado. Falta la confirmación del operador; todavía no hay un viaje confirmado ni un cobro.' : descriptions[t.status])
                             )
                         ),
                         (0, preact_mjs_1.h)("div", { class: "tracking-code" },
@@ -88,11 +88,6 @@ function TrackingView({ tracking: t, error, success, business, preview, busy, lo
                             ),
                             (0, preact_mjs_1.h)(ui_js_1.Badge, { status: t.status })
                         ),
-                        (0, preact_mjs_1.h)("div", { class: "tracking-service" },
-                            (0, preact_mjs_1.h)(ui_js_1.Icon, { name: serviceIcon[t.kind] }),
-                            (0, preact_mjs_1.h)("strong", null, domain_js_1.serviceLabels[t.kind])
-                        ),
-                        (0, preact_mjs_1.h)(ui_js_1.RouteCard, { origin: t.origin, destination: t.destination, scheduledAt: t.scheduled_at }),
                         t.quote_cents !== null && (
                             (0, preact_mjs_1.h)("section", { class: "quote-response quote-hero" },
                                 (0, preact_mjs_1.h)("div", { class: "price-block price-protagonist" },
@@ -105,7 +100,7 @@ function TrackingView({ tracking: t, error, success, business, preview, busy, lo
                                     ),
                                     (0, preact_mjs_1.h)("div", { class: "price-badge" },
                                         (0, preact_mjs_1.h)(ui_js_1.Icon, { name: "info", size: 16 }),
-                                        (0, preact_mjs_1.h)("span", null, "Sin cobros", (0, preact_mjs_1.h)("br", null), "autom\u00E1ticos")
+                                        (0, preact_mjs_1.h)("span", null, "Sin cobros ", (0, preact_mjs_1.h)("br", null), "autom\u00E1ticos")
                                     )
                                 ),
                                 preview && t.status === 'quoted' && !accepted && (
@@ -120,7 +115,7 @@ function TrackingView({ tracking: t, error, success, business, preview, busy, lo
                                         ),
                                         (0, preact_mjs_1.h)("p", { class: "accept-disclaimer" },
                                             (0, preact_mjs_1.h)(ui_js_1.Icon, { name: "info", size: 15 }),
-                                            "Al aceptar, confirmás tu acuerdo con el importe. Luego se coordinan las condiciones del servicio con el prestador."
+                                            "Aceptar el precio no confirma el viaje ni realiza un cobro."
                                         )
                                     )
                                 ),
@@ -136,6 +131,11 @@ function TrackingView({ tracking: t, error, success, business, preview, busy, lo
                                 )
                             )
                         ),
+                        (0, preact_mjs_1.h)("div", { class: "tracking-service" },
+                            (0, preact_mjs_1.h)(ui_js_1.Icon, { name: serviceIcon[t.kind] }),
+                            (0, preact_mjs_1.h)("strong", null, domain_js_1.serviceLabels[t.kind])
+                        ),
+                        (0, preact_mjs_1.h)(ui_js_1.RouteCard, { origin: t.origin, destination: t.destination, scheduledAt: t.scheduled_at }),
                         t.vehicle && (
                             (0, preact_mjs_1.h)("section", { class: "assigned-vehicle" },
                                 (0, preact_mjs_1.h)("span", { class: "assigned-icon" },

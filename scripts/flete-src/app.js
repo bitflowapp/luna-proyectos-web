@@ -7,6 +7,9 @@ const domain_js_1 = require("./domain.js");
 const tracking_js_1 = require("./tracking.js");
 const commercial_js_1 = require("./commercial.js");
 
+const { h } = preact_mjs_1;
+const { Icon } = ui_js_1;
+
 const serviceIcon = { freight: 'truck', passengers: 'users', special: 'route' };
 const steps = ['Servicio', 'Recorrido', 'Fecha', 'Detalles', 'Contacto', 'Resumen'];
 const stepFields = [
@@ -787,11 +790,11 @@ class App extends preact_mjs_1.Component {
             'Escribí origen y destino. Podés sumar detalles en el siguiente paso.',
             'Elegí si lo necesitás lo antes posible o preferís programar una fecha y hora.',
             'Estos datos ayudan a preparar una cotización y evaluar el servicio solicitado.',
-            'Usaremos tus datos para esta presentación y, al personalizarla, para coordinar el traslado.',
+            'Usá datos ficticios para probar el formulario. No se enviarán mensajes.',
             'Enviar la solicitud no confirma el viaje ni genera ningún cobro.'
         ];
 
-        return (0, preact_mjs_1.h)("main", { id: "main", class: "container wizard-main" },
+        return (0, preact_mjs_1.h)("main", { id: "main", class: "container wizard-main", "data-step": step },
             (0, preact_mjs_1.h)("div", { class: "wizard-top" },
                 (0, preact_mjs_1.h)("a", { href: "#/", class: "text-link" },
                     (0, preact_mjs_1.h)(ui_js_1.Icon, { name: "back", size: 17 }),
@@ -805,12 +808,15 @@ class App extends preact_mjs_1.Component {
                     "aria-current": i === step ? 'step' : undefined,
                     key: name
                 },
-                    (0, preact_mjs_1.h)("span", null, i < step ? (0, preact_mjs_1.h)(ui_js_1.Icon, { name: "check", size: 14 }) : i + 1),
-                    (0, preact_mjs_1.h)("b", null, name)
+                    h('button', {
+                        type: 'button', disabled: i >= step || busy,
+                        'aria-label': i < step ? `Volver al paso ${i + 1}: ${name}` : `Paso ${i + 1}: ${name}`,
+                        onClick: () => { if (i < step) { this.set({ step: i, errors: {} }); this.stash(this.state.draft, i); this.focusHeading(); } }
+                    }, h('span', null, i < step ? h(Icon, { name: 'check', size: 14 }) : i + 1), h('b', null, name))
                 ))
             ),
             (0, preact_mjs_1.h)("div", { class: "wizard-layout" },
-                (0, preact_mjs_1.h)("section", { class: "wizard-form" },
+                (0, preact_mjs_1.h)("section", { class: "wizard-form", 'data-step': step },
                     (0, preact_mjs_1.h)("span", { class: "eyebrow" }, steps[step]),
                     (0, preact_mjs_1.h)("h1", { tabIndex: -1 }, titles[step]),
                     (0, preact_mjs_1.h)("p", { class: "subtitle" }, subtitles[step]),
@@ -1207,7 +1213,7 @@ class App extends preact_mjs_1.Component {
                     ),
                     (0, preact_mjs_1.h)("div", { class: "form-footnote" },
                         (0, preact_mjs_1.h)(ui_js_1.Icon, { name: "lock", size: 14 }),
-                        this.state.saved ? 'Borrador conservado en esta pestaña.' : 'Tus datos se envían al confirmar la solicitud.'
+                        this.state.saved ? 'Borrador conservado en esta pestaña.' : 'La solicitud se guarda cuando confirmás el envío.'
                     )
                 ),
                 (0, preact_mjs_1.h)("aside", { class: "wizard-aside" },
@@ -1215,6 +1221,7 @@ class App extends preact_mjs_1.Component {
                         (0, preact_mjs_1.h)("span", { class: "eyebrow" }, "AS\u00CD VA TU SOLICITUD"),
                         (0, preact_mjs_1.h)("h3", null, domain_js_1.serviceLabels[p.kind]),
                         (0, preact_mjs_1.h)(ui_js_1.RouteCard, { origin: p.origin, destination: p.destination, scheduledAt: p.scheduled_at, compact: true }),
+                        step > 1 && h('button', { type: 'button', class: 'text-link edit-route', onClick: () => { this.set({ step: 1, errors: {} }); this.stash(this.state.draft, 1); this.focusHeading(); } }, h(Icon, { name: 'edit', size: 14 }), 'Editar recorrido'),
                         (0, preact_mjs_1.h)("div", { class: "aside-note" },
                             (0, preact_mjs_1.h)(ui_js_1.Icon, { name: "info" }),
                             (0, preact_mjs_1.h)("p", null, "Vos compartís lo que necesitás. El prestador revisa la solicitud y prepara una cotización.")
@@ -1555,7 +1562,7 @@ class App extends preact_mjs_1.Component {
                             ),
                             (0, preact_mjs_1.h)("td", null,
                                 (0, preact_mjs_1.h)("span", { class: "table-date" }, (0, domain_js_1.dateText)(r.payload.scheduled_at, true)),
-                                r.is_demo && (0, preact_mjs_1.h)("span", { class: "demo-tag" }, "DEMO")
+                                null
                             ),
                             (0, preact_mjs_1.h)("td", null,
                                 (0, preact_mjs_1.h)(ui_js_1.Badge, { status: r.status })
@@ -1583,7 +1590,7 @@ class App extends preact_mjs_1.Component {
                     key: r.id
                 },
                     (0, preact_mjs_1.h)("div", { class: "request-mobile-top" },
-                        (0, preact_mjs_1.h)("span", null, r.code, r.is_demo && (0, preact_mjs_1.h)("small", null, "DEMO")),
+                        (0, preact_mjs_1.h)("span", null, r.code, null),
                         (0, preact_mjs_1.h)(ui_js_1.Badge, { status: r.status })
                     ),
                     (0, preact_mjs_1.h)("strong", null, r.payload.contact.name),
@@ -1609,157 +1616,59 @@ class App extends preact_mjs_1.Component {
     overview() {
         const requests = this.state.dashboard?.requests ?? [];
         const today = (0, domain_js_1.argentinaDay)(new Date().toISOString());
-
-        const counts = {
-            new: requests.filter(r => r.status === 'new').length,
-            waitingQuote: requests.filter(r => (r.status === 'new' || r.status === 'reviewing') && r.quote_cents === null).length,
-            accepted: requests.filter(r => r.status === 'quoted' && r.quote_accepted_at).length,
-            today: requests.filter(r => (0, domain_js_1.argentinaDay)(r.payload.scheduled_at ?? r.created_at) === today && !['completed', 'cancelled'].includes(r.status)).length,
-            active: requests.filter(r => ['en_route', 'in_service'].includes(r.status)).length,
-            confirmed: requests.filter(r => r.status === 'confirmed').length,
-            done: requests.filter(r => r.status === 'completed').length,
-            amount: requests.filter(r => ['quoted', 'confirmed', 'en_route', 'in_service'].includes(r.status)).reduce((n, r) => n + (r.quote_cents ?? 0), 0),
-        };
-
+        const unquoted = requests.filter(r => ['new', 'reviewing'].includes(r.status) && r.quote_cents === null);
         const accepted = requests.filter(r => r.status === 'quoted' && r.quote_accepted_at);
-        const unquoted = requests.filter(r => r.status === 'new');
         const needsVehicle = requests.filter(r => r.status === 'confirmed' && !r.vehicle_id);
-        const next = requests.filter(r => ['confirmed', 'en_route', 'in_service'].includes(r.status)).sort((a, b) => Date.parse(a.payload.scheduled_at ?? a.created_at) - Date.parse(b.payload.scheduled_at ?? b.created_at));
-
-        return (0, preact_mjs_1.h)("div", null,
-            (0, preact_mjs_1.h)("div", { class: "page-heading" },
-                (0, preact_mjs_1.h)("div", null,
-                    (0, preact_mjs_1.h)("span", { class: "eyebrow" }, "CONTROL DE OPERACIONES"),
-                    (0, preact_mjs_1.h)("h1", { tabIndex: -1 }, "¿Qué hay para resolver hoy?"),
-                    (0, preact_mjs_1.h)("p", null, "Prioridad operativa de la demo: cotizaciones, confirmaciones y estados en curso.")
-                ),
-                (0, preact_mjs_1.h)("a", { class: "button button-light", href: "#/solicitar", target: "_blank", rel: "noopener noreferrer" },
-                    (0, preact_mjs_1.h)(ui_js_1.Icon, { name: "plus", size: 18 }),
-                    "Abrir una solicitud"
-                )
-            ),
-            (0, preact_mjs_1.h)("div", { class: "metrics-grid operational-metrics" }, [
-                ['Nuevas solicitudes', counts.new, 'list', counts.new > 0 ? 'metric-urgent' : ''],
-                ['Esperando cotización', counts.waitingQuote, 'clock', counts.waitingQuote > 0 ? 'metric-warn' : ''],
-                ['Cotizaciones aceptadas', counts.accepted, 'check', counts.accepted > 0 ? 'metric-action' : ''],
-                ['Servicios de hoy', counts.today, 'calendar', ''],
-                ['En curso', counts.active, 'truck', ''],
-                ['Cotizaciones de ejemplo', (0, domain_js_1.money)(counts.amount), 'box', ''],
-            ].map(([label, total, icon, cls]) => (0, preact_mjs_1.h)("div", { class: `metric ${cls}`, key: label },
-                (0, preact_mjs_1.h)("span", null,
-                    label,
-                    (0, preact_mjs_1.h)(ui_js_1.Icon, { name: icon, size: 17 })
-                ),
-                (0, preact_mjs_1.h)("strong", null, total),
-                (0, preact_mjs_1.h)("small", null,
-                    label === 'Cotizaciones de ejemplo' ? 'Importes de demostración, no cobros'
-                        : label === 'Servicios de hoy' ? 'Hora de Argentina'
-                        : 'Acción operativa inmediata'
-                )
-            ))),
-            accepted.length > 0 && (
-                (0, preact_mjs_1.h)("section", { class: "accepted-queue panel urgent-action-panel" },
-                    (0, preact_mjs_1.h)("div", null,
-                        (0, preact_mjs_1.h)("span", { class: "eyebrow" }, "REQUIERE TU CONFIRMACI\u00D3N"),
-                        (0, preact_mjs_1.h)("h2", null, accepted.length, " ", accepted.length === 1 ? 'cotización aceptada' : 'cotizaciones aceptadas'),
-                        (0, preact_mjs_1.h)("p", null, "El cliente dio su conformidad con el importe. Revisá las condiciones pendientes y continuá la coordinación.")
-                    ),
-                    (0, preact_mjs_1.h)("button", {
-                        class: "button button-dark",
-                        onClick: () => {
-                            const r = accepted[0];
-                            if (r)
-                                this.go(`/admin/solicitudes/${r.id}`);
-                        }
-                    },
-                        "Revisar aceptaci\u00F3n",
-                        (0, preact_mjs_1.h)(ui_js_1.Icon, { name: "arrow", size: 18 })
-                    )
-                )
-            ),
-            (0, preact_mjs_1.h)("div", { class: "overview-grid" },
-                (0, preact_mjs_1.h)("section", { class: "panel needs-attention" },
-                    (0, preact_mjs_1.h)("span", { class: "eyebrow" }, "REQUIERE ATENCIÓN"),
-                    (0, preact_mjs_1.h)("div", { class: "attention-content" },
-                        (0, preact_mjs_1.h)("div", null,
-                            (0, preact_mjs_1.h)("h2", null,
-                                accepted.length ? `${accepted.length} ${accepted.length === 1 ? 'cotización espera' : 'cotizaciones esperan'} tu confirmación.`
-                                    : counts.new ? `${counts.new} ${counts.new === 1 ? 'solicitud nueva espera' : 'solicitudes nuevas esperan'} cotización.`
-                                    : needsVehicle.length ? `${needsVehicle.length} ${needsVehicle.length === 1 ? 'servicio confirmado' : 'servicios confirmados'} sin vehículo.`
-                                    : 'Todo al día en la operación.'
-                            ),
-                            (0, preact_mjs_1.h)("p", null,
-                                accepted.length ? 'El cliente ya aceptó el importe. Revisá las condiciones y asigná una unidad de demo si corresponde.'
-                                    : counts.new ? 'Revisá origen, destino y detalles para cargar el importe en pesos.'
-                                    : needsVehicle.length ? 'Asigná una unidad activa antes de dar salida al recorrido.'
-                                    : 'No hay solicitudes pendientes de respuesta o asignación.'
-                            ),
-                            (0, preact_mjs_1.h)("button", {
-                                class: "button button-dark",
-                                onClick: () => {
-                                    if (accepted.length) {
-                                        this.go(`/admin/solicitudes/${accepted[0].id}`);
-                                    } else if (counts.new) {
-                                        this.set({ statusFilter: 'new', search: '', serviceFilter: '', dateFilter: '', customer: null });
-                                        this.go('/admin/solicitudes');
-                                    } else {
-                                        this.set({ statusFilter: '', search: '', serviceFilter: '', dateFilter: '', customer: null });
-                                        this.go('/admin/solicitudes');
-                                    }
-                                }
-                            },
-                                accepted.length ? "Revisar y confirmar" : counts.new ? "Cotizar solicitudes" : "Ver todas las solicitudes",
-                                (0, preact_mjs_1.h)(ui_js_1.Icon, { name: "arrow", size: 18 })
-                            )
-                        ),
-                        (0, preact_mjs_1.h)("span", { class: "attention-icon" },
-                            (0, preact_mjs_1.h)(ui_js_1.Icon, { name: "route", size: 65 })
-                        )
-                    )
-                ),
-                (0, preact_mjs_1.h)("section", { class: "panel agenda-panel" },
-                    (0, preact_mjs_1.h)("div", { class: "panel-heading" },
-                        (0, preact_mjs_1.h)("h2", null, "En coordinación inmediata"),
-                        (0, preact_mjs_1.h)("span", { class: "count-pill" }, next.length)
-                    ),
-                    next.length ? (
-                        next.slice(0, 3).map(r => (0, preact_mjs_1.h)("button", {
-                            class: "agenda-item",
-                            key: r.id,
-                            onClick: () => this.go(`/admin/solicitudes/${r.id}`)
-                        },
-                            (0, preact_mjs_1.h)("span", { class: "agenda-icon" },
-                                (0, preact_mjs_1.h)(ui_js_1.Icon, { name: serviceIcon[r.payload.kind], size: 18 })
-                            ),
-                            (0, preact_mjs_1.h)("span", null,
-                                (0, preact_mjs_1.h)("strong", null, r.payload.contact.name),
-                                (0, preact_mjs_1.h)("small", null,
-                                    (0, domain_js_1.dateText)(r.payload.scheduled_at),
-                                    " \u00B7 ",
-                                    domain_js_1.labels[r.status]
-                                )
-                            ),
-                            (0, preact_mjs_1.h)(ui_js_1.Icon, { name: "chevron", size: 16 })
-                        ))
-                    ) : (
-                        (0, preact_mjs_1.h)("p", { class: "muted" }, "No hay datos demo en curso ni confirmados para las próximas horas.")
-                    )
-                )
-            ),
-            (0, preact_mjs_1.h)("section", { class: "panel recent-panel" },
-                (0, preact_mjs_1.h)("div", { class: "panel-heading" },
-                    (0, preact_mjs_1.h)("div", null,
-                        (0, preact_mjs_1.h)("h2", null, "\u00DAltimas solicitudes recibidas"),
-                        (0, preact_mjs_1.h)("p", null, "Seguimiento general de pedidos.")
-                    ),
-                    (0, preact_mjs_1.h)("a", { href: "#/admin/solicitudes", class: "text-link" },
-                        "Ver todas",
-                        (0, preact_mjs_1.h)(ui_js_1.Icon, { name: "arrow", size: 16 })
-                    )
-                ),
-                this.requestRows(requests.slice(0, 5), true)
-            )
-        );
+        const next = requests.filter(r => ['confirmed', 'en_route', 'in_service'].includes(r.status))
+            .sort((a, b) => Date.parse(a.payload.scheduled_at ?? a.created_at) - Date.parse(b.payload.scheduled_at ?? b.created_at));
+        const todayCount = requests.filter(r => !['completed', 'cancelled'].includes(r.status) &&
+            (0, domain_js_1.argentinaDay)(r.payload.scheduled_at ?? r.created_at) === today).length;
+        const activeCount = requests.filter(r => ['en_route', 'in_service'].includes(r.status)).length;
+        const queue = unquoted.length ? unquoted : needsVehicle;
+        const hasWork = unquoted.length || accepted.length || needsVehicle.length;
+        const total = requests.filter(r => !['cancelled', 'new', 'reviewing'].includes(r.status))
+            .reduce((n, r) => n + (r.quote_cents ?? 0), 0);
+        return h('div', { class: 'operations-overview' },
+            h('div', { class: 'page-heading' }, h('div', null,
+                h('span', { class: 'eyebrow' }, 'TU OPERACIÓN, EN ORDEN'),
+                h('h1', { tabIndex: -1 }, '¿Qué hay para resolver hoy?'),
+                h('p', null, 'Revisá las solicitudes y decidí el próximo paso.')),
+                h('a', { class: 'button button-dark', href: '#/solicitar' }, h(Icon, { name: 'plus', size: 18 }), 'Nueva solicitud')),
+            h('div', { class: 'metrics-grid operational-metrics' }, [
+                ['Por cotizar', unquoted.length, 'list', 'Recorridos por revisar', 'metric-urgent'],
+                ['Esperan confirmación', accepted.length, 'check', 'El cliente aceptó el importe', 'metric-action'],
+                ['Servicios de hoy', todayCount, 'calendar', 'Fecha solicitada · hora argentina', ''],
+                ['En curso', activeCount, 'truck', 'En camino o realizando el servicio', ''],
+            ].map(([label, count, icon, hint, cls]) => h('div', { key: label, class: `metric ${cls}` },
+                h('span', null, label, h(Icon, { name: icon, size: 17 })), h('strong', null, count), h('small', null, hint)))),
+            accepted.length > 0 && h('section', { class: 'accepted-queue panel urgent-action-panel' },
+                h('div', null, h('span', { class: 'eyebrow' }, 'EL CLIENTE YA RESPONDIÓ'),
+                    h('h2', null, `${accepted.length} ${accepted.length === 1 ? 'cotización aceptada' : 'cotizaciones aceptadas'}`),
+                    h('p', null, 'Revisá disponibilidad y condiciones antes de confirmar el viaje.')),
+                h('button', { class: 'button button-dark', onClick: () => this.go(`/admin/solicitudes/${accepted[0].id}`) }, 'Revisar aceptación', h(Icon, { name: 'arrow', size: 18 }))),
+            h('div', { class: 'overview-grid' },
+                h('section', { class: 'panel needs-attention' },
+                    h('div', { class: 'panel-heading' }, h('h2', null, 'Requiere atención'), h('span', { class: 'count-pill' }, queue.length)),
+                    h('p', { class: 'attention-summary' }, unquoted.length ? 'Estas solicitudes todavía no tienen precio.' : needsVehicle.length ? 'Falta asignar una unidad a estos servicios.' : hasWork ? 'Las cotizaciones aceptadas están listas para tu revisión.' : 'No hay solicitudes pendientes de respuesta.'),
+                    queue.length > 0 ? h('div', { class: 'attention-list' }, queue.slice(0, 3).map(r =>
+                        h('button', { class: 'attention-row', key: r.id, onClick: () => this.go(`/admin/solicitudes/${r.id}`) },
+                            h(Icon, { name: serviceIcon[r.payload.kind], size: 19 }),
+                            h('span', null, h('strong', null, r.payload.contact.name), h('small', null, `${r.code} · ${unquoted.length ? 'Preparar cotización' : 'Asignar vehículo'}`)),
+                            h(Icon, { name: 'arrow', size: 17 })))) : h('div', { class: 'attention-clear' }, h(Icon, { name: 'check', size: 30 }), 'Todo revisado en esta bandeja.'),
+                    h('a', { class: 'text-link', href: '#/admin/solicitudes' }, 'Abrir bandeja de solicitudes', h(Icon, { name: 'arrow', size: 16 }))),
+                h('section', { class: 'panel agenda-panel' },
+                    h('div', { class: 'panel-heading' }, h('h2', null, 'Próximos movimientos'), h('span', { class: 'count-pill' }, next.length)),
+                    next.length ? next.slice(0, 3).map(r => h('button', { class: 'agenda-item', key: r.id, onClick: () => this.go(`/admin/solicitudes/${r.id}`) },
+                        h('span', { class: 'agenda-icon' }, h(Icon, { name: serviceIcon[r.payload.kind], size: 18 })),
+                        h('span', null, h('strong', null, r.payload.contact.name), h('small', null, (0, domain_js_1.dateText)(r.payload.scheduled_at)),
+                            h('small', null, r.payload.origin, ' → ', r.payload.destination)), h(ui_js_1.Badge, { status: r.status }))) :
+                        h('p', { class: 'muted' }, 'Los servicios confirmados y en curso van a aparecer acá.'))),
+            h('section', { class: 'panel recent-panel' },
+                h('div', { class: 'panel-heading' }, h('div', null, h('h2', null, 'Últimas solicitudes'), h('p', null, 'Recorrido, estado y cotización de un vistazo.')),
+                    h('a', { href: '#/admin/solicitudes', class: 'text-link' }, 'Ver todas', h(Icon, { name: 'arrow', size: 16 }))),
+                this.requestRows(requests.slice(0, 5), true)),
+            h('div', { class: 'page-footnote' }, h('span', null, `${requests.length} solicitudes en este navegador`),
+                h('span', null, 'Importes cotizados de ejemplo: ', (0, domain_js_1.money)(total), ' · no son cobros')));
     }
 
     requestsPage() {
@@ -2547,7 +2456,7 @@ class App extends preact_mjs_1.Component {
                         href: `#${href}`,
                         key: href,
                         class: path === href || (href !== '/admin' && path.startsWith(`${href}/`)) ? 'active' : '',
-                        "aria-current": path === href ? 'page' : undefined
+                        "aria-current": path === href || (href !== '/admin' && path.startsWith(`${href}/`)) ? 'page' : undefined
                     },
                         (0, preact_mjs_1.h)(ui_js_1.Icon, { name: icon, size: 20 }),
                         (0, preact_mjs_1.h)("span", null, label),
@@ -2702,7 +2611,7 @@ class App extends preact_mjs_1.Component {
         const admin = this.state.path.startsWith('/admin');
         const banner = (0, preact_mjs_1.h)("div", { class: `mode-banner${admin ? ' admin-mode-banner' : ''}` },
             (0, preact_mjs_1.h)("span", { class: "status-dot" }),
-            (0, preact_mjs_1.h)("span", null, api_js_1.IS_PREVIEW ? (this.state.runtime.temporary ? 'DEMO COMERCIAL TEMPORAL · no se coordinan viajes reales' : 'DEMO COMERCIAL · no se coordinan viajes reales') : 'DEMO COMERCIAL · usá datos de prueba'),
+            (0, preact_mjs_1.h)("span", null, api_js_1.IS_PREVIEW ? (this.state.runtime.temporary ? 'Demo comercial temporal · datos ficticios; no se coordinan viajes reales' : 'Demo comercial · datos ficticios; no se coordinan viajes reales') : 'DEMO COMERCIAL · usá datos de prueba'),
             api_js_1.IS_PREVIEW && (
                 (0, preact_mjs_1.h)("button", {
                     class: "demo-toggle",
@@ -2711,7 +2620,7 @@ class App extends preact_mjs_1.Component {
                     "aria-controls": "demo-controls",
                     onClick: () => this.set({ showDemoTools: !this.state.showDemoTools })
                 },
-                    "Controles",
+                    "Explorar",
                     (0, preact_mjs_1.h)(ui_js_1.Icon, { name: "settings", size: 13 })
                 )
             )
@@ -2719,7 +2628,7 @@ class App extends preact_mjs_1.Component {
 
         if (admin)
             return (0, preact_mjs_1.h)("div", null,
-                (0, preact_mjs_1.h)("a", { class: "skip-link", href: "#main", onClick: (e) => { e.preventDefault(); document.getElementById('main')?.focus(); } }, "Saltar al contenido"),
+                (0, preact_mjs_1.h)("a", { class: "skip-link", href: "#main", onClick: (e) => { e.preventDefault(); const main = document.getElementById('main'); if (main) { main.tabIndex = -1; main.focus(); } } }, "Saltar al contenido"),
                 this.previewToolbar(),
                 banner,
                 this.state.loadingAdmin && !this.state.checkedSession ? (

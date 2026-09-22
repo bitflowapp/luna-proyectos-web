@@ -6,241 +6,89 @@ exports.CommercialFooter = CommercialFooter;
 const preact_mjs_1 = require("./vendor/preact.mjs");
 const ui_js_1 = require("./ui.js");
 const domain_js_1 = require("./domain.js");
-
-const inputValue = (event) => event.currentTarget.value;
+const { h } = preact_mjs_1;
+const { Icon, Field, TransportArt } = ui_js_1;
 
 function CommercialHome({ business, draft, errors, onDraft, onStart, onQuickSubmit, onScroll }) {
-    const configuredCoverage = typeof business.coverage === 'string' ? business.coverage.trim() : '';
-    const hasCoverage = Boolean(configuredCoverage && configuredCoverage !== domain_js_1.defaultConfig.coverage);
-    const contact = (0, domain_js_1.whatsappUrl)(business.whatsapp, 'Hola, quisiera consultar por un traslado.');
-
-    return (0, preact_mjs_1.h)("main", { id: "main", class: "commercial-home" },
-        (0, preact_mjs_1.h)("section", { class: "hero container" },
-            (0, preact_mjs_1.h)("div", { class: "hero-copy" },
-                (0, preact_mjs_1.h)("div", { class: "eyebrow hero-eyebrow" },
-                    (0, preact_mjs_1.h)("span", { class: "little-line" }),
-                    " TRANSPORTE A TU MEDIDA"
-                ),
-                (0, preact_mjs_1.h)("h1", { tabIndex: -1 },
-                    "Tu traslado,",
-                    (0, preact_mjs_1.h)("br", null),
-                    (0, preact_mjs_1.h)("em", null, "bien coordinado.")
-                ),
-                (0, preact_mjs_1.h)("p", null,
-                    "Ac\u00E1 pod\u00E9s pedir un flete, carga o traslado e indicar origen, destino y detalles. Recib\u00ED una cotizaci\u00F3n antes de confirmar, sin crear una cuenta."
-                ),
-                (0, preact_mjs_1.h)("div", { class: "hero-actions" },
-                    (0, preact_mjs_1.h)("button", { class: "button button-primary button-large", onClick: () => onStart() },
-                        "Solicitar servicio",
-                        (0, preact_mjs_1.h)(ui_js_1.Icon, { name: "arrow" })
-                    ),
-                    (0, preact_mjs_1.h)("button", { class: "text-link how-link", onClick: () => onScroll('como-funciona') },
-                        "Ver c\u00F3mo funciona",
-                        (0, preact_mjs_1.h)(ui_js_1.Icon, { name: "chevron", size: 16 })
-                    )
-                ),
-                (0, preact_mjs_1.h)("div", { class: "hero-assurances" },
-                    (0, preact_mjs_1.h)("span", null, (0, preact_mjs_1.h)(ui_js_1.Icon, { name: "check", size: 17 }), " Cotizaci\u00F3n antes de confirmar"),
-                    (0, preact_mjs_1.h)("span", null, (0, preact_mjs_1.h)(ui_js_1.Icon, { name: "check", size: 17 }), " Sin crear una cuenta"),
-                    (0, preact_mjs_1.h)("span", null, (0, preact_mjs_1.h)(ui_js_1.Icon, { name: "check", size: 17 }), " Sin cobros autom\u00E1ticos")
-                ),
-                (0, preact_mjs_1.h)("div", { class: "hero-caption" },
-                    (0, preact_mjs_1.h)("span", { class: "caption-line" }),
-                    "De la primera consulta al \u00FAltimo kil\u00F3metro."
-                )
-            ),
-            (0, preact_mjs_1.h)("div", { class: "quick-card" },
-                (0, preact_mjs_1.h)("div", { class: "quick-card-heading" },
-                    (0, preact_mjs_1.h)("span", { class: "eyebrow" }, "EMPEZ\u00C1 POR EL RECORRIDO"),
-                    (0, preact_mjs_1.h)("h2", null, "\u00BFDe d\u00F3nde a d\u00F3nde?"),
-                    (0, preact_mjs_1.h)("p", null, "Contanos lo esencial. Despu\u00E9s, los detalles.")
-                ),
-                (0, preact_mjs_1.h)("form", { onSubmit: onQuickSubmit, noValidate: true },
-                    (0, preact_mjs_1.h)("fieldset", { class: "quick-kind" },
-                        (0, preact_mjs_1.h)("legend", { class: "sr-only" }, "Tipo de servicio"),
-                        ['freight', 'passengers', 'special'].map(kind => (0, preact_mjs_1.h)("button", {
-                            key: kind,
-                            type: "button",
-                            "aria-pressed": draft.kind === kind,
-                            class: draft.kind === kind ? 'selected' : '',
-                            onClick: () => onDraft({ kind })
-                        },
-                            (0, preact_mjs_1.h)(ui_js_1.Icon, { name: kind === 'freight' ? 'truck' : kind === 'passengers' ? 'users' : 'route', size: 18 }),
-                            kind === 'freight' ? 'Flete' : kind === 'passengers' ? 'Pasajeros' : 'Especial'
-                        ))
-                    ),
-                    (0, preact_mjs_1.h)("div", { class: "quick-stops" },
-                        (0, preact_mjs_1.h)(ui_js_1.Field, { id: "quick-origin", label: "Origen", error: errors.origin },
-                            (0, preact_mjs_1.h)("input", {
-                                id: "quick-origin",
-                                autoComplete: "off",
-                                placeholder: "Direcci\u00F3n y localidad de salida",
-                                maxLength: 240,
-                                value: draft.origin,
-                                onInput: (e) => onDraft({ origin: inputValue(e) }),
-                                "aria-invalid": Boolean(errors.origin),
-                                "aria-describedby": errors.origin ? 'quick-origin-hint' : undefined
-                            })
-                        ),
-                        (0, preact_mjs_1.h)(ui_js_1.Field, { id: "quick-destination", label: "Destino", error: errors.destination },
-                            (0, preact_mjs_1.h)("input", {
-                                id: "quick-destination",
-                                autoComplete: "off",
-                                placeholder: "Direcci\u00F3n y localidad de llegada",
-                                maxLength: 240,
-                                value: draft.destination,
-                                onInput: (e) => onDraft({ destination: inputValue(e) }),
-                                "aria-invalid": Boolean(errors.destination),
-                                "aria-describedby": errors.destination ? 'quick-destination-hint' : undefined
-                            })
-                        )
-                    ),
-                    (0, preact_mjs_1.h)("button", { class: "button button-dark full", type: "submit" },
-                        "Continuar solicitud",
-                        (0, preact_mjs_1.h)(ui_js_1.Icon, { name: "arrow", size: 18 })
-                    ),
-                    (0, preact_mjs_1.h)("p", { class: "quick-footnote" },
-                        (0, preact_mjs_1.h)(ui_js_1.Icon, { name: "info", size: 14 }),
-                        "Ped\u00ED una cotizaci\u00F3n antes de confirmar."
-                    )
-                )
-            )
-        ),
-        (0, preact_mjs_1.h)("section", { class: "container confidence-strip", "aria-label": "C\u00F3mo te acompa\u00F1amos" },
-            (0, preact_mjs_1.h)("div", null,
-                (0, preact_mjs_1.h)(ui_js_1.Icon, { name: "check" }),
-                (0, preact_mjs_1.h)("span", null, "Cotizaci\u00F3n antes", (0, preact_mjs_1.h)("br", null), (0, preact_mjs_1.h)("strong", null, "de confirmar"))
-            ),
-            (0, preact_mjs_1.h)("div", null,
-                (0, preact_mjs_1.h)(ui_js_1.Icon, { name: "lock" }),
-                (0, preact_mjs_1.h)("span", null, "Sin crear", (0, preact_mjs_1.h)("br", null), (0, preact_mjs_1.h)("strong", null, "una cuenta"))
-            ),
-            (0, preact_mjs_1.h)("div", null,
-                (0, preact_mjs_1.h)(ui_js_1.Icon, { name: "route" }),
-                (0, preact_mjs_1.h)("span", null, "Consultar el estado", (0, preact_mjs_1.h)("br", null), (0, preact_mjs_1.h)("strong", null, "de la solicitud"))
-            ),
-            (0, preact_mjs_1.h)("div", null,
-                (0, preact_mjs_1.h)(ui_js_1.Icon, { name: "phone" }),
-                (0, preact_mjs_1.h)("span", null, "Coordinaci\u00F3n", (0, preact_mjs_1.h)("br", null), (0, preact_mjs_1.h)("strong", null, "con el operador"))
-            )
-        ),
-        (0, preact_mjs_1.h)("section", { id: "servicios", class: "container services-section" },
-            (0, preact_mjs_1.h)("div", { class: "section-heading" },
-                (0, preact_mjs_1.h)("div", null,
-                    (0, preact_mjs_1.h)("span", { class: "eyebrow" }, "UN SERVICIO PARA CADA NECESIDAD"),
-                    (0, preact_mjs_1.h)("h2", null, "Lo que necesit\u00E1s mover.", (0, preact_mjs_1.h)("br", null), "El viaje que necesit\u00E1s hacer.")
-                ),
-                (0, preact_mjs_1.h)("p", null, "Eleg\u00ED tu servicio.", (0, preact_mjs_1.h)("br", null), "Nos ocupamos de coordinar los detalles.")
-            ),
-            (0, preact_mjs_1.h)("div", { class: "services-grid" }, [
-                ['freight', 'Fletes y cargas', 'Muebles, cajas y mercadería.', 'Indicá el tamaño, sumá fotos y contanos si necesitás ayuda para cargar.', 'truck'],
-                ['passengers', 'Traslado de pasajeros', 'Solo, en grupo o con equipaje.', 'Elegí la cantidad de pasajeros y coordiná un viaje de ida o ida y vuelta.', 'users'],
-                ['special', 'Traslados especiales', 'Un recorrido fuera de lo habitual.', 'Describí lo que necesitás para que podamos evaluar una solución a medida.', 'route'],
-            ].map(([kind, title, intro, text, icon], index) => (0, preact_mjs_1.h)("button", {
-                class: `service-card service-${kind}`,
-                onClick: () => onStart(kind),
-                key: kind,
-                "aria-label": `Solicitar ${title.toLowerCase()}`
-            },
-                (0, preact_mjs_1.h)("div", { class: "service-card-top" },
-                    (0, preact_mjs_1.h)("span", { class: "service-number" }, "0", index + 1),
-                    (0, preact_mjs_1.h)("span", { class: "service-icon" }, (0, preact_mjs_1.h)(ui_js_1.Icon, { name: icon, size: 28 }))
-                ),
-                (0, preact_mjs_1.h)("h3", null, title),
-                (0, preact_mjs_1.h)("p", null, (0, preact_mjs_1.h)("strong", null, intro), " ", text),
-                (0, preact_mjs_1.h)("span", { class: "card-link" },
-                    "Solicitar servicio",
-                    (0, preact_mjs_1.h)(ui_js_1.Icon, { name: "arrow", size: 18 })
-                )
-            )))
-        ),
-        (0, preact_mjs_1.h)("section", { id: "como-funciona", class: "how-section" },
-            (0, preact_mjs_1.h)("div", { class: "container" },
-                (0, preact_mjs_1.h)("div", { class: "section-heading" },
-                    (0, preact_mjs_1.h)("div", null,
-                        (0, preact_mjs_1.h)("span", { class: "eyebrow" }, "VOS SAB\u00C9S QU\u00C9 SIGUE"),
-                        (0, preact_mjs_1.h)("h2", null, "Menos idas y vueltas.", (0, preact_mjs_1.h)("br", null), "M\u00E1s claridad en cada paso.")
-                    ),
-                    (0, preact_mjs_1.h)("p", null, "Enviar la solicitud es el comienzo.", (0, preact_mjs_1.h)("br", null), "El viaje se confirma despu\u00E9s de coordinar.")
-                ),
-                (0, preact_mjs_1.h)("div", { class: "how-grid" }, [
-                    ['01', 'Pedí tu servicio', 'Origen, destino, fecha y los datos necesarios para cotizar sin vueltas.'],
-                    ['02', 'Revisá la propuesta', 'Conocé el precio y aceptá la cotización antes de avanzar.'],
-                    ['03', 'Seguí el traslado', 'El operador informa el estado del servicio hasta finalizar.'],
-                ].map(([n, title, text]) => (0, preact_mjs_1.h)("article", { class: "how-step", key: n },
-                    (0, preact_mjs_1.h)("span", null, n),
-                    (0, preact_mjs_1.h)("h3", null, title),
-                    (0, preact_mjs_1.h)("p", null, text)
-                ))),
-                (0, preact_mjs_1.h)("div", { class: "process-note" },
-                    (0, preact_mjs_1.h)(ui_js_1.Icon, { name: "info", size: 18 }),
-                    (0, preact_mjs_1.h)("p", null, "Aceptar una cotizaci\u00F3n no genera un cobro autom\u00E1tico. Las condiciones del servicio, la disponibilidad y el veh\u00EDculo se definen con el prestador.")
-                )
-            )
-        ),
-        (0, preact_mjs_1.h)("section", { id: "cobertura", class: "container coverage-section" },
-            (0, preact_mjs_1.h)(ui_js_1.TransportArt, null),
-            (0, preact_mjs_1.h)("div", { class: "coverage-copy" },
-                (0, preact_mjs_1.h)("span", { class: "eyebrow" }, "CADA RECORRIDO ES DIFERENTE"),
-                (0, preact_mjs_1.h)("h2", null, "\u00BFHasta d\u00F3nde", (0, preact_mjs_1.h)("br", null), (0, preact_mjs_1.h)("em", null, "necesit\u00E1s llegar?")),
-                (0, preact_mjs_1.h)("p", null, hasCoverage ? configuredCoverage : 'Consultá disponibilidad para tu recorrido. Indicá origen y destino y te preparamos una cotización.'),
-                (0, preact_mjs_1.h)("div", { class: "coverage-route", "aria-label": "El recorrido se consulta antes de confirmar" },
-                    (0, preact_mjs_1.h)("span", null, (0, preact_mjs_1.h)("i", { class: "origin-dot" }), "Tu origen"),
-                    (0, preact_mjs_1.h)("span", { class: "coverage-dashes" }),
-                    (0, preact_mjs_1.h)(ui_js_1.Icon, { name: "arrow", size: 17 }),
-                    (0, preact_mjs_1.h)("span", null, (0, preact_mjs_1.h)("i", { class: "destination-dot" }), "Tu destino")
-                ),
-                (0, preact_mjs_1.h)("p", { class: "tiny coverage-disclaimer" }, "Cobertura, veh\u00EDculos y condiciones se personalizan con el prestador. La ilustraci\u00F3n y los datos del recorrido son de demostraci\u00F3n."),
-                (0, preact_mjs_1.h)("button", { class: "text-link", onClick: () => onScroll('quick-origin') },
-                    "Consultar mi recorrido",
-                    (0, preact_mjs_1.h)(ui_js_1.Icon, { name: "arrow", size: 17 })
-                )
-            )
-        ),
-        (0, preact_mjs_1.h)("section", { id: "preguntas", class: "container faq-section" },
-            (0, preact_mjs_1.h)("div", { class: "faq-heading" },
-                (0, preact_mjs_1.h)("span", { class: "eyebrow" }, "ANTES DE ARRANCAR"),
-                (0, preact_mjs_1.h)("h2", null, "Algunas respuestas,", (0, preact_mjs_1.h)("br", null), "para viajar tranquilo."),
-                (0, preact_mjs_1.h)("p", null, "Lo importante, sin letra chica.")
-            ),
-            (0, preact_mjs_1.h)("div", { class: "faq-list" }, [
-                ['¿Cómo se calcula el precio?', 'El prestador revisa el recorrido y los detalles de tu solicitud y carga una cotización para revisar. Esta demo no aplica una tarifa automática.'],
-                ['¿Puedo programarlo para otro día?', 'Sí. En la solicitud podés indicar una fecha y horario de salida. La coordinación queda a definir con el prestador.'],
-                ['¿También puedo pedir un traslado de pasajeros?', 'Sí. Elegí “Pasajeros”, indicá cuántas personas viajan, el equipaje y si necesitás ida y vuelta. La unidad y sus plazas se coordinan antes de confirmar.'],
-                ['¿Cuándo queda confirmado mi servicio?', 'Primero recibís la cotización. Después podés aceptar el importe y coordinar las condiciones pendientes con el prestador. El enlace permite consultar el estado de la solicitud.'],
-            ].map(([question, answer]) => (0, preact_mjs_1.h)("details", { key: question },
-                (0, preact_mjs_1.h)("summary", null,
-                    question,
-                    (0, preact_mjs_1.h)("span", { class: "faq-plus" }, (0, preact_mjs_1.h)(ui_js_1.Icon, { name: "plus", size: 18 }))
-                ),
-                (0, preact_mjs_1.h)("p", null, answer)
-            )))
-        ),
-        (0, preact_mjs_1.h)("section", { class: "container closing-section" },
-            (0, preact_mjs_1.h)("div", { class: "closing-panel" },
-                (0, preact_mjs_1.h)("div", null,
-                    (0, preact_mjs_1.h)("span", { class: "eyebrow" }, "COORDINEMOS EL PR\u00D3XIMO RECORRIDO"),
-                    (0, preact_mjs_1.h)("h2", null, "Vos dec\u00EDs a d\u00F3nde.", (0, preact_mjs_1.h)("br", null), "Empecemos por ah\u00ED."),
-                    (0, preact_mjs_1.h)("p", null, "Una solicitud clara. Una propuesta antes de salir.")
-                ),
-                (0, preact_mjs_1.h)("button", { class: "button button-primary button-large", onClick: () => onStart() },
-                    "Solicitar servicio",
-                    (0, preact_mjs_1.h)(ui_js_1.Icon, { name: "arrow" })
-                )
-            ),
-            (0, preact_mjs_1.h)("div", { class: "contact-strip" },
-                (0, preact_mjs_1.h)("span", null, (0, preact_mjs_1.h)(ui_js_1.Icon, { name: "message" }), "\u00BFYa hiciste una solicitud?"),
-                (0, preact_mjs_1.h)("a", { class: "text-link", href: "#/seguimiento" },
-                    "Consultar el estado",
-                    (0, preact_mjs_1.h)(ui_js_1.Icon, { name: "arrow", size: 16 })
-                ),
-                contact && (0, preact_mjs_1.h)("a", { class: "text-link", href: contact, target: "_blank", rel: "noopener noreferrer" },
-                    "Consultar por WhatsApp",
-                    (0, preact_mjs_1.h)(ui_js_1.Icon, { name: "external", size: 16 })
-                )
-            )
-        )
-    );
+    const coverage = typeof business.coverage === 'string' ? business.coverage.trim() : '';
+    const hasCoverage = Boolean(coverage && coverage !== domain_js_1.defaultConfig.coverage);
+    const services = [
+        ['freight', 'Fletes y cargas', 'Muebles, cajas o mercadería.', 'Sumá una foto y los detalles de tu carga.', 'truck'],
+        ['passengers', 'Traslado de pasajeros', 'Tu próximo viaje, coordinado.', 'Indicá pasajeros, equipaje y si necesitás volver.', 'users'],
+        ['special', 'Traslados especiales', 'No todos los recorridos son iguales.', 'Contanos qué necesitás y evaluamos tu solicitud.', 'route'],
+    ];
+    const faq = [
+        ['¿Cómo se calcula el precio?', 'El operador revisa tu recorrido y los detalles antes de cotizar. No hay tarifas automáticas: primero conocés la propuesta.'],
+        ['¿Puedo programarlo para otro día?', 'Sí. Podés pedir una fecha y un horario. La disponibilidad se coordina con el prestador antes de confirmar el servicio.'],
+        ['¿También puedo pedir un traslado de pasajeros?', 'Sí. Elegí Pasajeros e indicá cuántas personas viajan, qué equipaje llevan y si necesitás ida y vuelta.'],
+        ['¿Cuándo queda confirmado mi servicio?', 'Aceptar el importe no confirma el viaje ni realiza un cobro. El operador revisa disponibilidad y condiciones y luego confirma el servicio.'],
+    ];
+    return h('main', { id: 'main', tabIndex: -1, class: 'commercial-home' },
+        h('section', { class: 'hero container', 'aria-labelledby': 'hero-title' },
+            h('div', { class: 'hero-copy' },
+                h('div', { class: 'eyebrow hero-eyebrow' }, h('span', { class: 'little-line' }), 'FLETES · PASAJEROS · ESPECIALES'),
+                h('h1', { id: 'hero-title', tabIndex: -1 }, 'Tu traslado,', h('br'), h('em', null, 'sin vueltas.')),
+                h('p', { class: 'hero-intro' }, 'Contanos de dónde a dónde. Recibí una cotización y seguí cada paso desde acá.'),
+                h('div', { class: 'hero-actions' },
+                    h('button', { class: 'button button-primary button-large', onClick: () => onStart() }, 'Solicitar servicio', h(Icon, { name: 'arrow', size: 18 })),
+                    h('button', { class: 'text-link how-link', onClick: () => onScroll('como-funciona') }, 'Ver cómo funciona', h(Icon, { name: 'chevron', size: 16 }))),
+                h('div', { class: 'hero-scene' }, h(TransportArt)),
+                h('div', { class: 'hero-assurances' },
+                    h('span', null, h(Icon, { name: 'check', size: 16 }), 'Primero la cotización'),
+                    h('span', null, h(Icon, { name: 'check', size: 16 }), 'Sin crear una cuenta'))),
+            h('div', { class: 'quick-card' },
+                h('div', { class: 'quick-card-heading' },
+                    h('span', { class: 'eyebrow' }, 'EMPEZAMOS POR ACÁ'),
+                    h('h2', null, '¿De dónde a dónde?'),
+                    h('p', null, 'Elegí el servicio y armá tu recorrido.')),
+                h('form', { onSubmit: onQuickSubmit, noValidate: true },
+                    h('fieldset', { class: 'quick-kind' },
+                        h('legend', { class: 'sr-only' }, 'Tipo de servicio'),
+                        services.map(([kind, , , , icon]) => h('button', {
+                            key: kind, type: 'button', 'aria-pressed': draft.kind === kind,
+                            class: draft.kind === kind ? 'selected' : '', onClick: () => onDraft({ kind }),
+                        }, h(Icon, { name: icon, size: 21 }), kind === 'freight' ? 'Flete' : kind === 'passengers' ? 'Pasajeros' : 'Especial'))),
+                    h('div', { class: 'quick-stops' },
+                        h(Field, { id: 'quick-origin', label: 'Origen', error: errors.origin },
+                            h('input', { id: 'quick-origin', autoComplete: 'off', enterKeyHint: 'next', placeholder: 'Dirección y localidad de salida', maxLength: 240, value: draft.origin,
+                                onInput: e => onDraft({ origin: e.currentTarget.value }), 'aria-invalid': Boolean(errors.origin), 'aria-describedby': errors.origin ? 'quick-origin-hint' : undefined })),
+                        h(Field, { id: 'quick-destination', label: 'Destino', error: errors.destination },
+                            h('input', { id: 'quick-destination', autoComplete: 'off', enterKeyHint: 'go', placeholder: 'Dirección y localidad de llegada', maxLength: 240, value: draft.destination,
+                                onInput: e => onDraft({ destination: e.currentTarget.value }), 'aria-invalid': Boolean(errors.destination), 'aria-describedby': errors.destination ? 'quick-destination-hint' : undefined }))),
+                    h('div', { class: 'quick-next' }, h(Icon, { name: 'calendar', size: 17 }), 'Después elegís la fecha y sumás los detalles.'),
+                    h('button', { class: 'button button-dark full', type: 'submit' }, 'Continuar solicitud', h(Icon, { name: 'arrow', size: 18 })),
+                    h('p', { class: 'quick-footnote' }, h(Icon, { name: 'lock', size: 14 }), 'Sin reservar ni pagar en este paso.')))),
+        h('section', { id: 'servicios', class: 'container services-section' },
+            h('div', { class: 'section-heading' },
+                h('div', null, h('span', { class: 'eyebrow' }, '¿QUÉ NECESITÁS TRASLADAR?'), h('h2', null, 'Un lugar para cada recorrido.')),
+                h('p', null, 'Elegí tu servicio. Los detalles vienen después.')),
+            h('div', { class: 'services-grid' }, services.map(([kind, title, intro, text, icon], i) => h('button', {
+                key: kind, class: `service-card service-${kind}`, onClick: () => onStart(kind), 'aria-label': `Solicitar ${title.toLowerCase()}`,
+            }, h('div', { class: 'service-card-top' }, h('span', { class: 'service-icon' }, h(Icon, { name: icon, size: 29 })), h('span', { class: 'service-number' }, '0', i + 1)),
+                h('h3', null, title), h('p', null, h('strong', null, intro), h('br'), text),
+                h('span', { class: 'card-link' }, 'Solicitar servicio', h(Icon, { name: 'arrow', size: 19 })))))),
+        h('section', { id: 'como-funciona', class: 'how-section' }, h('div', { class: 'container' },
+            h('div', { class: 'section-heading' }, h('div', null, h('span', { class: 'eyebrow' }, 'SABÉS QUÉ SIGUE'), h('h2', null, 'Del pedido al traslado.')),
+                h('p', null, 'Vos hacés la consulta. El operador coordina el servicio.')),
+            h('div', { class: 'how-grid' }, [
+                ['01', 'Pedí tu servicio', 'Recorrido, fecha y lo que necesitás trasladar.', 'route'],
+                ['02', 'Revisá la cotización', 'Conocé el importe. El viaje se confirma por separado.', 'check'],
+                ['03', 'Consultá el estado', 'Seguí las actualizaciones informadas por el operador.', 'truck'],
+            ].map(([n, title, text, icon]) => h('article', { class: 'how-step', key: n }, h('div', { class: 'how-step-head' }, h('span', null, n), h(Icon, { name: icon, size: 20 })), h('h3', null, title), h('p', null, text)))))),
+        h('section', { id: 'cobertura', class: 'container coverage-section' },
+            h('div', { class: 'coverage-copy' }, h('span', { class: 'eyebrow' }, 'CADA RECORRIDO ES DIFERENTE'), h('h2', null, 'Vos decís a dónde.'),
+                h('p', null, hasCoverage ? coverage : 'Consultá disponibilidad para tu recorrido. La zona y las condiciones se coordinan con el prestador.'),
+                h('button', { class: 'text-link', onClick: () => onScroll('quick-origin') }, 'Consultar mi recorrido', h(Icon, { name: 'arrow', size: 18 }))),
+            h('div', { class: 'coverage-route', 'aria-label': 'El recorrido se consulta antes de confirmar' },
+                h('span', null, h('i', { class: 'origin-dot' }), 'Tu origen'), h('span', { class: 'coverage-dashes' }), h(Icon, { name: 'arrow', size: 22 }), h('span', null, h('i', { class: 'destination-dot' }), 'Tu destino'))),
+        h('section', { id: 'preguntas', class: 'container faq-section' },
+            h('div', { class: 'faq-heading' }, h('span', { class: 'eyebrow' }, 'ANTES DE ARRANCAR'), h('h2', null, 'Las dudas, ', h('br'), 'sin vueltas.')),
+            h('div', { class: 'faq-list' }, faq.map(([question, answer]) => h('details', { key: question },
+                h('summary', null, question, h('span', { class: 'faq-plus' }, h(Icon, { name: 'plus', size: 18 }))), h('p', null, answer))))),
+        h('section', { class: 'container closing-section' },
+            h('div', { class: 'closing-panel' }, h('div', null, h('span', { class: 'eyebrow' }, 'TU PRÓXIMO RECORRIDO'), h('h2', null, 'Empecemos por tu solicitud.'), h('p', null, 'El primer paso es contarnos qué necesitás.')),
+                h('button', { class: 'button button-primary button-large', onClick: () => onStart() }, 'Solicitar servicio', h(Icon, { name: 'arrow' }))),
+            h('div', { class: 'contact-strip' }, h('span', null, '¿Ya hiciste una solicitud?'), h('a', { class: 'text-link', href: '#/seguimiento' }, 'Consultar el estado', h(Icon, { name: 'arrow', size: 17 })))));
 }
 
 function DemoGuide({ onStart, onExample, onReset, busy }) {

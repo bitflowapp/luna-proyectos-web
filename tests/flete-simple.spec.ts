@@ -1,0 +1,162 @@
+import { expect, test, type Page } from '@playwright/test'
+
+async function exampleRequest(page: Page) {
+  await page.goto('demos/flete/#/solicitar')
+  await expect(page.getByRole('heading', { name: '¿De dónde a dónde?' })).toBeVisible()
+  await page.getByRole('button', { name: 'Completar con datos de ejemplo', exact: true }).click()
+  await page.getByRole('button', { name: 'Continuar', exact: true }).click()
+  await page.getByRole('button', { name: 'Continuar', exact: true }).click()
+  await page.getByRole('button', { name: 'Enviar solicitud', exact: true }).click()
+  await expect(page.locator('.tracking-code strong')).toBeVisible()
+}
+
+async function fits(page: Page) {
+  expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual((page.viewportSize()?.width ?? 0) + 1)
+  expect(await page.evaluate(() => getComputedStyle(document.documentElement).overflowX)).not.toBe('hidden')
+}
+
+test('Flete simple: 3 pasos, campos opcionales y continuidad dueño-cliente', async ({ page }, testInfo) => {
+  const errors: string[] = []
+  page.on('pageerror', error => errors.push(error.message))
+  await page.goto('demos/flete/#/solicitar')
+  await expect(page.locator('.simple-progress button')).toHaveCount(3)
+  await expect(page.locator('.public-footer')).toHaveCount(0)
+  await page.getByRole('button', { name: 'Continuar', exact: true }).click()
+  await expect(page.locator('#origin')).toBeFocused()
+  await page.getByRole('button', { name: 'Completar con datos de ejemplo', exact: true }).click()
+  await fits(page)
+  await page.screenshot({ path: testInfo.outputPath('01-paso-recorrido.png'), fullPage: true })
+  await page.getByRole('button', { name: 'Continuar', exact: true }).click()
+  await expect(page.locator('#description')).toBeVisible()
+  await expect(page.locator('#photos')).not.toBeVisible()
+  await expect(page.locator('#cargo_size')).not.toBeVisible()
+  await page.screenshot({ path: testInfo.outputPath('02-paso-detalles.png'), fullPage: true })
+  await page.getByRole('button', { name: 'Continuar', exact: true }).click()
+  await expect(page.locator('.simple-title')).toContainText('EL ÚLTIMO')
+  await expect(page.locator('#whatsapp')).not.toBeVisible()
+  await expect(page.locator('#email')).not.toBeVisible()
+  await expect(page.locator('.simple-review')).not.toHaveAttribute('open', '')
+  await page.screenshot({ path: testInfo.outputPath('03-paso-contacto.png'), fullPage: true })
+  await page.getByRole('button', { name: 'Enviar solicitud', exact: true }).click()
+  await expect(page.locator('.demo-next')).toContainText('Ahora probá como dueño')
+  const nextY = (await page.locator('.demo-next').boundingBox())?.y ?? Infinity
+  const routeY = (await page.locator('.tracking-card .route-card').boundingBox())?.y ?? 0
+  expect(nextY).toBeLessThan(routeY)
+  await page.screenshot({ path: testInfo.outputPath('04-solicitud-enviada.png'), fullPage: true })
+  await page.getByRole('button', { name: 'Gestionar en el panel', exact: true }).click()
+  await expect(page.locator('.owner-next')).toContainText('Escribí un precio de ejemplo')
+  await page.locator('#quote-amount').fill('45000,50')
+  await page.getByRole('button', { name: 'Guardar cotización', exact: true }).click()
+  await page.getByRole('button', { name: 'Ver como cliente', exact: true }).click()
+  await expect(page.locator('.price-block')).toContainText('45.000,50')
+  await page.getByRole('button', { name: 'Aceptar cotización', exact: true }).click()
+  await page.getByRole('button', { name: 'Confirmar aceptación', exact: true }).click()
+  await expect(page.locator('.demo-next')).toContainText('Ahora confirmá como dueño')
+  await expect(page.locator('.tracking-code .badge')).toContainText('Cotizada')
+  await page.getByRole('button', { name: 'Gestionar en el panel', exact: true }).click()
+  await expect(page.locator('.operator-accepted')).toContainText('El cliente aceptó')
+  const id = await page.locator('#assign-vehicle option').filter({ hasText: 'Camioneta utilitaria' }).first().getAttribute('value')
+  if (!id) throw new Error('No hay unidad de ejemplo')
+  await page.locator('#assign-vehicle').selectOption(id)
+  await page.getByRole('button', { name: 'Confirmar servicio', exact: true }).click()
+  await page.getByRole('button', { name: 'Ver como cliente', exact: true }).click()
+  await expect(page.locator('.tracking-code .badge')).toContainText('Confirmada')
+  await expect(page.locator('.assigned-vehicle')).toBeVisible()
+  await fits(page)
+  expect(errors).toEqual([])
+})
+
+test('Flete simple: fallo de portapapeles ofrece copia manual visible y actualizar da respuesta', async ({ page }, testInfo) => {
+  await page.addInitScript(() => Object.defineProperty(navigator, 'clipboard', { configurable: true, value: {
+    writeText: async () => { throw new DOMException('Blocked for this test', 'NotAllowedError') }
+  } }))
+  await exampleRequest(page)
+  await page.getByRole('button', { name: 'Actualizar', exact: true }).click()
+  await expect(page.locator('.tracking-feedback')).toHaveText('Ya está actualizado. No hay cambios nuevos.')
+  await page.getByRole('button', { name: 'Copiar enlace de esta prueba', exact: true }).click()
+  await expect(page.locator('.copy-feedback')).toContainText('Mantené presionado')
+  await expect(page.locator('#copy-link')).toBeVisible()
+  await expect(page.locator('#copy-link')).toBeFocused()
+  const value = await page.locator('#copy-link').inputValue()
+  expect(value).toContain('#/seguimiento/')
+  expect(await page.locator('#copy-link').evaluate((el: HTMLInputElement) => el.selectionEnd)).toBe(value.length)
+  await fits(page)
+  await page.screenshot({ path: testInfo.outputPath('05-copia-bloqueada.png'), fullPage: true })
+})
+
+test('Flete simple: solicitud recuperable en otra pestaña sin copiar y no en otro navegador', async ({ page, context, browser }) => {
+  await exampleRequest(page)
+  const code = await page.locator('.tracking-code strong').innerText()
+  const url = page.url()
+  const other = await context.newPage()
+  await other.goto('demos/flete/#/seguimiento')
+  const recent = other.locator('.recent-request').filter({ hasText: code })
+  await expect(recent).toBeVisible()
+  await recent.click()
+  await expect(other.locator('.tracking-code strong')).toHaveText(code)
+  await other.reload()
+  await expect(other.locator('.tracking-code strong')).toHaveText(code)
+  await other.close()
+  const isolated = await browser.newContext()
+  try {
+    const stranger = await isolated.newPage()
+    await stranger.goto(url)
+    await expect(stranger.getByRole('heading', { name: 'No encontramos ese enlace' })).toBeVisible()
+    await expect(stranger.getByRole('link', { name: 'Ver mis solicitudes' })).toBeVisible()
+    await expect(stranger.locator('.tracking-code')).toHaveCount(0)
+  } finally { await isolated.close() }
+})
+
+test('Flete simple: pasajeros, regreso programado y contacto conservan los datos', async ({ page }) => {
+  await page.goto('demos/flete/#/solicitar')
+  await page.getByRole('button', { name: 'Pasajeros', exact: true }).click()
+  await page.getByRole('button', { name: 'Completar con datos de ejemplo', exact: true }).click()
+  await page.getByRole('button', { name: 'Continuar', exact: true }).click()
+  await page.locator('#passengers').fill('4')
+  await page.getByRole('button', { name: 'Elegir fecha', exact: true }).click()
+  const day = new Date(Date.now() + 5 * 86400000).toISOString().slice(0, 10)
+  await page.locator('#scheduled_at').fill(day + 'T10:00')
+  await page.locator('#round_trip').check()
+  await page.locator('#return_at').fill(day + 'T18:00')
+  await page.getByRole('button', { name: 'Continuar', exact: true }).click()
+  await page.reload()
+  await expect(page.getByRole('heading', { name: '¿Cómo te contactamos?' })).toBeVisible()
+  await page.locator('.simple-review summary').click()
+  await expect(page.locator('.simple-review')).toContainText('4 pasajero(s) · ida y vuelta')
+  await page.getByRole('button', { name: 'Enviar solicitud', exact: true }).click()
+  await page.getByRole('button', { name: 'Gestionar en el panel', exact: true }).click()
+  await expect(page.locator('main')).toContainText('Traslado de pasajeros')
+  await expect(page.locator('main')).toContainText('4')
+})
+
+test('Flete simple: traslado especial y campos opcionales no obligan a llenar una carga', async ({ page }) => {
+  await page.goto('demos/flete/#/solicitar')
+  await page.getByRole('button', { name: 'Especial', exact: true }).click()
+  await page.getByRole('button', { name: 'Completar con datos de ejemplo', exact: true }).click()
+  await page.getByRole('button', { name: 'Continuar', exact: true }).click()
+  await expect(page.locator('#cargo_size')).toHaveCount(0)
+  await expect(page.locator('#passengers')).toHaveCount(0)
+  await page.locator('#description').fill('Llevar equipos para una presentación')
+  await page.getByRole('button', { name: 'Continuar', exact: true }).click()
+  await page.getByRole('button', { name: 'Enviar solicitud', exact: true }).click()
+  await expect(page.locator('.tracking-service')).toContainText('Otro traslado')
+})
+
+test('Flete simple: borrador de 6 pasos migra sin perder la solicitud', async ({ page }) => {
+  await page.addInitScript(() => {
+    if (sessionStorage.getItem('migration-seeded')) return
+    sessionStorage.setItem('migration-seeded', 'yes')
+    sessionStorage.setItem('flete-draft.v1', JSON.stringify({ step: 4, token: 'a'.repeat(64), draft: {
+      kind: 'freight', origin: 'Dirección de retiro anterior', destination: 'Dirección de llegada anterior', when: 'asap', scheduled_at: null,
+      details: { description: 'Una mesa anterior', cargo_size: 'No sé', quantity: 1, needs_help: false, helpers: 1, passengers: 1, luggage: 'Sin equipaje', round_trip: false, return_at: null, notes: '' },
+      contact: { name: 'Carolina', phone: '+540000000099', whatsapp: '', email: '', consent: true }
+    } }))
+  })
+  await page.goto('demos/flete/#/solicitar')
+  await expect(page.locator('.simple-title')).toContainText('PASO 3 DE 3')
+  await expect(page.locator('#name')).toHaveValue('Carolina')
+  await expect(page.locator('.simple-review')).toContainText('Dirección de retiro anterior')
+  await page.getByRole('button', { name: 'Enviar solicitud', exact: true }).click()
+  await expect(page.locator('.tracking-code strong')).toBeVisible()
+  expect(page.url()).toContain('a'.repeat(64))
+})

@@ -29,7 +29,7 @@ const descriptions = {
     cancelled: 'No hay un servicio activo asociado a esta solicitud. Podés comenzar una nueva consulta cuando lo necesites.',
 };
 
-function TrackingView({ tracking: t, error, success, business, preview, busy, lookup, pendingPhotos, onCopy, onRefresh, onManage, onAccept, onRetryPhotos }) {
+function TrackingView({ tracking: t, error, success, business, preview, busy, lookup, pendingPhotos, onCopy, onRefresh, onManage, onAccept, onRetryPhotos, refreshing, refreshMessage, copyMessage }) {
     const accepted = Boolean(t?.quote_accepted_at);
     const awaiting = t?.status === 'quoted' && accepted;
     const contact = t ? (0, domain_js_1.whatsappUrl)(business.whatsapp, `Hola, quisiera consultar por mi solicitud ${t.code}.`) : null;
@@ -45,7 +45,7 @@ function TrackingView({ tracking: t, error, success, business, preview, busy, lo
             (0, preact_mjs_1.h)("section", { class: "tracking-card" },
                 (0, preact_mjs_1.h)(ui_js_1.Empty, { icon: "lock", title: "No encontramos ese enlace", text: error },
                     (0, preact_mjs_1.h)("a", { href: "#/seguimiento", class: "button button-primary" },
-                        "Revisar el enlace",
+                        "Ver mis solicitudes",
                         (0, preact_mjs_1.h)(ui_js_1.Icon, { name: "arrow" })
                     )
                 )
@@ -56,7 +56,7 @@ function TrackingView({ tracking: t, error, success, business, preview, busy, lo
                     (0, preact_mjs_1.h)("div", null,
                         (0, preact_mjs_1.h)("span", { class: "eyebrow" }, success ? 'EL PRIMER PASO YA ESTÁ' : 'TU TRASLADO, PASO A PASO'),
                         (0, preact_mjs_1.h)("h1", { tabIndex: -1 }, success ? 'Solicitud recibida.' : 'Así va tu servicio.'),
-                        (0, preact_mjs_1.h)("p", null, success ? 'Guardá este enlace privado para consultar la cotización y los próximos pasos.' : 'El último estado informado por el operador, en un solo lugar.')
+                        (0, preact_mjs_1.h)("p", null, preview ? 'Tu prueba quedó guardada en este navegador.' : success ? 'Guardá este enlace para consultar los próximos pasos.' : 'Consultá el estado de tu servicio.')
                     ),
                     (0, preact_mjs_1.h)("span", { class: "tracking-reference" },
                         (0, preact_mjs_1.h)("span", null, "Tu referencia"),
@@ -78,8 +78,15 @@ function TrackingView({ tracking: t, error, success, business, preview, busy, lo
                             (0, preact_mjs_1.h)("div", null,
                                 (0, preact_mjs_1.h)("span", { class: "eyebrow" }, awaiting ? 'PROPUESTA ACEPTADA' : 'ESTADO ACTUAL'),
                                 (0, preact_mjs_1.h)("h2", null, awaiting ? 'Aceptaste la cotización.' : titles[t.status]),
-                                (0, preact_mjs_1.h)("p", null, awaiting ? 'El importe quedó aceptado. Falta la confirmación del operador; todavía no hay un viaje confirmado ni un cobro.' : descriptions[t.status])
+                                (0, preact_mjs_1.h)("p", null, awaiting ? 'El importe quedó aceptado. Falta la confirmación del operador; todavía no hay un viaje confirmado ni un cobro.' : preview && ['new', 'reviewing'].includes(t.status) ? 'Para continuar la prueba, abrí esta solicitud como dueño y prepará una cotización.' : descriptions[t.status])
                             )
+                        ),
+                        preview && (0, preact_mjs_1.h)("section", { class: `demo-next${t.status === 'quoted' && !accepted ? ' demo-next-secondary' : ''}` },
+                            (0, preact_mjs_1.h)("div", null,
+                                (0, preact_mjs_1.h)("strong", null, ['new', 'reviewing'].includes(t.status) ? 'Ahora probá como dueño' : awaiting ? 'El cliente ya aceptó. Ahora confirmá como dueño.' : 'Los dos lados de esta misma solicitud'),
+                                (0, preact_mjs_1.h)("p", null, ['new', 'reviewing'].includes(t.status) ? 'Poné un precio y volvé para verlo como cliente.' : awaiting ? 'Revisá el servicio, asigná una unidad y confirmalo en el panel.' : 'Podés volver al panel para continuar la prueba.')
+                            ),
+                            (0, preact_mjs_1.h)("button", { class: 'button button-primary', disabled: busy, onClick: onManage }, 'Gestionar en el panel', (0, preact_mjs_1.h)(ui_js_1.Icon, { name: 'arrow', size: 18 }))
                         ),
                         (0, preact_mjs_1.h)("div", { class: "tracking-code" },
                             (0, preact_mjs_1.h)("div", null,
@@ -163,36 +170,34 @@ function TrackingView({ tracking: t, error, success, business, preview, busy, lo
                             )
                         ),
                         (0, preact_mjs_1.h)("div", { class: "tracking-buttons" },
-                            (0, preact_mjs_1.h)("button", {
-                                class: `button ${t.status === 'quoted' && !accepted ? 'button-light' : 'button-dark'}`,
-                                onClick: onCopy
-                            },
-                                (0, preact_mjs_1.h)(ui_js_1.Icon, { name: "copy", size: 18 }),
-                                "Copiar enlace privado"
-                            ),
-                            (0, preact_mjs_1.h)("button", { class: "button button-light", onClick: onRefresh, disabled: busy },
-                                (0, preact_mjs_1.h)(ui_js_1.Icon, { name: "refresh", size: 17 }),
-                                "Actualizar"
-                            )
+                            (0, preact_mjs_1.h)("a", { class: 'button button-light', href: '#/seguimiento' }, 'Mis solicitudes'),
+                            (0, preact_mjs_1.h)("button", { class: "button button-light", onClick: onRefresh, disabled: busy || refreshing },
+                                (0, preact_mjs_1.h)(ui_js_1.Icon, { name: "refresh", size: 17 }), refreshing ? 'Consultando…' : 'Actualizar')
+                        ),
+                        (0, preact_mjs_1.h)("p", { class: 'tracking-feedback', role: 'status', 'aria-live': 'polite' }, refreshMessage || ''),
+                        (0, preact_mjs_1.h)("div", { class: 'copy-options' },
+                            (0, preact_mjs_1.h)("button", { class: 'text-link', onClick: onCopy },
+                                (0, preact_mjs_1.h)(ui_js_1.Icon, { name: 'copy', size: 16 }), preview ? 'Copiar enlace de esta prueba' : 'Copiar enlace privado'),
+                            (0, preact_mjs_1.h)("p", { class: 'copy-feedback', role: 'status', 'aria-live': 'polite' }, copyMessage || '')
                         ),
                         lookup && (
-                            (0, preact_mjs_1.h)(ui_js_1.Field, { id: "copy-link", label: "Enlace privado para copiar" },
+                            (0, preact_mjs_1.h)(ui_js_1.Field, { id: "copy-link", label: "Enlace para copiar manualmente" },
                                 (0, preact_mjs_1.h)("input", {
                                     id: "copy-link",
                                     readOnly: true,
                                     value: lookup,
-                                    onFocus: (e) => e.currentTarget.select()
+                                    onFocus: (e) => e.currentTarget.select(), onClick: (e) => e.currentTarget.select()
                                 })
                             )
                         ),
                         (0, preact_mjs_1.h)("p", { class: "privacy-note" },
                             (0, preact_mjs_1.h)(ui_js_1.Icon, { name: "lock", size: 15 }),
-                            preview ? 'En esta demo, el enlace funciona sólo en este navegador. No crea un servicio real ni envía mensajes.' : 'Quien tenga este enlace puede ver el recorrido y el estado. No lo compartas públicamente.'
+                            preview ? 'Esta prueba funciona sólo en este navegador. En otro teléfono no se verá. No se envían viajes ni mensajes.' : 'Quien tenga este enlace puede ver el recorrido y el estado. No lo compartas públicamente.'
                         )
                     ),
                     (0, preact_mjs_1.h)("aside", { class: "tracking-aside" },
-                        (0, preact_mjs_1.h)("section", { class: "panel journey-panel" },
-                            (0, preact_mjs_1.h)("h2", null, "El recorrido de tu solicitud"),
+                        (0, preact_mjs_1.h)("details", { class: "panel journey-panel" },
+                            (0, preact_mjs_1.h)("summary", null, "Ver las etapas del servicio"),
                             (0, preact_mjs_1.h)(JourneyTimeline, { tracking: t }),
                             (0, preact_mjs_1.h)("p", { class: "sync-note" },
                                 (0, preact_mjs_1.h)("span", { class: "status-dot" }),
@@ -212,19 +217,6 @@ function TrackingView({ tracking: t, error, success, business, preview, busy, lo
                                     "Consultar por WhatsApp"
                                 )
                             )
-                        )
-                    )
-                ),
-                preview && (
-                    (0, preact_mjs_1.h)("section", { class: "demo-handoff" },
-                        (0, preact_mjs_1.h)("div", null,
-                            (0, preact_mjs_1.h)("span", { class: "eyebrow" }, "AHORA, PROB\u00C1 EL OTRO LADO"),
-                            (0, preact_mjs_1.h)("h3", null, "As\u00ED lo recibe el due\u00F1o del negocio."),
-                            (0, preact_mjs_1.h)("p", null, "Abr\u00ED esta solicitud en el panel de operaciones, prepar\u00E1 la cotizaci\u00F3n o confirm\u00E1 el servicio.")
-                        ),
-                        (0, preact_mjs_1.h)("button", { class: "button button-light", onClick: onManage },
-                            "Gestionar en el panel",
-                            (0, preact_mjs_1.h)(ui_js_1.Icon, { name: "arrow", size: 18 })
                         )
                     )
                 ),

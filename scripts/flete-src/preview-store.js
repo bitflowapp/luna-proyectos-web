@@ -178,8 +178,13 @@ exports.previewApi = {
         if (data.requests.length >= 250)
             throw failure(422, 'La demo llegó a 250 solicitudes. Reiniciala para seguir probando.');
         const r = insert(data, payload, token);
+        r.created_by_visitor = true;
         return { id: r.id, code: r.code, created: true, is_demo: true };
     }),
+    recentRequests: () => transaction(false, data => data.requests
+        .filter(r => r.created_by_visitor && Date.parse(r.tracking_expires_at) > Date.now())
+        .slice(0, 20).map(r => ({ code: r.code, status: r.status, origin: r.payload.origin,
+            destination: r.payload.destination, token: Object.keys(data.tokens).find(t => data.tokens[t] === r.id) }))),
     track: (token) => transaction(false, data => publicTracking(data, requestByToken(data, token))),
     acceptQuote: (token, expectedVersion, expectedQuote) => transaction(true, data => {
         const r = requestByToken(data, token);

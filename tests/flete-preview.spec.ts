@@ -13,14 +13,11 @@ test('Flete: solicitud persistente, cotización y seguimiento en otra pestaña',
   await expect(page.locator('.mode-banner')).not.toContainText('temporal')
   expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual((page.viewportSize()?.width ?? 0) + 1)
   await start.click()
-  await page.getByRole('button', { name: 'Continuar', exact: true }).click()
   await page.getByRole('button', { name: 'Completar con datos de ejemplo', exact: true }).click()
   await page.getByRole('button', { name: 'Continuar', exact: true }).click()
   await page.getByRole('button', { name: 'Continuar', exact: true }).click()
-  await page.getByRole('button', { name: 'Continuar', exact: true }).click()
   await page.locator('#consent').check()
-  await page.getByRole('button', { name: 'Continuar', exact: true }).click()
-  await expect(page.getByRole('heading', { name: 'Revisá tu solicitud.' })).toBeVisible()
+  await expect(page.getByRole('heading', { name: '¿Cómo te contactamos?' })).toBeVisible()
   await page.getByRole('button', { name: 'Enviar solicitud', exact: true }).click()
   await expect(page.getByRole('heading', { name: 'Solicitud recibida.' })).toBeVisible()
   const code = await page.locator('.tracking-code strong').innerText()
@@ -96,13 +93,13 @@ test('Flete: portada, recorrido rápido, FAQ, controles y CTA móvil', async ({ 
   await page.locator('#quick-destination').fill('Destino de prueba')
   await page.locator('.quick-kind').getByRole('button', { name: 'Pasajeros', exact: true }).click()
   await page.getByRole('button', { name: 'Continuar solicitud', exact: true }).click()
-  await expect(page.getByRole('heading', { name: '¿Cuándo lo necesitás?' })).toBeVisible()
-  await expect(page.locator('.wizard-aside')).toContainText('Origen de prueba')
-  await expect(page.locator('.wizard-aside')).toContainText('Traslado de pasajeros')
+  await expect(page.getByRole('heading', { name: '¿Cuántos viajan y cuándo?' })).toBeVisible()
+  await expect(page.locator('.simple-route-summary')).toContainText('Origen de prueba')
+  await expect(page.locator('.simple-route-summary')).toContainText('Traslado de pasajeros')
   await expect(page.locator('.mobile-request-bar')).toHaveCount(0)
   await page.reload()
-  await expect(page.getByRole('heading', { name: '¿Cuándo lo necesitás?' })).toBeVisible()
-  await expect(page.locator('.wizard-aside')).toContainText('Destino de prueba')
+  await expect(page.getByRole('heading', { name: '¿Cuántos viajan y cuándo?' })).toBeVisible()
+  await expect(page.locator('.simple-route-summary')).toContainText('Destino de prueba')
   expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual((page.viewportSize()?.width ?? 0) + 1)
 })
 
@@ -171,7 +168,7 @@ test('Flete: recorrido guiado completo y sin desborde en 320px', async ({ page }
 
   // Probar acceso a inicio de solicitud como cliente
   await page.getByRole('button', { name: 'Probar una solicitud' }).click()
-  await expect(page.getByRole('heading', { name: '¿Qué necesitás trasladar?' })).toBeVisible()
+  await expect(page.getByRole('heading', { name: '¿De dónde a dónde?' })).toBeVisible()
   expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(321)
 
   // Probar acceso al panel operativo

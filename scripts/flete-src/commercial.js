@@ -116,25 +116,15 @@ function DemoGuide({ onStart, onExample, onReset, busy }) {
             (0, preact_mjs_1.h)("em", null, "Los dos lados de la operaci\u00F3n.")
         ),
         (0, preact_mjs_1.h)("p", { class: "subtitle" },
-            "Recorr\u00E9 en 2 a 3 minutos una primera base configurable: lo que vive el cliente y c\u00F3mo administra el due\u00F1o."
+            "Probá una solicitud corta. Después cotizala como dueño y aceptala como cliente."
         ),
         (0, preact_mjs_1.h)("p", { class: "demo-guide-disclaimer" }, "Recorrido demostrativo con datos ficticios."),
-        (0, preact_mjs_1.h)("div", { class: "demo-flow-strip", "aria-label": "Ciclo completo de un servicio" },
-            (0, preact_mjs_1.h)("span", { class: "eyebrow" }, "FLUJO OPERATIVO COMPLETO"),
-            (0, preact_mjs_1.h)("div", { class: "demo-flow-steps" },
-                steps.map(s => (0, preact_mjs_1.h)("div", { class: "demo-flow-step", key: s.num },
-                    (0, preact_mjs_1.h)("span", { class: "step-badge" }, s.num),
-                    (0, preact_mjs_1.h)("strong", null, s.title),
-                    (0, preact_mjs_1.h)("p", null, s.desc)
-                ))
-            )
-        ),
         (0, preact_mjs_1.h)("div", { class: "demo-guide-grid" },
             (0, preact_mjs_1.h)("section", { class: "panel" },
                 (0, preact_mjs_1.h)("span", { class: "demo-guide-number" }, "A"),
                 (0, preact_mjs_1.h)(ui_js_1.Icon, { name: "phone", size: 28 }),
                 (0, preact_mjs_1.h)("h2", null, "Experiencia del cliente"),
-                (0, preact_mjs_1.h)("p", null, "Complet\u00E1 una solicitud con datos de prueba, guard\u00E1 el enlace y prob\u00E1 la aceptaci\u00F3n de cotizaci\u00F3n."),
+                (0, preact_mjs_1.h)("p", null, "Tres pasos: recorrido, detalles y contacto. El botón “Usar un ejemplo” completa los datos de prueba."),
                 (0, preact_mjs_1.h)("button", { class: "button button-primary", onClick: onStart },
                     "Probar una solicitud",
                     (0, preact_mjs_1.h)(ui_js_1.Icon, { name: "arrow", size: 18 })
@@ -159,6 +149,17 @@ function DemoGuide({ onStart, onExample, onReset, busy }) {
             (0, preact_mjs_1.h)("button", { class: "button button-light", onClick: onExample },
                 "Ver ejemplo de seguimiento",
                 (0, preact_mjs_1.h)(ui_js_1.Icon, { name: "route", size: 18 })
+            )
+        ),
+        (0, preact_mjs_1.h)("details", { class: "demo-flow-strip", "aria-label": "Ciclo completo de un servicio" },
+            (0, preact_mjs_1.h)("summary", null, "Ver los pasos de la operación"),
+            (0, preact_mjs_1.h)("span", { class: "eyebrow" }, "FLUJO OPERATIVO COMPLETO"),
+            (0, preact_mjs_1.h)("div", { class: "demo-flow-steps" },
+                steps.map(s => (0, preact_mjs_1.h)("div", { class: "demo-flow-step", key: s.num },
+                    (0, preact_mjs_1.h)("span", { class: "step-badge" }, s.num),
+                    (0, preact_mjs_1.h)("strong", null, s.title),
+                    (0, preact_mjs_1.h)("p", null, s.desc)
+                ))
             )
         ),
         (0, preact_mjs_1.h)("div", { class: "demo-guide-notice" },

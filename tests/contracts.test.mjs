@@ -24,3 +24,26 @@ test('Public payload contains no private project binaries or source bundles', as
   assert.equal(files.some(file => /\.(apk|aab|zip|env|pem|key|db|sql)$/i.test(file)), false);
   assert.equal(files.some(file => /bit.?flow/i.test(file)), false);
 });
+
+test('Flete public bundle contains neutral commercial claims', async () => {
+  const fleteFiles = await readdir('public/demos/flete');
+  const publishedFiles = fleteFiles.filter(file => file === 'index.html' || /^app-[a-f0-9]+\.js$/i.test(file));
+  const published = (await Promise.all(publishedFiles.map(file => readFile(`public/demos/flete/${file}`, 'utf8')))).join('\n').toLowerCase();
+  const forbidden = [
+    /\bcaba\b/i,
+    /\bgba\b/i,
+    /palermo/i,
+    /belgrano/i,
+    /caballito/i,
+    /pilar/i,
+    /san isidro/i,
+    /\bla plata\b/i,
+    /production ready/i,
+    /live ready/i,
+    /seguro de carga/i,
+  ];
+
+  for (const pattern of forbidden) assert.equal(pattern.test(published), false, pattern.toString());
+  assert.match(published, /demo comercial/);
+  assert.match(published, /ejemplo de cotizaci/);
+});

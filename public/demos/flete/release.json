@@ -1,18 +1,20 @@
 {
   "version": "0.3.1",
   "mode": "browser-demo",
+  "projectStatus": "DEMO_READY",
+  "scope": "COMMERCIAL_DEMO",
   "productionReady": false,
   "storage": "IndexedDB: same-browser only",
   "files": [
     {
-      "file": "app-f6424fd5c2e4.js",
-      "sha256": "f6424fd5c2e4beb927978b3ba245a2d3f10632aa57abfebb1a53c4bfd79cb393",
-      "bytes": 268862
+      "file": "app-7dde937c3529.js",
+      "sha256": "7dde937c3529546b1f4476d80a75d5fbe06d198ed9b8dd3f69741e25076ed222",
+      "bytes": 269491
     },
     {
-      "file": "styles-eb172fa4f3ed.css",
-      "sha256": "eb172fa4f3ed3cd1fb79f34e96b196684d8032608e3fc89c6b3248596b9e945d",
-      "bytes": 98911
+      "file": "styles-8cf9a8e2592b.css",
+      "sha256": "8cf9a8e2592bc759c70a58480fe41edd3fe5754189f4500011c543acb314bf5d",
+      "bytes": 99001
     },
     {
       "file": "boot-check.js",

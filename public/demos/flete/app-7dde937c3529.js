@@ -196,7 +196,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.businessConfig = void 0;
 
 exports.businessConfig = {
-    name: 'Flete',
+    name: 'Flete · Demo',
     tagline: 'Transporte a tu medida',
     phone: '',
     whatsapp: '',
@@ -209,8 +209,11 @@ exports.businessConfig = {
         line: '#e1e5de',
         soft: '#f2f4ef',
     },
-    coverage: 'Consultá disponibilidad para tu recorrido. La disponibilidad y el precio se confirman para cada servicio.',
-    hours: 'Coordinación con el operador según disponibilidad.',
+    coverage: null,
+    hours: null,
+    pricingMode: 'quote_only',
+    vehiclesDemo: true,
+    driversDemo: true,
     services: {
         freight: {
             id: 'freight',
@@ -242,17 +245,17 @@ exports.businessConfig = {
     assurances: [
         { icon: 'check', text: 'Cotización antes de confirmar' },
         { icon: 'lock', text: 'Sin crear una cuenta' },
-        { icon: 'route', text: 'Seguimiento online' },
-        { icon: 'message', text: 'Atención directa' },
+        { icon: 'route', text: 'Consultar el estado' },
+        { icon: 'message', text: 'Coordinación con el operador' },
     ],
     vehicles: [
-        { name: 'Utilitario · Demo', plate: 'DEMO-01', type: 'van', capacity: 'Carga mediana', seats: 2 },
-        { name: 'Combi · Demo', plate: 'DEMO-02', type: 'minibus', capacity: '8 pasajeros', seats: 8 },
-        { name: 'Camioneta · Demo', plate: 'DEMO-03', type: 'pickup', capacity: 'Caja abierta', seats: 4 },
+        { name: 'Furgón · DEMO', plate: 'DEMO-01', type: 'van', capacity: 'Carga mediana · dato demo', seats: 2 },
+        { name: 'Combi · DEMO', plate: 'DEMO-02', type: 'minibus', capacity: '8 pasajeros · dato demo', seats: 8 },
+        { name: 'Camioneta utilitaria · DEMO', plate: 'DEMO-03', type: 'pickup', capacity: 'Caja abierta · dato demo', seats: 4 },
     ],
     contactCopy: {
         actionText: 'Consultar por WhatsApp',
-        quoteMessageIntro: 'Hola, te escribimos de Flete.',
+        quoteMessageIntro: 'Hola, te escribimos desde la demo de Flete.',
         helpPrompt: '¿Necesitás cambiar algo del recorrido o la fecha?',
     }
 };
@@ -300,6 +303,10 @@ exports.defaultConfig = {
     email: business_config_1.businessConfig.email,
     demo_mode: true,
     coverage: business_config_1.businessConfig.coverage,
+    hours: business_config_1.businessConfig.hours,
+    pricingMode: business_config_1.businessConfig.pricingMode,
+    vehiclesDemo: business_config_1.businessConfig.vehiclesDemo,
+    driversDemo: business_config_1.businessConfig.driversDemo,
 };
 
 function blankPayload() {
@@ -479,7 +486,7 @@ function directionsUrl(origin, destination) {
 }
 
 function quoteMessage(request, business) {
-    return `Hola ${request.payload.contact.name}, te escribimos de ${business}. La cotización de tu solicitud ${request.code} (${exports.serviceLabels[request.payload.kind]}), de ${request.payload.origin} a ${request.payload.destination}, es ${money(request.quote_cents)} ARS. Fecha: ${dateText(request.payload.scheduled_at)}. Respondé este mensaje para coordinar y confirmar disponibilidad. El servicio todavía no está confirmado.`;
+    return `Hola ${request.payload.contact.name}, te escribimos de ${business}. La cotización de tu solicitud ${request.code} (${exports.serviceLabels[request.payload.kind]}), de ${request.payload.origin} a ${request.payload.destination}, es ${money(request.quote_cents)} ARS. Fecha: ${dateText(request.payload.scheduled_at)}. Respondé este mensaje para coordinar y definir las condiciones del servicio. El servicio todavía no está confirmado.`;
 }
 
 function randomToken() {
@@ -507,7 +514,7 @@ exports.IS_PREVIEW = true;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.previewApi = void 0;
 const domain_js_1 = require("./domain.js");
-const DATABASE = 'flete-commercial-preview-v2';
+const DATABASE = 'flete-commercial-preview-v3';
 const now = () => new Date().toISOString();
 const failure = (status, message) => Object.assign(new Error(message), { status });
 let database;
@@ -550,22 +557,22 @@ function insert(data, p, token) {
     return r;
 }
 function seed() {
-    const data = { schema: 2, business: { ...domain_js_1.defaultConfig }, requests: [], vehicles: [], customers: [], history: {}, notes: {}, photos: [], tokens: {} };
+    const data = { schema: 3, business: { ...domain_js_1.defaultConfig }, requests: [], vehicles: [], customers: [], history: {}, notes: {}, photos: [], tokens: {} };
     data.vehicles = [
-        { name: 'Utilitario · Demo', plate: 'DEMO-01', type: 'van', capacity: 'Carga mediana', seats: 2 },
-        { name: 'Combi · Demo', plate: 'DEMO-02', type: 'minibus', capacity: '8 pasajeros', seats: 8 },
-        { name: 'Camioneta · Demo', plate: 'DEMO-03', type: 'pickup', capacity: 'Caja abierta', seats: 4 },
+        { name: 'Furgón · DEMO', plate: 'DEMO-01', type: 'van', capacity: 'Carga mediana · dato demo', seats: 2 },
+        { name: 'Combi · DEMO', plate: 'DEMO-02', type: 'minibus', capacity: '8 pasajeros · dato demo', seats: 8 },
+        { name: 'Camioneta utilitaria · DEMO', plate: 'DEMO-03', type: 'pickup', capacity: 'Caja abierta · dato demo', seats: 4 },
     ].map(v => ({ ...v, type: v.type, id: (0, domain_js_1.randomId)(), active: true, notes: 'Vehículo ficticio para recorrer la demo.', is_demo: true, version: 1 }));
     const samples = [
-        ['freight', 'new', 'Centro, Aluminé', 'Barrio Pehuén, Aluminé', 'Una heladera y cuatro cajas medianas', null, 1],
-        ['passengers', 'quoted', 'Terminal de Aluminé', 'Centro, Junín de los Andes', '', 9500000, 4],
-        ['freight', 'reviewing', 'Barrio Ruca Hueney, Aluminé', 'Centro, Aluminé', 'Dos muebles de madera', null, 1],
-        ['passengers', 'confirmed', 'Centro, Aluminé', 'Aeropuerto de Chapelco', '', 18000000, 3],
-        ['special', 'new', 'Centro, Aluminé', 'Villa Pehuenia, Neuquén', 'Equipamiento para un evento', null, 1],
-        ['freight', 'in_service', 'Zona comercial, Aluminé', 'Barrio Centro, Aluminé', 'Artículos de ferretería', 4200000, 1],
-        ['freight', 'completed', 'Centro, Aluminé', 'Barrio Pehuén, Aluminé', 'Mesa y seis sillas', 3500000, 1],
-        ['passengers', 'completed', 'Terminal de Aluminé', 'Centro, Aluminé', '', 2800000, 2],
-        ['special', 'cancelled', 'Centro, Aluminé', 'Rahue, Neuquén', 'Traslado de equipos', 6000000, 1],
+        ['freight', 'new', 'Origen de ejemplo 01', 'Destino de ejemplo 01', 'Una heladera y cuatro cajas medianas', null, 1],
+        ['passengers', 'quoted', 'Origen de ejemplo 02', 'Destino de ejemplo 02', '', 9500000, 4],
+        ['freight', 'reviewing', 'Origen de ejemplo 03', 'Destino de ejemplo 03', 'Dos muebles de madera', null, 1],
+        ['passengers', 'confirmed', 'Origen de ejemplo 04', 'Destino de ejemplo 04', '', 18000000, 3],
+        ['special', 'new', 'Origen de ejemplo 05', 'Destino de ejemplo 05', 'Equipamiento para un evento', null, 1],
+        ['freight', 'in_service', 'Origen de ejemplo 06', 'Destino de ejemplo 06', 'Artículos de ferretería', 4200000, 1],
+        ['freight', 'completed', 'Origen de ejemplo 07', 'Destino de ejemplo 07', 'Mesa y seis sillas', 3500000, 1],
+        ['passengers', 'completed', 'Origen de ejemplo 08', 'Destino de ejemplo 08', '', 2800000, 2],
+        ['special', 'cancelled', 'Origen de ejemplo 09', 'Destino de ejemplo 09', 'Traslado de equipos', 6000000, 1],
     ];
     samples.forEach(([kind, status, origin, destination, description, price, passengers], i) => {
         const p = (0, domain_js_1.blankPayload)();
@@ -613,9 +620,9 @@ async function transaction(write, fn) {
         request.onsuccess = () => {
             try {
                 const existing = request.result;
-                const data = existing?.schema === 2 ? existing : seed();
+                const data = existing?.schema === 3 ? existing : seed();
                 result = fn(data);
-                if (write || existing?.schema !== 2)
+                if (write || existing?.schema !== 3)
                     store.put(data, 'state');
             }
             catch (error) {
@@ -781,7 +788,7 @@ exports.previewApi = {
         return result;
     }),
     business: (business) => transaction(true, data => {
-        if (business.name.trim().length < 2 || business.name.length > 60 || business.coverage.length > 400 ||
+        if (business.name.trim().length < 2 || business.name.length > 60 || (business.coverage ?? '').length > 400 ||
             (business.whatsapp && !(0, domain_js_1.normalizePhone)(business.whatsapp)) || (business.email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(business.email)))
             throw failure(422, 'Revisá los datos del negocio.');
         data.business = { ...business, name: business.name.trim(), demo_mode: true };
@@ -994,7 +1001,8 @@ const domain_js_1 = require("./domain.js");
 const inputValue = (event) => event.currentTarget.value;
 
 function CommercialHome({ business, draft, errors, onDraft, onStart, onQuickSubmit, onScroll }) {
-    const hasCoverage = business.coverage.trim() && business.coverage !== domain_js_1.defaultConfig.coverage;
+    const configuredCoverage = typeof business.coverage === 'string' ? business.coverage.trim() : '';
+    const hasCoverage = Boolean(configuredCoverage && configuredCoverage !== domain_js_1.defaultConfig.coverage);
     const contact = (0, domain_js_1.whatsappUrl)(business.whatsapp, 'Hola, quisiera consultar por un traslado.');
 
     return (0, preact_mjs_1.h)("main", { id: "main", class: "commercial-home" },
@@ -1010,7 +1018,7 @@ function CommercialHome({ business, draft, errors, onDraft, onStart, onQuickSubm
                     (0, preact_mjs_1.h)("em", null, "bien coordinado.")
                 ),
                 (0, preact_mjs_1.h)("p", null,
-                    "Ac\u00E1 pod\u00E9s pedir un flete, carga o traslado y recibir una cotizaci\u00F3n antes de salir. Sin crear cuenta, con seguimiento online y atenci\u00F3n directa con el operador."
+                    "Ac\u00E1 pod\u00E9s pedir un flete, carga o traslado e indicar origen, destino y detalles. Recib\u00ED una cotizaci\u00F3n antes de confirmar, sin crear una cuenta."
                 ),
                 (0, preact_mjs_1.h)("div", { class: "hero-actions" },
                     (0, preact_mjs_1.h)("button", { class: "button button-primary button-large", onClick: () => onStart() },
@@ -1084,7 +1092,7 @@ function CommercialHome({ business, draft, errors, onDraft, onStart, onQuickSubm
                     ),
                     (0, preact_mjs_1.h)("p", { class: "quick-footnote" },
                         (0, preact_mjs_1.h)(ui_js_1.Icon, { name: "info", size: 14 }),
-                        "Precio y disponibilidad a confirmar antes de viajar."
+                        "Ped\u00ED una cotizaci\u00F3n antes de confirmar."
                     )
                 )
             )
@@ -1100,11 +1108,11 @@ function CommercialHome({ business, draft, errors, onDraft, onStart, onQuickSubm
             ),
             (0, preact_mjs_1.h)("div", null,
                 (0, preact_mjs_1.h)(ui_js_1.Icon, { name: "route" }),
-                (0, preact_mjs_1.h)("span", null, "Seguimiento", (0, preact_mjs_1.h)("br", null), (0, preact_mjs_1.h)("strong", null, "paso a paso"))
+                (0, preact_mjs_1.h)("span", null, "Consultar el estado", (0, preact_mjs_1.h)("br", null), (0, preact_mjs_1.h)("strong", null, "de la solicitud"))
             ),
             (0, preact_mjs_1.h)("div", null,
                 (0, preact_mjs_1.h)(ui_js_1.Icon, { name: "phone" }),
-                (0, preact_mjs_1.h)("span", null, "Atenci\u00F3n directa", (0, preact_mjs_1.h)("br", null), (0, preact_mjs_1.h)("strong", null, "con el operador"))
+                (0, preact_mjs_1.h)("span", null, "Coordinaci\u00F3n", (0, preact_mjs_1.h)("br", null), (0, preact_mjs_1.h)("strong", null, "con el operador"))
             )
         ),
         (0, preact_mjs_1.h)("section", { id: "servicios", class: "container services-section" },
@@ -1149,15 +1157,15 @@ function CommercialHome({ business, draft, errors, onDraft, onStart, onQuickSubm
                 (0, preact_mjs_1.h)("div", { class: "how-grid" }, [
                     ['01', 'Pedí tu servicio', 'Origen, destino, fecha y los datos necesarios para cotizar sin vueltas.'],
                     ['02', 'Revisá la propuesta', 'Conocé el precio y aceptá la cotización antes de avanzar.'],
-                    ['03', 'Seguí el traslado', 'El operador confirma el viaje y actualiza su estado hasta finalizar.'],
+                    ['03', 'Seguí el traslado', 'El operador informa el estado del servicio hasta finalizar.'],
                 ].map(([n, title, text]) => (0, preact_mjs_1.h)("article", { class: "how-step", key: n },
                     (0, preact_mjs_1.h)("span", null, n),
                     (0, preact_mjs_1.h)("h3", null, title),
                     (0, preact_mjs_1.h)("p", null, text)
                 ))),
                 (0, preact_mjs_1.h)("div", { class: "process-note" },
-                    (0, preact_mjs_1.h)(ui_js_1.Icon, { name: "shield", size: 18 }),
-                    (0, preact_mjs_1.h)("p", null, "Aceptar una cotizaci\u00F3n no genera un cobro autom\u00E1tico. La disponibilidad y el veh\u00EDculo se confirman directamente con el operador.")
+                    (0, preact_mjs_1.h)(ui_js_1.Icon, { name: "info", size: 18 }),
+                    (0, preact_mjs_1.h)("p", null, "Aceptar una cotizaci\u00F3n no genera un cobro autom\u00E1tico. Las condiciones del servicio, la disponibilidad y el veh\u00EDculo se definen con el prestador.")
                 )
             )
         ),
@@ -1166,14 +1174,14 @@ function CommercialHome({ business, draft, errors, onDraft, onStart, onQuickSubm
             (0, preact_mjs_1.h)("div", { class: "coverage-copy" },
                 (0, preact_mjs_1.h)("span", { class: "eyebrow" }, "CADA RECORRIDO ES DIFERENTE"),
                 (0, preact_mjs_1.h)("h2", null, "\u00BFHasta d\u00F3nde", (0, preact_mjs_1.h)("br", null), (0, preact_mjs_1.h)("em", null, "necesit\u00E1s llegar?")),
-                (0, preact_mjs_1.h)("p", null, hasCoverage ? business.coverage : 'Consultá disponibilidad para tu recorrido. Indicá las localidades de origen y destino; evaluamos el trayecto y confirmamos si podemos realizarlo antes de aceptar el servicio.'),
+                (0, preact_mjs_1.h)("p", null, hasCoverage ? configuredCoverage : 'Consultá disponibilidad para tu recorrido. Indicá origen y destino y te preparamos una cotización.'),
                 (0, preact_mjs_1.h)("div", { class: "coverage-route", "aria-label": "El recorrido se consulta antes de confirmar" },
                     (0, preact_mjs_1.h)("span", null, (0, preact_mjs_1.h)("i", { class: "origin-dot" }), "Tu origen"),
                     (0, preact_mjs_1.h)("span", { class: "coverage-dashes" }),
                     (0, preact_mjs_1.h)(ui_js_1.Icon, { name: "arrow", size: 17 }),
                     (0, preact_mjs_1.h)("span", null, (0, preact_mjs_1.h)("i", { class: "destination-dot" }), "Tu destino")
                 ),
-                (0, preact_mjs_1.h)("p", { class: "tiny coverage-disclaimer" }, "La zona de cobertura y los veh\u00EDculos de esta presentaci\u00F3n se configuran con el negocio. La ilustraci\u00F3n no representa una unidad real."),
+                (0, preact_mjs_1.h)("p", { class: "tiny coverage-disclaimer" }, "Cobertura, veh\u00EDculos y condiciones se personalizan con el prestador. La ilustraci\u00F3n y los datos del recorrido son de demostraci\u00F3n."),
                 (0, preact_mjs_1.h)("button", { class: "text-link", onClick: () => onScroll('quick-origin') },
                     "Consultar mi recorrido",
                     (0, preact_mjs_1.h)(ui_js_1.Icon, { name: "arrow", size: 17 })
@@ -1187,10 +1195,10 @@ function CommercialHome({ business, draft, errors, onDraft, onStart, onQuickSubm
                 (0, preact_mjs_1.h)("p", null, "Lo importante, sin letra chica.")
             ),
             (0, preact_mjs_1.h)("div", { class: "faq-list" }, [
-                ['¿Cómo se calcula el precio?', 'El operador revisa el recorrido y los detalles de tu solicitud y carga una cotización personalizada. No hay una tarifa genérica fija ni se cobra al enviar el formulario.'],
-                ['¿Puedo programarlo para otro día?', 'Sí. En la solicitud podés elegir fecha y horario de salida. Es una preferencia de viaje: queda sujeta a la disponibilidad que confirme el operador.'],
+                ['¿Cómo se calcula el precio?', 'El prestador revisa el recorrido y los detalles de tu solicitud y carga una cotización para revisar. Esta demo no aplica una tarifa automática.'],
+                ['¿Puedo programarlo para otro día?', 'Sí. En la solicitud podés indicar una fecha y horario de salida. La coordinación queda a definir con el prestador.'],
                 ['¿También puedo pedir un traslado de pasajeros?', 'Sí. Elegí “Pasajeros”, indicá cuántas personas viajan, el equipaje y si necesitás ida y vuelta. La unidad y sus plazas se coordinan antes de confirmar.'],
-                ['¿Cuándo queda confirmado mi servicio?', 'Primero recibís la cotización. Después de que aceptás el importe propuesto, el operador revisa disponibilidad y confirma el servicio. Podés consultar las novedades en tiempo real desde el enlace de seguimiento.'],
+                ['¿Cuándo queda confirmado mi servicio?', 'Primero recibís la cotización. Después podés aceptar el importe y coordinar las condiciones pendientes con el prestador. El enlace permite consultar el estado de la solicitud.'],
             ].map(([question, answer]) => (0, preact_mjs_1.h)("details", { key: question },
                 (0, preact_mjs_1.h)("summary", null,
                     question,
@@ -1226,13 +1234,13 @@ function CommercialHome({ business, draft, errors, onDraft, onStart, onQuickSubm
     );
 }
 
-function DemoGuide({ temporary, onStart, onExample, onReset, busy }) {
+function DemoGuide({ onStart, onExample, onReset, busy }) {
     const steps = [
         { num: '01', title: 'Cliente pide', desc: 'Ingresa origen, destino, fecha y detalles desde el formulario rápido o wizard.' },
-        { num: '02', title: 'Dueño recibe', desc: 'La solicitud ingresa al panel en tiempo real en la bandeja de Nuevas.' },
+        { num: '02', title: 'Dueño recibe', desc: 'La solicitud ingresa al panel, en la bandeja de Nuevas.' },
         { num: '03', title: 'Cotiza', desc: 'El operador analiza el recorrido y carga el importe en pesos.' },
         { num: '04', title: 'Cliente acepta', desc: 'Desde su enlace de seguimiento, el cliente revisa el precio y presiona “Aceptar cotización”.' },
-        { num: '05', title: 'Dueño confirma', desc: 'El operador ve la cotización aceptada en “Requiere atención” y confirma disponibilidad.' },
+        { num: '05', title: 'Dueño confirma', desc: 'El operador revisa la cotización aceptada y define el próximo paso del servicio.' },
         { num: '06', title: 'Asigna unidad', desc: 'Selecciona el vehículo adecuado para el traslado.' },
         { num: '07', title: 'En camino', desc: 'Indica la salida del vehículo al punto de origen.' },
         { num: '08', title: 'Servicio', desc: 'Inicia el traslado y el cliente ve el estado actualizado en su celular.' },
@@ -1251,8 +1259,9 @@ function DemoGuide({ temporary, onStart, onExample, onReset, busy }) {
             (0, preact_mjs_1.h)("em", null, "Los dos lados de la operaci\u00F3n.")
         ),
         (0, preact_mjs_1.h)("p", { class: "subtitle" },
-            "Recorr\u00E9 en 2 a 3 minutos lo que vive el cliente y c\u00F3mo administra el due\u00F1o, desde este mismo navegador."
+            "Recorr\u00E9 en 2 a 3 minutos una primera base configurable: lo que vive el cliente y c\u00F3mo administra el due\u00F1o."
         ),
+        (0, preact_mjs_1.h)("p", { class: "demo-guide-disclaimer" }, "Recorrido demostrativo con datos ficticios."),
         (0, preact_mjs_1.h)("div", { class: "demo-flow-strip", "aria-label": "Ciclo completo de un servicio" },
             (0, preact_mjs_1.h)("span", { class: "eyebrow" }, "FLUJO OPERATIVO COMPLETO"),
             (0, preact_mjs_1.h)("div", { class: "demo-flow-steps" },
@@ -1288,7 +1297,7 @@ function DemoGuide({ temporary, onStart, onExample, onReset, busy }) {
         (0, preact_mjs_1.h)("section", { class: "demo-guide-shortcut" },
             (0, preact_mjs_1.h)("div", null,
                 (0, preact_mjs_1.h)("h3", null, "\u00BFQuer\u00E9s probar una cotizaci\u00F3n ya lista para aceptar?"),
-                (0, preact_mjs_1.h)("p", null, "Abr\u00ED un ejemplo cotizado para ver c\u00F3mo el cliente acepta el precio y luego el due\u00F1o confirma la disponibilidad.")
+                (0, preact_mjs_1.h)("p", null, "Abr\u00ED un ejemplo de cotizaci\u00F3n para ver c\u00F3mo el cliente revisa el importe y luego el due\u00F1o contin\u00FAa la coordinaci\u00F3n.")
             ),
             (0, preact_mjs_1.h)("button", { class: "button button-light", onClick: onExample },
                 "Ver ejemplo de seguimiento",
@@ -1298,10 +1307,9 @@ function DemoGuide({ temporary, onStart, onExample, onReset, busy }) {
         (0, preact_mjs_1.h)("div", { class: "demo-guide-notice" },
             (0, preact_mjs_1.h)(ui_js_1.Icon, { name: "info" }),
             (0, preact_mjs_1.h)("div", null,
-                (0, preact_mjs_1.h)("strong", null, "Demostraci\u00F3n interactiva en tu navegador."),
+                (0, preact_mjs_1.h)("strong", null, "Una primera base para personalizar."),
                 (0, preact_mjs_1.h)("p", null,
-                    temporary ? 'El almacenamiento no está disponible: las pruebas se conservan solo mientras no recargues.' : 'Los datos se guardan en IndexedDB localmente en este navegador. No se envían a servidores remotos ni se sincronizan entre dispositivos.',
-                    " El panel opera en modo demostración sin requerir contraseñas. No se realizan cobros ni se despachan viajes reales."
+                    "Los datos de este recorrido son ficticios; no se realizan viajes ni cobros reales. Ahora personalizamos servicios, vehículos, cobertura y forma de trabajo."
                 ),
                 (0, preact_mjs_1.h)("button", { class: "text-link", onClick: onReset, disabled: busy },
                     (0, preact_mjs_1.h)(ui_js_1.Icon, { name: "refresh", size: 16 }),
@@ -1344,21 +1352,21 @@ const titles = {
     new: 'El próximo paso: revisar tu solicitud.',
     reviewing: 'Estamos revisando los detalles.',
     quoted: 'Tu cotización está lista.',
-    confirmed: 'Todo coordinado. Servicio confirmado.',
-    en_route: 'El vehículo va hacia tu origen.',
-    in_service: 'Tu traslado está en curso.',
+    confirmed: 'Servicio informado como confirmado.',
+    en_route: 'Salida informada por el prestador.',
+    in_service: 'Servicio informado en curso.',
     completed: 'Llegamos al final del recorrido.',
     cancelled: 'Esta solicitud fue cancelada.',
 };
 
 const descriptions = {
-    new: 'El operador revisa el recorrido, la fecha y lo que necesitás trasladar antes de preparar una propuesta.',
-    reviewing: 'Se está evaluando el trayecto y la disponibilidad de unidades. Acá vas a poder consultar la cotización cuando esté cargada.',
-    quoted: 'Revisá el importe antes de salir. Aceptar la cotización expresa tu acuerdo con el precio; la disponibilidad se confirma directamente con el operador.',
-    confirmed: 'El operador confirmó el servicio y la disponibilidad. Podés consultar las actualizaciones desde este mismo enlace.',
+    new: 'El prestador revisa el recorrido, la fecha y lo que necesitás trasladar antes de preparar una propuesta.',
+    reviewing: 'Se está revisando el recorrido y la información enviada. Acá vas a poder consultar la cotización cuando esté cargada.',
+    quoted: 'Revisá el importe antes de aceptarlo. Aceptar la cotización expresa tu acuerdo con ese importe; después se coordinan las condiciones del servicio con el prestador.',
+    confirmed: 'El prestador informó el servicio como confirmado. Consultá al prestador cualquier condición pendiente.',
     en_route: 'El operador informó la salida del vehículo hacia el punto de encuentro acordado. Estados informados por el operador, sin GPS.',
     in_service: 'El operador informó que comenzó el servicio. El siguiente paso es marcarlo como finalizado al llegar a destino.',
-    completed: 'El operador marcó el servicio como finalizado. El comprobante y el resumen quedan disponibles en este enlace.',
+    completed: 'El prestador marcó el servicio como finalizado.',
     cancelled: 'No hay un servicio activo asociado a esta solicitud. Podés comenzar una nueva consulta cuando lo necesites.',
 };
 
@@ -1411,7 +1419,7 @@ function TrackingView({ tracking: t, error, success, business, preview, busy, lo
                             (0, preact_mjs_1.h)("div", null,
                                 (0, preact_mjs_1.h)("span", { class: "eyebrow" }, awaiting ? 'PROPUESTA ACEPTADA' : 'ESTADO ACTUAL'),
                                 (0, preact_mjs_1.h)("h2", null, awaiting ? 'Aceptaste la cotización.' : titles[t.status]),
-                                (0, preact_mjs_1.h)("p", null, awaiting ? 'Cotización aceptada. Estamos confirmando disponibilidad con el operador. Todavía no hay un viaje confirmado y no se realizó ningún cobro.' : descriptions[t.status])
+                                (0, preact_mjs_1.h)("p", null, awaiting ? 'Cotización aceptada. Quedan por definir las condiciones del servicio con el prestador. Todavía no hay un viaje confirmado y no se realizó ningún cobro.' : descriptions[t.status])
                             )
                         ),
                         (0, preact_mjs_1.h)("div", { class: "tracking-code" },
@@ -1430,14 +1438,14 @@ function TrackingView({ tracking: t, error, success, business, preview, busy, lo
                             (0, preact_mjs_1.h)("section", { class: "quote-response quote-hero" },
                                 (0, preact_mjs_1.h)("div", { class: "price-block price-protagonist" },
                                     (0, preact_mjs_1.h)("div", { class: "price-headline" },
-                                        (0, preact_mjs_1.h)("span", { class: "eyebrow" }, t.status === 'quoted' ? 'COTIZACIÓN DEL SERVICIO' : 'IMPORTE ACORDADO'),
+                                            (0, preact_mjs_1.h)("span", { class: "eyebrow" }, t.is_demo ? 'EJEMPLO DE COTIZACIÓN · DATO DEMO' : t.status === 'quoted' ? 'COTIZACIÓN DEL SERVICIO' : 'IMPORTE ACORDADO'),
                                         (0, preact_mjs_1.h)("strong", null,
                                             (0, domain_js_1.money)(t.quote_cents),
                                             (0, preact_mjs_1.h)("small", null, " ARS")
                                         )
                                     ),
                                     (0, preact_mjs_1.h)("div", { class: "price-badge" },
-                                        (0, preact_mjs_1.h)(ui_js_1.Icon, { name: "shield", size: 16 }),
+                                        (0, preact_mjs_1.h)(ui_js_1.Icon, { name: "info", size: 16 }),
                                         (0, preact_mjs_1.h)("span", null, "Sin cobros", (0, preact_mjs_1.h)("br", null), "autom\u00E1ticos")
                                     )
                                 ),
@@ -1453,7 +1461,7 @@ function TrackingView({ tracking: t, error, success, business, preview, busy, lo
                                         ),
                                         (0, preact_mjs_1.h)("p", { class: "accept-disclaimer" },
                                             (0, preact_mjs_1.h)(ui_js_1.Icon, { name: "info", size: 15 }),
-                                            "Al aceptar, confirmás tu acuerdo con el precio. Luego el operador confirma disponibilidad y unidad."
+                                            "Al aceptar, confirmás tu acuerdo con el importe. Luego se coordinan las condiciones del servicio con el prestador."
                                         )
                                     )
                                 ),
@@ -1463,7 +1471,7 @@ function TrackingView({ tracking: t, error, success, business, preview, busy, lo
                                         (0, preact_mjs_1.h)("div", null,
                                             (0, preact_mjs_1.h)("strong", null, "Cotizaci\u00F3n aceptada"),
                                             (0, preact_mjs_1.h)("span", null, " \u00B7 ", (0, domain_js_1.dateText)(t.quote_accepted_at ?? null)),
-                                            (0, preact_mjs_1.h)("small", null, "Estamos confirmando disponibilidad con el operador.")
+                                            (0, preact_mjs_1.h)("small", null, "Quedan por coordinar las condiciones del servicio con el prestador.")
                                         )
                                     )
                                 )
@@ -1475,7 +1483,7 @@ function TrackingView({ tracking: t, error, success, business, preview, busy, lo
                                     (0, preact_mjs_1.h)(ui_js_1.Icon, { name: t.kind === 'passengers' ? 'car' : 'truck', size: 28 })
                                 ),
                                 (0, preact_mjs_1.h)("div", null,
-                                    (0, preact_mjs_1.h)("span", { class: "eyebrow" }, "VEH\u00CDCULO ASIGNADO"),
+                                    (0, preact_mjs_1.h)("span", { class: "eyebrow" }, t.is_demo ? "VEH\u00CDCULO DE EJEMPLO" : "VEH\u00CDCULO ASIGNADO"),
                                     (0, preact_mjs_1.h)("h3", null, t.vehicle.name),
                                     (0, preact_mjs_1.h)("p", null, t.kind === 'passengers' ? `${t.vehicle.seats} asientos para pasajeros` : t.vehicle.capacity)
                                 )
@@ -1531,7 +1539,7 @@ function TrackingView({ tracking: t, error, success, business, preview, busy, lo
                                 (0, preact_mjs_1.h)("span", { class: "status-dot" }),
                                 "\u00DAltimo cambio: ", (0, domain_js_1.dateText)(t.updated_at)
                             ),
-                            (0, preact_mjs_1.h)("p", { class: "tiny muted" }, "Actualizaci\u00F3n en tiempo real. Son estados informados por el operador, sin requerir GPS.")
+                            (0, preact_mjs_1.h)("p", { class: "tiny muted" }, "Estados informados por el operador. Actualiz\u00E1 para consultar cambios; no requiere GPS.")
                         ),
                         (0, preact_mjs_1.h)("section", { class: "panel contact-panel" },
                             (0, preact_mjs_1.h)(ui_js_1.Icon, { name: "message", size: 24 }),
@@ -2150,8 +2158,8 @@ class App extends preact_mjs_1.Component {
     fillDemo() {
         const p = (0, domain_js_1.blankPayload)();
         p.kind = this.state.draft.kind;
-        p.origin = 'Origen de ejemplo, Centro, Aluminé';
-        p.destination = 'Destino de ejemplo, Barrio Pehuén, Aluminé';
+        p.origin = 'Origen de demostración';
+        p.destination = 'Destino de demostración';
         p.details.description = p.kind === 'special' ? 'Traslado de equipos para un evento. Datos de prueba.' : 'Una heladera y cuatro cajas medianas. Datos de prueba.';
         p.details.quantity = 5;
         p.details.passengers = 3;
@@ -2311,7 +2319,7 @@ class App extends preact_mjs_1.Component {
                 this.restoreFocus = null;
                 this.set({ acceptance: null });
                 await this.loadTracking();
-                this.notify('Cotización aceptada. Estamos confirmando disponibilidad. No se realizó ningún cobro.', 'success');
+                this.notify('Cotización aceptada. Quedan por definir las condiciones del servicio. No se realizó ningún cobro.', 'success');
                 window.setTimeout(() => {
                     const receipt = document.querySelector('.accepted-receipt, .next-step-card');
                     if (receipt instanceof HTMLElement) {
@@ -2363,7 +2371,7 @@ class App extends preact_mjs_1.Component {
                     (0, preact_mjs_1.h)("small", null, "ARS")
                 ),
                 (0, preact_mjs_1.h)("p", { id: "accept-description" },
-                    "Est\u00E1s de acuerdo con este importe. El operador todav\u00EDa debe confirmar la disponibilidad del servicio. No se realiza ning\u00FAn cobro."
+                    "Est\u00E1s de acuerdo con este importe. Las condiciones del servicio todav\u00EDa deben definirse con el prestador. No se realiza ning\u00FAn cobro."
                 ),
                 (0, preact_mjs_1.h)("p", { class: "tiny muted" },
                     "Prueba de demostración: no se contrata un traslado real."
@@ -2402,10 +2410,10 @@ class App extends preact_mjs_1.Component {
         ];
         const subtitles = [
             'Elegí el tipo de servicio. Después coordinamos los detalles.',
-            'Escribí origen y destino con localidad. Podés sumar detalles en el siguiente paso.',
+            'Escribí origen y destino. Podés sumar detalles en el siguiente paso.',
             'Elegí si lo necesitás lo antes posible o preferís programar una fecha y hora.',
-            'Estos datos nos ayudan a calcular la cotización y asignar la unidad correcta.',
-            'Usaremos tus datos únicamente para enviarte la propuesta y coordinar el traslado.',
+            'Estos datos ayudan a preparar una cotización y evaluar el servicio solicitado.',
+            'Usaremos tus datos para esta presentación y, al personalizarla, para coordinar el traslado.',
             'Enviar la solicitud no confirma el viaje ni genera ningún cobro.'
         ];
 
@@ -2531,8 +2539,8 @@ class App extends preact_mjs_1.Component {
                                 ) : (
                                     (0, preact_mjs_1.h)("div", { class: "soft-panel" },
                                         (0, preact_mjs_1.h)(ui_js_1.Icon, { name: "clock", size: 30 }),
-                                        (0, preact_mjs_1.h)("h3", null, "Coordinación según disponibilidad inmediata."),
-                                        (0, preact_mjs_1.h)("p", null, "El operador revisa qué unidad está disponible para cotizar y dar respuesta lo antes posible.")
+                                        (0, preact_mjs_1.h)("h3", null, "Coordinación según disponibilidad."),
+                                        (0, preact_mjs_1.h)("p", null, "El prestador revisa la solicitud y define los próximos pasos.")
                                     )
                                 )
                             )
@@ -2796,7 +2804,7 @@ class App extends preact_mjs_1.Component {
                                     )
                                 ),
                                 (0, preact_mjs_1.h)(ui_js_1.Notice, null,
-                                    "El precio y la disponibilidad se confirman después de revisar tu solicitud. No hay cobros automáticos."
+                                    "El importe y las condiciones se definen después de revisar tu solicitud. No hay cobros automáticos."
                                 )
                             )
                         ),
@@ -2834,11 +2842,11 @@ class App extends preact_mjs_1.Component {
                         (0, preact_mjs_1.h)("h3", null, domain_js_1.serviceLabels[p.kind]),
                         (0, preact_mjs_1.h)(ui_js_1.RouteCard, { origin: p.origin, destination: p.destination, scheduledAt: p.scheduled_at, compact: true }),
                         (0, preact_mjs_1.h)("div", { class: "aside-note" },
-                            (0, preact_mjs_1.h)(ui_js_1.Icon, { name: "shield" }),
-                            (0, preact_mjs_1.h)("p", null, "Vos compartís lo que necesitás. El operador revisa, cotiza y confirma la disponibilidad.")
+                            (0, preact_mjs_1.h)(ui_js_1.Icon, { name: "info" }),
+                            (0, preact_mjs_1.h)("p", null, "Vos compartís lo que necesitás. El prestador revisa la solicitud y prepara una cotización.")
                         ),
                         (0, preact_mjs_1.h)("span", { class: "quote-pending" },
-                            "Cotización antes de salir",
+                            "Cotización antes de confirmar",
                             (0, preact_mjs_1.h)("span", null, "Sin cargos automáticos")
                         )
                     )
@@ -2940,7 +2948,7 @@ class App extends preact_mjs_1.Component {
                 (0, preact_mjs_1.h)("h2", null, "Quién puede verlo"),
                 (0, preact_mjs_1.h)("p", null, api_js_1.IS_PREVIEW ? "En esta presentación el panel es de libre acceso local sin cuenta, con el fin de recorrer cliente y dueño desde el mismo navegador." : "El panel del operador requiere autenticación. El enlace privado de seguimiento permite consultar recorrido, estado y cotización; no muestra teléfono, notas internas ni fotos a terceros."),
                 (0, preact_mjs_1.h)("h2", null, "Dónde se guarda en este entorno"),
-                (0, preact_mjs_1.h)("p", null, api_js_1.IS_PREVIEW ? 'Esta demo guarda las solicitudes y fotos en IndexedDB únicamente en este navegador. No se transmiten a servidores externos ni a otros dispositivos.' : this.state.runtime?.mode === 'local' ? 'Guarda en SQLite local del equipo que ejecuta la demo.' : 'Utiliza Supabase para base de datos y autenticación.'),
+                (0, preact_mjs_1.h)("p", null, api_js_1.IS_PREVIEW ? 'Esta demo guarda las solicitudes y fotos en IndexedDB únicamente en este navegador. No se transmiten a servidores externos ni a otros dispositivos.' : this.state.runtime?.mode === 'local' ? 'Guarda en SQLite local del equipo que ejecuta la demo.' : 'El almacenamiento y la autenticación quedan a definir.'),
                 (0, preact_mjs_1.h)("h2", null, "Servicios externos"),
                 (0, preact_mjs_1.h)("p", null, "WhatsApp y Google Maps sólo se abren si tocás sus enlaces explícitos. No hay analítica de terceros, cobros automáticos ni geolocalización en segundo plano."),
                 (0, preact_mjs_1.h)(ui_js_1.Notice, null, "La plataforma definitiva se ajustará a la normativa comercial, política de privacidad y condiciones que el transportista defina para su negocio.")
@@ -3249,7 +3257,7 @@ class App extends preact_mjs_1.Component {
                 (0, preact_mjs_1.h)("div", null,
                     (0, preact_mjs_1.h)("span", { class: "eyebrow" }, "CONTROL DE OPERACIONES"),
                     (0, preact_mjs_1.h)("h1", { tabIndex: -1 }, "¿Qué hay para resolver hoy?"),
-                    (0, preact_mjs_1.h)("p", null, "Prioridad operativa inmediata: cotizaciones, confirmaciones y servicios en curso.")
+                    (0, preact_mjs_1.h)("p", null, "Prioridad operativa de la demo: cotizaciones, confirmaciones y estados en curso.")
                 ),
                 (0, preact_mjs_1.h)("a", { class: "button button-light", href: "#/solicitar", target: "_blank", rel: "noopener noreferrer" },
                     (0, preact_mjs_1.h)(ui_js_1.Icon, { name: "plus", size: 18 }),
@@ -3262,7 +3270,7 @@ class App extends preact_mjs_1.Component {
                 ['Cotizaciones aceptadas', counts.accepted, 'check', counts.accepted > 0 ? 'metric-action' : ''],
                 ['Servicios de hoy', counts.today, 'calendar', ''],
                 ['En curso', counts.active, 'truck', ''],
-                ['Cotizaciones vigentes', (0, domain_js_1.money)(counts.amount), 'box', ''],
+                ['Cotizaciones de ejemplo', (0, domain_js_1.money)(counts.amount), 'box', ''],
             ].map(([label, total, icon, cls]) => (0, preact_mjs_1.h)("div", { class: `metric ${cls}`, key: label },
                 (0, preact_mjs_1.h)("span", null,
                     label,
@@ -3270,7 +3278,7 @@ class App extends preact_mjs_1.Component {
                 ),
                 (0, preact_mjs_1.h)("strong", null, total),
                 (0, preact_mjs_1.h)("small", null,
-                    label === 'Cotizaciones vigentes' ? 'Importes cotizados, no cobros'
+                    label === 'Cotizaciones de ejemplo' ? 'Importes de demostración, no cobros'
                         : label === 'Servicios de hoy' ? 'Hora de Argentina'
                         : 'Acción operativa inmediata'
                 )
@@ -3280,7 +3288,7 @@ class App extends preact_mjs_1.Component {
                     (0, preact_mjs_1.h)("div", null,
                         (0, preact_mjs_1.h)("span", { class: "eyebrow" }, "REQUIERE TU CONFIRMACI\u00D3N"),
                         (0, preact_mjs_1.h)("h2", null, accepted.length, " ", accepted.length === 1 ? 'cotización aceptada' : 'cotizaciones aceptadas'),
-                        (0, preact_mjs_1.h)("p", null, "El cliente dio su conformidad con el precio. Revisá disponibilidad y confirmá el viaje.")
+                        (0, preact_mjs_1.h)("p", null, "El cliente dio su conformidad con el importe. Revisá las condiciones pendientes y continuá la coordinación.")
                     ),
                     (0, preact_mjs_1.h)("button", {
                         class: "button button-dark",
@@ -3307,7 +3315,7 @@ class App extends preact_mjs_1.Component {
                                     : 'Todo al día en la operación.'
                             ),
                             (0, preact_mjs_1.h)("p", null,
-                                accepted.length ? 'El cliente ya aceptó el importe. Confirmá el servicio para asignarle unidad.'
+                                accepted.length ? 'El cliente ya aceptó el importe. Revisá las condiciones y asigná una unidad de demo si corresponde.'
                                     : counts.new ? 'Revisá origen, destino y detalles para cargar el importe en pesos.'
                                     : needsVehicle.length ? 'Asigná una unidad activa antes de dar salida al recorrido.'
                                     : 'No hay solicitudes pendientes de respuesta o asignación.'
@@ -3360,7 +3368,7 @@ class App extends preact_mjs_1.Component {
                             (0, preact_mjs_1.h)(ui_js_1.Icon, { name: "chevron", size: 16 })
                         ))
                     ) : (
-                        (0, preact_mjs_1.h)("p", { class: "muted" }, "No hay traslados en curso ni confirmados para las próximas horas.")
+                        (0, preact_mjs_1.h)("p", { class: "muted" }, "No hay datos demo en curso ni confirmados para las próximas horas.")
                     )
                 )
             ),
@@ -3769,7 +3777,7 @@ class App extends preact_mjs_1.Component {
                         ),
                         (0, preact_mjs_1.h)("h2", null, "Veh\u00EDculo"),
                         (0, preact_mjs_1.h)("p", { class: "muted tiny" },
-                            vehicle ? `${vehicle.name} · ${vehicle.plate}` : 'Todavía no se asignó una unidad.'
+                            vehicle ? `${vehicle.name} · ${vehicle.is_demo ? 'ID DEMO · ' : ''}${vehicle.plate}` : 'Todavía no se asignó una unidad.'
                         ),
                         !terminal && !underway && (
                             (0, preact_mjs_1.h)(ui_js_1.Field, { id: "assign-vehicle", label: "Asignar unidad" },
@@ -3879,7 +3887,7 @@ class App extends preact_mjs_1.Component {
                 (0, preact_mjs_1.h)("div", null,
                     (0, preact_mjs_1.h)("span", { class: "eyebrow" }, "LAS UNIDADES DEL NEGOCIO"),
                     (0, preact_mjs_1.h)("h1", { tabIndex: -1 }, "Veh\u00EDculos."),
-                    (0, preact_mjs_1.h)("p", null, "Gestioná la flota disponible y asigná la unidad apropiada.")
+                    (0, preact_mjs_1.h)("p", null, "Gestioná las unidades y su información para asignarlas cuando corresponda.")
                 ),
                 (0, preact_mjs_1.h)("button", {
                     class: "button button-primary",
@@ -4004,13 +4012,13 @@ class App extends preact_mjs_1.Component {
                         (0, preact_mjs_1.h)("span", { class: "vehicle-illustration" },
                             (0, preact_mjs_1.h)(ui_js_1.Icon, { name: v.type === 'car' || v.type === 'minibus' ? 'car' : 'truck', size: 44 })
                         ),
-                        (0, preact_mjs_1.h)("span", { class: `availability${v.active ? ' available' : ''}` }, v.active ? 'Activa' : 'Inactiva')
+                        (0, preact_mjs_1.h)("span", { class: `availability${v.active ? ' available' : ''}` }, v.is_demo ? 'DEMO' : v.active ? 'Activa' : 'Inactiva')
                     ),
                     (0, preact_mjs_1.h)("div", { class: "vehicle-name" },
                         (0, preact_mjs_1.h)("h2", null, v.name),
                         v.is_demo && (0, preact_mjs_1.h)("span", { class: "demo-tag" }, "DEMO")
                     ),
-                    (0, preact_mjs_1.h)("span", { class: "plate" }, v.plate),
+                    (0, preact_mjs_1.h)("span", { class: "plate" }, v.is_demo ? `ID DEMO · ${v.plate}` : v.plate),
                     (0, preact_mjs_1.h)("p", null, v.capacity || 'Capacidad a detallar'),
                     (0, preact_mjs_1.h)("div", { class: "vehicle-seats" },
                         (0, preact_mjs_1.h)(ui_js_1.Icon, { name: "users", size: 18 }),
@@ -4092,8 +4100,8 @@ class App extends preact_mjs_1.Component {
                     (0, preact_mjs_1.h)(ui_js_1.Field, { id: "business-email", label: "Correo del negocio (opcional)" },
                         (0, preact_mjs_1.h)("input", { id: "business-email", type: "email", value: b.email, onInput: (e) => update({ email: value(e) }) })
                     ),
-                    (0, preact_mjs_1.h)(ui_js_1.Field, { id: "business-coverage", label: "Mensaje sobre cobertura y coordinación", hint: "Texto claro sobre disponibilidad de recorridos." },
-                        (0, preact_mjs_1.h)("textarea", { id: "business-coverage", rows: 4, maxLength: 500, value: b.coverage, onInput: (e) => update({ coverage: value(e) }) })
+                    (0, preact_mjs_1.h)(ui_js_1.Field, { id: "business-coverage", label: "Mensaje sobre cobertura y coordinación", hint: "Dejalo vacío hasta definir la zona y las condiciones con el prestador." },
+                        (0, preact_mjs_1.h)("textarea", { id: "business-coverage", rows: 4, maxLength: 500, value: b.coverage ?? '', onInput: (e) => update({ coverage: value(e) }) })
                     ),
                     (0, preact_mjs_1.h)("button", { class: "button button-primary", type: "submit", disabled: this.state.busy },
                         "Guardar cambios",
@@ -4108,11 +4116,11 @@ class App extends preact_mjs_1.Component {
                 ),
                 (0, preact_mjs_1.h)("div", { class: "spec-row" },
                     (0, preact_mjs_1.h)("span", null, "Persistencia"),
-                    (0, preact_mjs_1.h)("strong", null, api_js_1.IS_PREVIEW ? (this.state.runtime?.temporary ? 'Sesión temporal en memoria' : 'IndexedDB en este navegador') : this.state.runtime?.mode === 'local' ? 'SQLite en este equipo' : 'Supabase PostgreSQL')
+                    (0, preact_mjs_1.h)("strong", null, api_js_1.IS_PREVIEW ? (this.state.runtime?.temporary ? 'Sesión temporal en memoria' : 'IndexedDB en este navegador') : this.state.runtime?.mode === 'local' ? 'SQLite en este equipo' : 'Almacenamiento a definir')
                 ),
                 (0, preact_mjs_1.h)("div", { class: "spec-row" },
                     (0, preact_mjs_1.h)("span", null, "Autenticaci\u00F3n"),
-                    (0, preact_mjs_1.h)("strong", null, api_js_1.IS_PREVIEW ? 'Rol de demostración · sin cuenta' : this.state.runtime?.mode === 'local' ? 'Acceso local de prueba' : 'Supabase Auth')
+                    (0, preact_mjs_1.h)("strong", null, api_js_1.IS_PREVIEW ? 'Rol de demostración · sin cuenta' : this.state.runtime?.mode === 'local' ? 'Acceso local de prueba' : 'Autenticación a definir')
                 ),
                 (0, preact_mjs_1.h)("div", { class: "spec-row" },
                     (0, preact_mjs_1.h)("span", null, "Pagos y facturaci\u00F3n"),
@@ -4122,7 +4130,11 @@ class App extends preact_mjs_1.Component {
                     (0, preact_mjs_1.h)("span", null, "Seguimiento"),
                     (0, preact_mjs_1.h)("strong", null, "Estados informados, sin GPS")
                 ),
-                (0, preact_mjs_1.h)("p", null, "Esta demo permite mostrar el potencial del producto. La puesta en producción real requerirá la marca definitiva, precios y datos reales del transportista.")
+                (0, preact_mjs_1.h)("div", { class: "spec-row" },
+                    (0, preact_mjs_1.h)("span", null, "Precios"),
+                    (0, preact_mjs_1.h)("strong", null, "Sólo cotización manual · regla pendiente")
+                ),
+                (0, preact_mjs_1.h)("p", null, "Esta presentación es una primera base configurable. Quedan pendientes la marca, cobertura, vehículos, condiciones y forma de trabajo del prestador.")
             )
         );
     }
@@ -4232,7 +4244,7 @@ class App extends preact_mjs_1.Component {
                     page,
                     (0, preact_mjs_1.h)("footer", { class: "admin-footnote" },
                         (0, preact_mjs_1.h)("span", null, api_js_1.IS_PREVIEW ? 'Demostración en este navegador · almacenamiento local' : 'Persistencia en base de datos'),
-                        (0, preact_mjs_1.h)("span", null, "Actualización cada 15 s · Horario de Argentina")
+                        (0, preact_mjs_1.h)("span", null, "Estados informados por el operador · Horario de Argentina")
                     )
                 ),
                 (0, preact_mjs_1.h)("nav", { class: "mobile-admin-nav", "aria-label": "Navegación móvil del panel" },
@@ -4316,7 +4328,7 @@ class App extends preact_mjs_1.Component {
         const admin = this.state.path.startsWith('/admin');
         const banner = (0, preact_mjs_1.h)("div", { class: `mode-banner${admin ? ' admin-mode-banner' : ''}` },
             (0, preact_mjs_1.h)("span", { class: "status-dot" }),
-            (0, preact_mjs_1.h)("span", null, api_js_1.IS_PREVIEW ? (this.state.runtime.temporary ? 'Demo temporal · no se coordinan viajes reales' : 'Demo · no se coordinan viajes reales') : 'Demostración · usá datos de prueba'),
+            (0, preact_mjs_1.h)("span", null, api_js_1.IS_PREVIEW ? (this.state.runtime.temporary ? 'DEMO COMERCIAL TEMPORAL · no se coordinan viajes reales' : 'DEMO COMERCIAL · no se coordinan viajes reales') : 'DEMO COMERCIAL · usá datos de prueba'),
             api_js_1.IS_PREVIEW && (
                 (0, preact_mjs_1.h)("button", {
                     class: "demo-toggle",

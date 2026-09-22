@@ -3,7 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.businessConfig = void 0;
 
 exports.businessConfig = {
-    name: 'Flete',
+    name: 'Flete · Demo',
     tagline: 'Transporte a tu medida',
     phone: '',
     whatsapp: '',
@@ -16,8 +16,11 @@ exports.businessConfig = {
         line: '#e1e5de',
         soft: '#f2f4ef',
     },
-    coverage: 'Consultá disponibilidad para tu recorrido. La disponibilidad y el precio se confirman para cada servicio.',
-    hours: 'Coordinación con el operador según disponibilidad.',
+    coverage: null,
+    hours: null,
+    pricingMode: 'quote_only',
+    vehiclesDemo: true,
+    driversDemo: true,
     services: {
         freight: {
             id: 'freight',
@@ -49,17 +52,17 @@ exports.businessConfig = {
     assurances: [
         { icon: 'check', text: 'Cotización antes de confirmar' },
         { icon: 'lock', text: 'Sin crear una cuenta' },
-        { icon: 'route', text: 'Seguimiento online' },
-        { icon: 'message', text: 'Atención directa' },
+        { icon: 'route', text: 'Consultar el estado' },
+        { icon: 'message', text: 'Coordinación con el operador' },
     ],
     vehicles: [
-        { name: 'Utilitario · Demo', plate: 'DEMO-01', type: 'van', capacity: 'Carga mediana', seats: 2 },
-        { name: 'Combi · Demo', plate: 'DEMO-02', type: 'minibus', capacity: '8 pasajeros', seats: 8 },
-        { name: 'Camioneta · Demo', plate: 'DEMO-03', type: 'pickup', capacity: 'Caja abierta', seats: 4 },
+        { name: 'Furgón · DEMO', plate: 'DEMO-01', type: 'van', capacity: 'Carga mediana · dato demo', seats: 2 },
+        { name: 'Combi · DEMO', plate: 'DEMO-02', type: 'minibus', capacity: '8 pasajeros · dato demo', seats: 8 },
+        { name: 'Camioneta utilitaria · DEMO', plate: 'DEMO-03', type: 'pickup', capacity: 'Caja abierta · dato demo', seats: 4 },
     ],
     contactCopy: {
         actionText: 'Consultar por WhatsApp',
-        quoteMessageIntro: 'Hola, te escribimos de Flete.',
+        quoteMessageIntro: 'Hola, te escribimos desde la demo de Flete.',
         helpPrompt: '¿Necesitás cambiar algo del recorrido o la fecha?',
     }
 };

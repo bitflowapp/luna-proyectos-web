@@ -1,0 +1,112 @@
+{
+  "baseCommit": "b1432e0b77a8822b7ce3bd3c53dffbeaece4961f",
+  "currentCommit": "e13ecc8010418426ea482134d412748740ff14d8",
+  "oldSha256": "6ea0e5ab89df44b203edc8f1b595ae8c5baeb532111b925d22ce339df4349325",
+  "contentSha256": "1e29015fb60646317b8578874401319373d2c8b9f7f235fc00e601a3b55bc1aa",
+  "patchSha256": "af583bd4f8b4b4b443f6865b00bdf210682e7104cafc68cc68357e7312eea27b",
+  "parts": 6,
+  "patchBytes": 34361,
+  "contentBytes": 397459,
+  "files": [
+    {
+      "path": "scripts/flete-src/api.js",
+      "bytes": 4818,
+      "sha256": "ece2e179e5b405ead513d6ca4f2c94cd59f0396dace76bd7529430fa0fd3ffac"
+    },
+    {
+      "path": "scripts/flete-src/app.js",
+      "bytes": 164580,
+      "sha256": "bd176c7be67ee0af4131db8a1c3a9db97b9dc0831b0433246918dca2fbb58b39"
+    },
+    {
+      "path": "scripts/flete-src/build-mode.js",
+      "bytes": 133,
+      "sha256": "01331f33d6d098d06b78244f73f7cff1e6096bb5412e0094997d14fbc3818583"
+    },
+    {
+      "path": "scripts/flete-src/business-config.js",
+      "bytes": 2578,
+      "sha256": "419d7ba678226538f25ee821affdf278b15c424d8c158de391fa9a9bb5defc60"
+    },
+    {
+      "path": "scripts/flete-src/commercial.js",
+      "bytes": 24294,
+      "sha256": "91ea0e1531af2077e0df00748b593d4d090042212cd93f7e003aa4e168207351"
+    },
+    {
+      "path": "scripts/flete-src/domain.js",
+      "bytes": 13117,
+      "sha256": "5fda8278e1f192ccbc69846bc391026b8e3f4481776eca27c4d5edb6cbcb0454"
+    },
+    {
+      "path": "scripts/flete-src/preview-store.js",
+      "bytes": 17814,
+      "sha256": "3969e581498e771f34afec4be2454823dfbbb59da679ba42ae3a3dd66ea93ba5"
+    },
+    {
+      "path": "scripts/flete-src/styles.css",
+      "bytes": 99001,
+      "sha256": "8cf9a8e2592bc759c70a58480fe41edd3fe5754189f4500011c543acb314bf5d"
+    },
+    {
+      "path": "scripts/flete-src/tracking.js",
+      "bytes": 19053,
+      "sha256": "5c649e1a2309b32bd3662a9e5a031aef13feb122105d528fd56a62585246f20a"
+    },
+    {
+      "path": "scripts/flete-src/ui.js",
+      "bytes": 8828,
+      "sha256": "9bca22f994e513f85535acf5fd055aeb37a8ce649cd70a846a35443ee1221ac0"
+    },
+    {
+      "path": "scripts/flete-src/vendor/preact.mjs",
+      "bytes": 13751,
+      "sha256": "d31094cf21665d8b139228289b34adf625e0a79c4aad2520661c89293d145744"
+    },
+    {
+      "path": "scripts/pack-flete.mjs",
+      "bytes": 5589,
+      "sha256": "f2c982c6f28ef0716cdba5cb0991d0897dcefaaf3b6954e50555098e57daaca5"
+    },
+    {
+      "path": "tests/flete-preview.spec.ts",
+      "bytes": 12260,
+      "sha256": "d40fb74089399a33e46d13efa31b038c963f64e285e6918e59814f292fce74a8"
+    },
+    {
+      "path": "tests/contracts.test.mjs",
+      "bytes": 2098,
+      "sha256": "fcfe3b9f0dbcdad087bb41c4763cc46dba4c9a880b2f71da3a54ca82eefeea8f"
+    },
+    {
+      "path": "package.json",
+      "bytes": 1058,
+      "sha256": "249ea7cb0c2197a4cd371479a6ee2a9e743eff83d41930091887f4ae377fa97e"
+    },
+    {
+      "path": "playwright.config.ts",
+      "bytes": 1296,
+      "sha256": "246122a33f151a4e0b50a86d1d0b01969f21d850374ca33ea442804c3a031fd2"
+    },
+    {
+      "path": "public/demos/flete/index.html",
+      "bytes": 2001,
+      "sha256": "705265599934f7e73cc21a8355797f9f4e08225b8ca1e07e5f60a51792b04aad"
+    },
+    {
+      "path": "public/demos/flete/boot-check.js",
+      "bytes": 426,
+      "sha256": "a7ab5875a85e495fa1cc0e118ede81ad49cf24a37fb3ec54c41e5fd31971f134"
+    },
+    {
+      "path": "public/demos/flete/README.md",
+      "bytes": 1523,
+      "sha256": "9b13a144b522641d9247b4d0960e47d2784c4f94ef5f390695205a7baf9a4c82"
+    },
+    {
+      "path": "public/demos/flete/release.json",
+      "bytes": 666,
+      "sha256": "81d97f48d4fb6ec1cb51252c64d0ba32edaae04c0cb0970181d5d20552f3c6b7"
+    }
+  ]
+}

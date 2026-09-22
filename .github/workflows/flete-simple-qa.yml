@@ -1,0 +1,71 @@
+name: Verify Flete simple journey
+on:
+  push:
+    branches: [fix/flete-simple-journey]
+    paths: [.github/workflows/flete-simple-qa.yml]
+permissions:
+  contents: write
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 18
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          ref: fix/flete-simple-journey
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020
+        with:
+          node-version: '24'
+          cache: npm
+      - name: Keep skip link visually clipped until keyboard focus
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          p=Path('scripts/flete-src/styles.css');s=p.read_text()
+          old='.skip-link { position:fixed; left:16px; top:-100px; z-index:2000; background:var(--ink); color:white; padding:14px; border-radius:8px; }\n.skip-link:focus { top:12px; }'
+          new='.skip-link { position:fixed; left:16px; top:12px; z-index:2000; background:var(--ink); color:white; border-radius:8px; width:1px; height:1px; padding:0; overflow:hidden; clip-path:inset(50%); white-space:nowrap; }\n.skip-link:focus { width:auto; height:auto; padding:14px; overflow:visible; clip-path:none; }'
+          assert s.count(old)==1;s=s.replace(old,new);p.write_text(s)
+          p=Path('tests/flete-simple.spec.ts');s=p.read_text()
+          old="  await page.screenshot({ path: testInfo.outputPath('05-copia-bloqueada.png'), fullPage: true })"
+          new="  const skip = page.locator('.skip-link')\n  expect(await skip.evaluate(el => getComputedStyle(el).clipPath)).not.toBe('none')\n"+old+"\n  await skip.focus()\n  expect(await skip.evaluate(el => getComputedStyle(el).clipPath)).toBe('none')\n  await page.keyboard.press('Enter')\n  await expect(page.locator('main h1')).toBeFocused()"
+          assert s.count(old)==1;s=s.replace(old,new);p.write_text(s)
+          PY
+      - run: node scripts/pack-flete.mjs
+      - run: npm ci
+      - run: npm run lint && npm run typecheck && npm run build && npm run test:unit
+      - run: npx playwright install --with-deps chromium webkit
+      - name: Verify full native browser regression
+        run: npm test
+      - name: Record exact result
+        if: always()
+        run: |
+          python3 - <<'PY'
+          import json,pathlib
+          p=pathlib.Path('artifacts/playwright-results.json')
+          if not p.exists(): raise SystemExit(0)
+          d=json.loads(p.read_text());cases=[]
+          def visit(node):
+              for s in node.get('specs',[]):
+                  for t in s.get('tests',[]): cases.append({'title':s['title'],'project':t['projectName'],'status':t['status']})
+              for child in node.get('suites',[]): visit(child)
+          visit(d)
+          result={'stats':d.get('stats'),'total':len(cases),'flete':sum(x['title'].startswith('Flete') for x in cases),'failed':[x for x in cases if x['status']!='expected']}
+          out=pathlib.Path('/tmp/flete-simple-qa');out.mkdir(exist_ok=True);(out/'summary.json').write_text(json.dumps(result,indent=2));print(json.dumps(result,indent=2))
+          PY
+      - uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f
+        if: always()
+        with:
+          name: flete-simple-final-qa
+          path: |
+            /tmp/flete-simple-qa/
+            artifacts/playwright-results.json
+            test-results/
+          retention-days: 5
+      - name: Commit verified accessibility refinement
+        run: |
+          git restore artifacts/playwright-results.json
+          git rm .github/workflows/flete-simple-qa.yml
+          git add scripts/flete-src/styles.css tests/flete-simple.spec.ts public/demos/flete
+          git diff --cached --check
+          git -c user.name='github-actions[bot]' -c user.email='41898282+github-actions[bot]@users.noreply.github.com' commit -m 'fix(flete): keep skip link clipped until focused and verify recovery'
+          git push origin HEAD:fix/flete-simple-journey

@@ -151,3 +151,28 @@ test('Flete: aceptación, concurrencia, recotización y confirmación diferencia
   await operator.close()
   expect(errors).toEqual([])
 })
+
+test('Flete: recorrido guiado completo y sin desborde en 320px', async ({ page }) => {
+  await page.setViewportSize({ width: 320, height: 600 })
+  await page.goto('demos/flete/#/demo')
+  await expect(page.getByRole('heading', { name: /Un traslado/i })).toBeVisible()
+  expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(321)
+
+  // Verificar que se listan los 9 pasos del ciclo comercial y operativo
+  const stepItems = page.locator('.demo-flow-step')
+  await expect(stepItems).toHaveCount(9)
+  await expect(stepItems.first()).toContainText('Cliente pide')
+  await expect(stepItems.last()).toContainText('Finaliza')
+
+  // Probar acceso a inicio de solicitud como cliente
+  await page.getByRole('button', { name: 'Probar una solicitud' }).click()
+  await expect(page.getByRole('heading', { name: '¿Qué necesitás trasladar?' })).toBeVisible()
+  expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(321)
+
+  // Probar acceso al panel operativo
+  await page.goto('demos/flete/#/demo')
+  await page.getByRole('link', { name: 'Ver panel del dueño' }).click()
+  await expect(page.getByRole('heading', { name: '¿Qué hay para resolver hoy?' })).toBeVisible()
+  await expect(page.locator('.topbar-location')).toContainText('Panel de operaciones')
+  expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(321)
+})

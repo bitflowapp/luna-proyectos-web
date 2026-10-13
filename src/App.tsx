@@ -1,10 +1,14 @@
 import { useRef, useState } from "react";
-import type { ReactNode } from "react";
+import type { CSSProperties, ReactNode } from "react";
 import { FAQ_EXTRA, MARCO_CREDENTIAL, SITE, media } from "./content";
 import { ChatBubble, QualifyForm, QuickChips, WaLink } from "./chat";
 import { Rubros } from "./rubros";
 import { Pricing, SocialProof } from "./trust";
+import { ShotCarousel } from "./carousel";
+import { TeamPortraits } from "./team";
 import "./App.css";
+import "./legibility.css";
+import "./warmth.css";
 
 function Arrow({ diagonal = false }: { diagonal?: boolean }) {
   return (
@@ -103,8 +107,6 @@ const oficioShots: Shot[] = [
 
 function App() {
   const [menuOpen, setMenuOpen] = useState(false);
-  const [tabaIndex, setTabaIndex] = useState(0);
-  const [oficioIndex, setOficioIndex] = useState(0);
   const [expandedShot, setExpandedShot] = useState<Shot | null>(null);
   const dialog = useRef<HTMLDialogElement>(null);
   const shotOpener = useRef<HTMLButtonElement | null>(null);
@@ -114,8 +116,6 @@ function App() {
     setExpandedShot(shot);
     dialog.current?.showModal();
   };
-  const taba = tabaShots[tabaIndex];
-  const oficio = oficioShots[oficioIndex];
   return (
     <>
       <a tabIndex={0} className="skip-link" href="#contenido">
@@ -351,44 +351,24 @@ function App() {
               </div>
             </div>
             <div className="product-viewer">
-              <div className="viewer-toolbar">
-                <div className="view-controls" aria-label="Pantallas de TABA">
-                  {tabaShots.map((shot, index) => (
-                    <button
-                      key={shot.label}
-                      aria-pressed={tabaIndex === index}
-                      onClick={() => setTabaIndex(index)}
-                    >
-                      {shot.label}
-                    </button>
-                  ))}
-                </div>
-                <span className="viewer-hint">
-                  EXPLORÁ LAS PANTALLAS <span aria-hidden="true">↙</span>
-                </span>
-              </div>
-              <button
-                className="screen-expand image-button taba-screen"
-                onClick={(event) => openShot(taba, event.currentTarget)}
-                aria-label={`Ampliar ${taba.label} de TABA`}
+              <ShotCarousel
+                shots={tabaShots}
+                product="TABA"
+                variant="wide"
+                onOpen={openShot}
+              />
+              <a
+                className="button blue try-demo"
+                href={SITE.catalog}
+                target="_blank"
+                rel="noopener noreferrer"
+                data-track="demo-catalogo-taba"
               >
-                <picture>
-                  <source
-                    media="(max-width: 600px)"
-                    srcSet={media(taba.mobile!)}
-                  />
-                  <img
-                    src={media(taba.src)}
-                    alt={taba.alt}
-                    width="1440"
-                    height="1000"
-                    loading="lazy"
-                  />
-                </picture>
-                <span className="expand-label">
-                  Ampliar <Arrow diagonal />
-                </span>
-              </button>
+                Probá vos: una tienda parecida <Arrow diagonal />
+              </a>
+              <p className="try-note">
+                Abre la demo pública de catálogo, con datos de ejemplo.
+              </p>
             </div>
             <div className="project-footnote">
               <p>
@@ -452,33 +432,12 @@ function App() {
                 </WaLink>
               </div>
               <div className="oficio-stage">
-                <div className="view-controls" aria-label="Pantallas de OFICIO">
-                  {oficioShots.map((shot, index) => (
-                    <button
-                      key={shot.label}
-                      aria-pressed={oficioIndex === index}
-                      onClick={() => setOficioIndex(index)}
-                    >
-                      {shot.label}
-                    </button>
-                  ))}
-                </div>
-                <button
-                  className="oficio-phone image-button"
-                  onClick={(event) => openShot(oficio, event.currentTarget)}
-                  aria-label={`Ampliar ${oficio.label} de OFICIO`}
-                >
-                  <img
-                    src={media(oficio.src)}
-                    alt={oficio.alt}
-                    width="540"
-                    height="960"
-                    loading="lazy"
-                  />
-                  <span className="expand-label">
-                    Ampliar <Arrow diagonal />
-                  </span>
-                </button>
+                <ShotCarousel
+                  shots={oficioShots}
+                  product="OFICIO"
+                  variant="phone"
+                  onOpen={openShot}
+                />
                 <p className="small-note">
                   App real · Capturas con datos ficticios
                 </p>
@@ -712,8 +671,13 @@ function App() {
                   "Apps pensadas para registrar, consultar y resolver tareas donde sucede el trabajo.",
                   "APLICACIONES A MEDIDA",
                 ],
-              ].map(([number, title, description, label]) => (
-                <div className="problem" key={number}>
+              ].map(([number, title, description, label], position) => (
+                <div
+                  className="problem"
+                  key={number}
+                  data-reveal
+                  style={{ "--d": `${position * 70}ms` } as CSSProperties}
+                >
                   <span className="problem-number">
                     {number}
                     <Arrow diagonal />
@@ -768,7 +732,7 @@ function App() {
                 "Acordamos cómo seguir, mantener y mejorar la herramienta.",
               ],
             ].map(([title, detail], index) => (
-              <li key={title}>
+              <li key={title} data-reveal style={{ "--d": `${index * 70}ms` } as CSSProperties}>
                 <span className="process-number">0{index + 1}</span>
                 <h3>{title}</h3>
                 <p>{detail}</p>
@@ -793,6 +757,7 @@ function App() {
             </span>
           </div>
           <div className="team-copy">
+            <TeamPortraits />
             <p className="eyebrow">LAS PERSONAS DETRÁS DE LUNA</p>
             <h2 id="team-title">
               Somos Marco y Sofía.

@@ -34,12 +34,12 @@ test('layout, evidence, real links, loaded images and clean console', async ({ p
   expect(errors).toEqual([])
 })
 
-test('gallery changes actual screenshots; zoom traps and restores focus', async ({ page }) => {
+test('carousel: tabs move the active screen, zoom traps and restores focus', async ({ page }) => {
   await page.goto('./')
   await page.locator('#taba').getByRole('button', { name: 'Gestión', exact: true }).click()
-  await expect(page.locator('.taba-screen img')).toHaveAttribute('src', /taba-business/)
+  await expect(page.locator('#taba .shot-slide.is-active img')).toHaveAttribute('src', /taba-business/)
   await page.locator('#taba').getByRole('button', { name: 'Reparto', exact: true }).click()
-  await expect(page.locator('.taba-screen img')).toHaveAttribute('src', /taba-rider/)
+  await expect(page.locator('#taba .shot-slide.is-active img')).toHaveAttribute('src', /taba-rider/)
   const zoom = page.getByRole('button', { name: 'Ampliar Reparto de TABA' })
   await zoom.click()
   await expect(page.getByRole('dialog')).toBeVisible()
@@ -51,9 +51,9 @@ test('gallery changes actual screenshots; zoom traps and restores focus', async 
   await expect(zoom).toBeFocused()
   for (const [name, path] of [['Presupuesto', 'presupuesto'], ['Cobros', 'cobros'], ['Agenda', 'agenda']]) {
     await page.locator('#oficio').getByRole('button', { name, exact: true }).click()
-    await expect(page.locator('.oficio-phone img')).toHaveAttribute('src', new RegExp(path))
+    await expect(page.locator('#oficio .shot-slide.is-active img')).toHaveAttribute('src', new RegExp(path))
   }
-  await page.locator('.oficio-phone').click()
+  await page.getByRole('button', { name: 'Ampliar Agenda de OFICIO' }).click()
   await expect(page.getByRole('dialog')).toBeVisible()
   await page.getByRole('button', { name: 'Cerrar captura ampliada' }).click()
   await expect(page.getByRole('dialog')).not.toBeVisible()

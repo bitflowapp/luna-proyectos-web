@@ -1,0 +1,153 @@
+/*
+ * Legibilidad: piso de tamaños de letra. Se importa después de App.css para
+ * ganar por orden. Cuerpo y acciones a 16px; rótulos en mayúsculas a 12px;
+ * nada por debajo de 10px (solo el lockup de la marca).
+ */
+
+/* cuerpo */
+body .hero-description,
+body .heading-row > p,
+body .case-copy p,
+body .case-result,
+body .oficio-copy > p,
+body .catalog-layout > div > p:not(.small-note),
+body .problem p,
+body .team-copy > p:not(.eyebrow),
+body .process-list p,
+body .faq details p,
+body .faq summary,
+body .oficio-journey li,
+body .private-copy > p,
+body .private-copy .private-disclaimer,
+body .private-rule,
+body .project-footnote p,
+body .small-note,
+body .contact p:not(.eyebrow),
+body .contact-action > span,
+body .hero-note,
+body .footer p,
+body .copyright {
+  font-size: 16px;
+  line-height: 1.6;
+}
+body .process-list h3,
+body .problem h3 {
+  font-size: 20px;
+  line-height: 1.25;
+}
+
+/* rótulos en mayúsculas */
+body .eyebrow,
+body .mini-label,
+body .badge,
+body .private-label,
+body .project-meta,
+body .project-meta span,
+body .project-index > span,
+body .project-index a span,
+body .problem-number,
+body .process-number,
+body .signature-caption,
+body .qualify-preview span {
+  font-size: 12px;
+  letter-spacing: 1.3px;
+  line-height: 1.5;
+}
+body .hero .eyebrow {
+  font-size: 12px;
+}
+body .brand-sub {
+  font-size: 10px;
+  letter-spacing: 2.6px;
+}
+
+/* acciones: 16px y alto de dedo */
+body .button,
+body .text-link,
+body .menu-toggle,
+body .view-controls button,
+body .demo-link,
+body .expand-label {
+  font-size: 16px;
+}
+body .button {
+  min-height: 52px;
+}
+body .text-link {
+  min-height: 48px;
+}
+body .view-controls button {
+  min-height: 48px;
+  padding-inline: 16px;
+}
+body .project-index a {
+  font-size: 15px;
+  min-height: 48px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* cromo decorativo de las capturas */
+body .evidence-topline,
+body .window-bar,
+body .window-bar span {
+  font-size: 11px;
+  letter-spacing: 0.6px;
+}
+body .window-dots {
+  font-size: 9px;
+}
+body .evidence-caption,
+body .evidence-caption strong {
+  font-size: 14px;
+  line-height: 1.4;
+}
+body .expand-label {
+  font-size: 13px;
+}
+body .hero-sub {
+  font-size: 16px;
+}
+
+@media (max-width: 800px) {
+  body .project-index {
+    grid-template-columns: 1fr 1fr;
+    row-gap: 4px;
+  }
+  body .project-index > span {
+    grid-column: 1 / -1;
+  }
+  body .case-copy p {
+    font-size: 16px;
+  }
+}
+
+/* refuerzo de especificidad: reglas de App.css más específicas que las de arriba */
+body .button.button,
+body .text-link.text-link {
+  font-size: 16px;
+}
+body .mini-label.mini-label,
+body .private-case dt,
+body .case-result .mini-label,
+body .evidence-topline,
+body .window-bar,
+body .window-bar span,
+body .window-dots {
+  font-size: 12px;
+  letter-spacing: 0.8px;
+}
+body .qualify-preview span {
+  font-size: 12px;
+}
+
+body .eyebrow.eyebrow,
+body .signature-caption.signature-caption {
+  font-size: 12px;
+  letter-spacing: 1.3px;
+}
+
+body .oficio-journey li span {
+  font-size: 12px;
+}

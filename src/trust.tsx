@@ -1,3 +1,4 @@
+import type { CSSProperties } from "react";
 import { WaLink } from "./chat";
 import {
   MARCO_CREDENTIAL,
@@ -28,8 +29,8 @@ export function Pricing() {
         <em>Te lo decimos antes de empezar.</em>
       </h2>
       <ul className="pricing-grid">
-        {PRICING.map((item) => (
-          <li key={item.key}>
+        {PRICING.map((item, position) => (
+          <li key={item.key} data-reveal style={{ "--d": `${position * 70}ms` } as CSSProperties}>
             <article className="pricing-card">
               <h3>{item.title}</h3>
               <p>{item.blurb}</p>

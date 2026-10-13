@@ -133,3 +133,13 @@ export const FAQ_EXTRA = [
     a: "El desarrollo se paga por etapas. Si lo que armamos necesita algo recurrente, como hosting o mantenimiento, te lo explicamos antes de empezar y con el valor a la vista.",
   },
 ] as const;
+
+/**
+ * Fotos del equipo. [COMPLETAR] con la ruta publicada, p. ej.
+ * "/luna-proyectos-web/team/marco.webp" (320x320, WebP, en public/team/).
+ * Vacío = ilustración con trazo propio.
+ */
+export const TEAM_PHOTOS: Record<"marco" | "sofia", string> = {
+  marco: "",
+  sofia: "",
+};

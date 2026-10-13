@@ -1,0 +1,137 @@
+/* Carrusel táctil de capturas */
+.shots {
+  display: grid;
+  gap: 12px;
+}
+.shots .viewer-toolbar {
+  padding-bottom: 0;
+  flex-wrap: wrap;
+}
+.shots-track {
+  display: flex;
+  gap: 14px;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  position: relative; /* offsetLeft de las diapositivas es relativo a la pista */
+  border-radius: 6px;
+}
+.shots-track::-webkit-scrollbar {
+  display: none;
+}
+.shots-track:focus-visible {
+  outline: 3px solid var(--blue);
+  outline-offset: 4px;
+}
+.shot-slide {
+  flex: 0 0 100%;
+  scroll-snap-align: start;
+  display: flex;
+  justify-content: center;
+}
+.shots-phone .shot-slide {
+  flex-basis: min(100%, 300px);
+}
+.shots-phone .shots-track {
+  max-width: 340px;
+  margin-inline: auto;
+  width: 100%;
+}
+.shot-slide .screen-expand,
+.shot-slide .oficio-phone {
+  cursor: grab;
+}
+.shot-slide img {
+  user-select: none;
+  -webkit-user-drag: none;
+}
+.swipe-hint {
+  display: none;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--muted);
+  align-items: center;
+  gap: 8px;
+}
+.swipe-arrow {
+  display: inline-block;
+  animation: swipe-nudge 1.8s ease-in-out 3;
+}
+@keyframes swipe-nudge {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  50% {
+    transform: translateX(6px);
+  }
+}
+.shots-dots {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+}
+.shots-dots span {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #c9c6bb;
+  transition:
+    background 0.2s,
+    transform 0.2s;
+}
+.shots-dots span.is-on {
+  background: var(--ink);
+  transform: scale(1.25);
+}
+/* "Probá vos" */
+.try-demo {
+  margin-top: 18px;
+  width: 100%;
+  justify-content: center;
+}
+.try-note {
+  margin: 8px 0 0;
+  font-size: 14px;
+  color: var(--muted);
+  text-align: center;
+}
+@media (max-width: 800px) {
+  .swipe-hint {
+    display: inline-flex;
+  }
+  .shots .viewer-hint {
+    display: none;
+  }
+  /* se asoma la siguiente pantalla: invita a deslizar */
+  .shots-wide .shot-slide {
+    flex-basis: 88%;
+  }
+  .shots .view-controls {
+    width: 100%;
+  }
+}
+@media (hover: none) {
+  .shot-slide .screen-expand,
+  .shot-slide .oficio-phone {
+    cursor: auto;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .swipe-arrow {
+    animation: none;
+  }
+  .shots-dots span {
+    transition: none;
+  }
+}
+
+/* el carrusel no debe ensanchar la columna que lo contiene */
+.oficio-layout > *,
+.oficio-stage,
+.product-viewer,
+.shots {
+  min-width: 0;
+}

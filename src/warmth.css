@@ -1,0 +1,143 @@
+/*
+ * Calidez: entrada al scroll, luna como acento, microinteracciones y más aire.
+ * Se importa después de App.css y legibility.css.
+ */
+
+/* entrada suave: solo con JS, IntersectionObserver y sin pedir menos movimiento */
+.reveal-ready [data-reveal] {
+  opacity: 0;
+  transform: translateY(18px);
+  transition:
+    opacity 0.6s ease var(--d, 0ms),
+    transform 0.6s cubic-bezier(0.2, 0.7, 0.2, 1) var(--d, 0ms);
+}
+.reveal-ready [data-reveal][data-in] {
+  opacity: 1;
+  transform: none;
+}
+
+/* la luna como detalle: el punto de los rótulos pasa a ser un creciente */
+.eyebrow .dot {
+  width: 12px;
+  height: 12px;
+  background: transparent;
+  box-shadow: inset -4px 0 0 0 var(--blue);
+  transform: rotate(-24deg);
+}
+.hero {
+  position: relative;
+}
+.hero::after,
+.brand-idea::before {
+  content: "";
+  position: absolute;
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  box-shadow: inset -28px 6px 0 0 rgba(37, 73, 235, 0.1);
+  pointer-events: none;
+}
+.hero::after {
+  top: 0;
+  right: 0;
+}
+.brand-idea {
+  position: relative;
+}
+.brand-idea::before {
+  top: 20px;
+  right: 0;
+}
+
+/* microinteracciones: usan `translate` y `scale` para no pelear con la entrada */
+@media (hover: hover) {
+  .problem,
+  .pricing-card,
+  .proof-facts li {
+    transition:
+      translate 0.18s ease,
+      box-shadow 0.18s ease,
+      opacity 0.6s ease var(--d, 0ms),
+      transform 0.6s cubic-bezier(0.2, 0.7, 0.2, 1) var(--d, 0ms);
+  }
+  .problem:hover,
+  .pricing-card:hover,
+  .proof-facts li:hover {
+    translate: 0 -3px;
+    box-shadow: 0 16px 28px -22px rgba(0, 0, 0, 0.5);
+  }
+}
+.button,
+.chip,
+.view-controls button,
+.rubro summary,
+.faq summary,
+.text-link {
+  transition-property: background, color, translate, scale, box-shadow,
+    border-color;
+  transition-duration: 0.18s;
+}
+.button:active,
+.chip:active,
+.view-controls button:active,
+.rubro summary:active,
+.faq summary:active,
+.text-link:active {
+  scale: 0.97;
+}
+
+/* más aire entre secciones */
+@media (max-width: 800px) {
+  .section-space {
+    padding-block: 80px;
+  }
+  .project {
+    margin-top: 72px;
+  }
+  .rubros {
+    padding-top: 72px;
+  }
+  .hero::after {
+    width: 84px;
+    height: 84px;
+    box-shadow: inset -20px 4px 0 0 rgba(37, 73, 235, 0.1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal-ready [data-reveal] {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+  .button:active,
+  .chip:active,
+  .view-controls button:active,
+  .rubro summary:active,
+  .faq summary:active,
+  .text-link:active {
+    scale: none;
+  }
+}
+
+/* la luna del hero queda en el espacio libre, nunca detrás del texto */
+.hero::after {
+  top: 74px;
+  right: 0;
+  width: 84px;
+  height: 84px;
+  box-shadow: inset -20px 4px 0 0 rgba(37, 73, 235, 0.1);
+}
+@media (min-width: 801px) {
+  .hero::after {
+    top: 10px;
+    width: 120px;
+    height: 120px;
+    box-shadow: inset -28px 6px 0 0 rgba(37, 73, 235, 0.1);
+  }
+}
+@media (max-width: 800px) {
+  .hero::after {
+    top: 40px;
+  }
+}

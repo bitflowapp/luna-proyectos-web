@@ -1,4 +1,4 @@
-import type { ReactElement } from "react";
+import type { CSSProperties, ReactElement } from "react";
 import { WaLink } from "./chat";
 import { MARCO_CREDENTIAL } from "./content";
 import "./rubros.css";
@@ -114,8 +114,8 @@ export function Rubros() {
         <em>Tocá el tuyo.</em>
       </h2>
       <ul className="rubros-grid">
-        {RUBROS.map((rubro) => (
-          <li key={rubro.key}>
+        {RUBROS.map((rubro, position) => (
+          <li key={rubro.key} data-reveal style={{ "--d": `${position * 70}ms` } as CSSProperties}>
             <details className="rubro" name="rubro" data-rubro={rubro.key}>
               <summary>
                 <span className="rubro-icon">{ICONS[rubro.key]}</span>

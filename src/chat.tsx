@@ -70,27 +70,31 @@ const faceProps = {
  * Ilustraciones con trazo propio de Marco y Sofía. Reemplazar por fotos reales
  * en /public/team/ cuando estén listas (ver [COMPLETAR] en el README).
  */
-export function TeamAvatars() {
+export function TeamAvatars({ only }: { only?: "marco" | "sofia" }) {
   return (
     <span className="team-avatars" aria-hidden="true">
-      <svg {...faceProps}>
-        <rect width="48" height="48" fill="#ffe7a8" stroke="none" />
-        <circle cx="24" cy="22" r="9" />
-        <path d="M15.5 20c0-7 4-9 8.5-9s8.5 2 8.5 9c-2-3-5-4-8.5-4s-6.5 1-8.5 4Z" />
-        <path d="M20.5 25c1.2 1.5 5.8 1.5 7 0" />
-        <circle cx="20.5" cy="21" r=".6" fill="#20211f" />
-        <circle cx="27.5" cy="21" r=".6" fill="#20211f" />
-        <path d="M8 46c1-8 7-10 16-10s15 2 16 10" />
-      </svg>
-      <svg {...faceProps}>
-        <rect width="48" height="48" fill="#c9d6ff" stroke="none" />
-        <circle cx="24" cy="22" r="9" />
-        <path d="M14.5 28c-2-9 1-17 9.5-17s11.500 8 9.500 17M15 22c3-1 7-3 9-6 2 3 6 5 9 6" />
-        <path d="M20.5 25c1.2 1.5 5.8 1.5 7 0" />
-        <circle cx="20.5" cy="21" r=".6" fill="#20211f" />
-        <circle cx="27.5" cy="21" r=".6" fill="#20211f" />
-        <path d="M8 46c1-8 7-10 16-10s15 2 16 10" />
-      </svg>
+      {only !== "sofia" && (
+        <svg {...faceProps}>
+          <rect width="48" height="48" fill="#ffe7a8" stroke="none" />
+          <circle cx="24" cy="22" r="9" />
+          <path d="M15.5 20c0-7 4-9 8.5-9s8.5 2 8.5 9c-2-3-5-4-8.5-4s-6.5 1-8.5 4Z" />
+          <path d="M20.5 25c1.2 1.5 5.8 1.5 7 0" />
+          <circle cx="20.5" cy="21" r=".6" fill="#20211f" />
+          <circle cx="27.5" cy="21" r=".6" fill="#20211f" />
+          <path d="M8 46c1-8 7-10 16-10s15 2 16 10" />
+        </svg>
+      )}
+      {only !== "marco" && (
+        <svg {...faceProps}>
+          <rect width="48" height="48" fill="#c9d6ff" stroke="none" />
+          <circle cx="24" cy="22" r="9" />
+          <path d="M14.5 28c-2-9 1-17 9.5-17s11.500 8 9.500 17M15 22c3-1 7-3 9-6 2 3 6 5 9 6" />
+          <path d="M20.5 25c1.2 1.5 5.8 1.5 7 0" />
+          <circle cx="20.5" cy="21" r=".6" fill="#20211f" />
+          <circle cx="27.5" cy="21" r=".6" fill="#20211f" />
+          <path d="M8 46c1-8 7-10 16-10s15 2 16 10" />
+        </svg>
+      )}
     </span>
   );
 }
@@ -184,7 +188,9 @@ export function ChatBubble() {
         <TeamAvatars />
         <span>
           {open ? "Cerrar" : "¿Tenés una duda?"}
-          <small>{open ? "Seguí mirando la web" : "Escribinos por WhatsApp"}</small>
+          <small>
+            {open ? "Seguí mirando la web" : "Escribinos por WhatsApp"}
+          </small>
         </span>
       </button>
     </div>
@@ -221,8 +227,8 @@ export function QualifyForm() {
     >
       <h3 id="qualify-title">Si preferís, armá tu mensaje</h3>
       <p className="qualify-hint">
-        Es opcional. No se envía nada acá: se abre WhatsApp con el mensaje
-        listo para que lo revises.
+        Es opcional. No se envía nada acá: se abre WhatsApp con el mensaje listo
+        para que lo revises.
       </p>
       <label>
         Tu rubro

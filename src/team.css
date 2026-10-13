@@ -1,0 +1,45 @@
+/* Retratos de Marco y Sofía */
+.portraits {
+  list-style: none;
+  margin: 0 0 24px;
+  padding: 0;
+  display: flex;
+  gap: 18px;
+}
+.portrait {
+  display: grid;
+  justify-items: start;
+  gap: 4px;
+  max-width: 160px;
+}
+.portrait img,
+.portrait-art svg {
+  width: 96px;
+  height: 96px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid var(--ink);
+  background: #fff;
+}
+.portrait-art {
+  display: block;
+}
+.portrait-art .team-avatars svg {
+  margin-left: 0;
+  width: 96px;
+  height: 96px;
+  border: 2px solid var(--ink);
+}
+.portrait strong {
+  font-size: 20px;
+  letter-spacing: -0.4px;
+  margin-top: 6px;
+}
+.portrait span:not(.portrait-art) {
+  font-size: 14px;
+  line-height: 1.35;
+  color: var(--muted);
+}
+.portrait {
+  align-content: start;
+}

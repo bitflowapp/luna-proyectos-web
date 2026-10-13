@@ -15,6 +15,6 @@ export default defineConfig({
   timeout: 45000,
   reporter: [['list'], ['json', { outputFile: 'artifacts/playwright-results.json' }], ['html', { open: 'never' }]],
   use: { baseURL: process.env.PUBLIC_TEST_URL || 'http://127.0.0.1:4173/luna-proyectos-web/', reducedMotion: 'reduce', trace: 'retain-on-failure', screenshot: 'only-on-failure' },
-  projects: ['chromium', 'webkit'].flatMap(browser => sizes.map(([width, height]) => ({ name: `${browser}-${width}`, use: { browserName: browser as 'chromium' | 'webkit', viewport: { width, height }, deviceScaleFactor: 1 } }))),
+  projects: ['chromium', 'webkit'].flatMap(browser => sizes.map(([width, height]) => ({ name: `${browser}-${width}`, use: { browserName: browser as 'chromium' | 'webkit', viewport: { width, height }, deviceScaleFactor: 1, reducedMotion: 'reduce' } }))),
   webServer: process.env.PUBLIC_TEST_URL ? undefined : { command: 'npm run preview -- --host 127.0.0.1 --port 4173 --strictPort', url: 'http://127.0.0.1:4173/luna-proyectos-web/', reuseExistingServer: !process.env.CI },
 })

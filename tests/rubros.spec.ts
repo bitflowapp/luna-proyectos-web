@@ -32,16 +32,21 @@ test('rubros: 2x2 grid, each one opens with its case and a prefilled WhatsApp me
 })
 
 test('rubros: closed state shows a 2x2 grid of thumb-sized tiles without horizontal overflow', async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: 'reduce' })
   await page.goto('./')
   await page.locator('#rubros').scrollIntoViewIfNeeded()
   expect(await page.evaluate(() => document.documentElement.scrollWidth > innerWidth)).toBe(false)
-  const tiles = await page.locator('#rubros details.rubro summary').all()
-  expect(tiles).toHaveLength(4)
-  const boxes = await Promise.all(tiles.map(tile => tile.boundingBox()))
-  for (const box of boxes) expect(box!.height).toBeGreaterThanOrEqual(48)
+  // una sola lectura: sin depender del orden de scroll entre llamadas
+  const boxes = await page.evaluate(() =>
+    Array.from(document.querySelectorAll('#rubros details.rubro summary')).map(el => {
+      const r = el.getBoundingClientRect()
+      return { y: r.top + window.scrollY, height: r.height }
+    }))
+  expect(boxes).toHaveLength(4)
+  for (const box of boxes) expect(box.height).toBeGreaterThanOrEqual(48)
   if (page.viewportSize()!.width < 700) {
-    expect(Math.abs(boxes[0]!.y - boxes[1]!.y)).toBeLessThan(2)
-    expect(boxes[2]!.y).toBeGreaterThan(boxes[0]!.y + boxes[0]!.height - 1)
+    expect(Math.abs(boxes[0].y - boxes[1].y)).toBeLessThan(2)
+    expect(boxes[2].y).toBeGreaterThan(boxes[0].y + boxes[0].height - 1)
   }
 })
 

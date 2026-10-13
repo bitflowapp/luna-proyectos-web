@@ -94,6 +94,8 @@ test('Bit Flow is private, with no media, links or commercial availability', asy
 })
 
 test('WCAG automated accessibility including contrast', async ({ page }) => {
+  // WebKit no siempre aplica reducedMotion de la config: se fija aca para medir el estado final, no una transicion
+  await page.emulateMedia({ reducedMotion: 'reduce' })
   await page.goto('./')
   const result = await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag21aa', 'best-practice']).analyze()
   expect(result.violations.map(x => ({ id: x.id, impact: x.impact, elements: x.nodes.map(n => n.target) }))).toEqual([])

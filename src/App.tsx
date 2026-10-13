@@ -2,6 +2,7 @@ import { useRef, useState } from "react";
 import type { ReactNode } from "react";
 import { SITE, media } from "./content";
 import { ChatBubble, QualifyForm, QuickChips, WaLink } from "./chat";
+import { Rubros } from "./rubros";
 import "./App.css";
 
 function Arrow({ diagonal = false }: { diagonal?: boolean }) {
@@ -260,6 +261,7 @@ function App() {
             </div>
           </div>
         </section>
+        <Rubros />
         <div
           className="project-index container"
           aria-label="Proyectos destacados"

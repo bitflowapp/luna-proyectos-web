@@ -1,6 +1,6 @@
 # LUNA Proyectos — web comercial
 
-La página propone una conversación sobre un problema de negocio y la respalda con software construido. El destino del contacto es el Instagram oficial: https://www.instagram.com/lunaaproyectos. No se agregaron teléfonos ni correos sin verificar.
+La página propone una conversación sobre un problema de negocio y la respalda con software construido. El canal principal de contacto es WhatsApp (+54 9 299 620-9136, provisto por LUNA); Instagram oficial queda como canal secundario: https://www.instagram.com/lunaaproyectos. No se agregaron correos sin verificar.
 
 ## Proyectos y límites de las afirmaciones
 
@@ -21,8 +21,8 @@ Los importes, nombres y cantidades visibles dentro de las demos son datos de eje
 - Proyectos grandes, con necesidad, solución y estado. Los selectores de TABA y OFICIO cambian capturas reales; el visor permite ampliarlas.
 - Bit Flow tiene tratamiento sobrio, sin botones de compra, demo, repositorio, precios, identidad del cliente ni workflow.
 - Los servicios se explican desde situaciones reconocibles: pedidos por mensaje, información dispersa, tareas repetidas y trabajo desde el celular.
-- Proceso en seis pasos, Marco y Sofía como personas detrás de LUNA, preguntas frecuentes y cierre directo a Instagram.
-- No hay formularios que simulen enviar información. Tampoco píxeles, cookies propias, testimonios, métricas de adopción ni promesas de ahorro.
+- Proceso en seis pasos, Marco y Sofía como personas detrás de LUNA, preguntas frecuentes y cierre directo a WhatsApp.
+- El mini formulario de calificación **no envía información a ningún servidor**: solo arma el mensaje y abre WhatsApp. Tampoco hay píxeles, cookies propias, testimonios, métricas de adopción ni promesas de ahorro. La medición usa GoatCounter sin cookies, y solo se activa cuando se completa su código.
 - No se encontraron retratos cuya autorización comercial pudiera verificarse. Se usa una composición tipográfica; no se generaron caras.
 - El video de OFICIO disponible incluía placas de producción sin terminar. Se eligieron capturas limpias para esta publicación.
 
@@ -32,7 +32,7 @@ Evaluación heurística de cuatro perfiles simulados. **No es un test con person
 
 | Perfil simulado | ¿Qué hace LUNA? | ¿Es software real? | ¿Qué podría servirme? | ¿Cómo contacto? |
 | --- | --- | --- | --- | --- |
-| Dueño de comercio | Apps y sistemas para ordenar y vender | TABA y sus pantallas, más catálogo para probar | Pedidos, tienda y organización del negocio | “Contanos qué querés resolver” y contacto por Instagram |
+| Dueño de comercio | Apps y sistemas para ordenar y vender | TABA y sus pantallas, más catálogo para probar | Pedidos, tienda y organización del negocio | “Escribinos por WhatsApp” en el hero y contacto por WhatsApp |
 | Técnico | Herramientas para organizar el trabajo | OFICIO muestra agenda, presupuesto y cobros reales de demo | Reunir trabajos y pendientes | CTA de OFICIO y CTA final |
 | Dueño de pequeña empresa | Sistemas a medida y automatizaciones | TABA conecta partes; Bit Flow acredita un desarrollo exclusivo vendido | Herramientas internas e información centralizada | Hablemos / Contarnos el problema |
 | Visita desde Instagram | Software para trabajo real | Pantallas dentro del primer bloque, rotuladas como demo | Reconocer su problema o explorar los cuatro casos | CTA visible en el hero, sin pedir conocimientos técnicos |

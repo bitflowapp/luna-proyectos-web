@@ -13,7 +13,8 @@ test('Published screenshots match the reviewed evidence manifest', async () => {
 });
 test('Production build ships semantic content without JavaScript', async () => {
   const html = await readFile('dist/index.html', 'utf8');
-  assert.match(html, /<h1[^>]*>Software para/);
+  assert.match(html, /<h1[^>]*>Tu negocio, ordenado en una app/);
+  assert.match(html, /wa\.me\/5492996209136\?text=/);
   assert.match(html, /CASO VENDIDO/);
   assert.match(html, /PROYECTO PRIVADO/);
   assert.match(html, /PROBAR DEMO/);

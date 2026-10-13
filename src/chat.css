@@ -1,0 +1,339 @@
+/* Contacto por WhatsApp: botón, chips, burbuja flotante y mini formulario. */
+:root {
+  --wa: #0f7a3d;
+  --wa-dark: #0b5e2f;
+}
+body {
+  /* aire para que la burbuja flotante no tape el pie de página */
+  padding-bottom: 88px;
+}
+.button.wa {
+  background: var(--wa);
+  color: #fff;
+  justify-content: center;
+  gap: 12px;
+  min-height: 56px;
+  font-size: 16px;
+  border-radius: 14px;
+  box-shadow: 0 8px 22px -12px rgba(15, 122, 61, 0.8);
+}
+.button.wa:hover {
+  background: var(--wa-dark);
+}
+.button.wa:active {
+  transform: scale(0.98);
+}
+.button.wa-light {
+  background: var(--paper);
+  color: var(--ink);
+  box-shadow: none;
+}
+.button.wa-light:hover {
+  background: #fff;
+}
+.button.wa-light .wa-icon {
+  color: var(--wa);
+}
+.wa-icon {
+  flex: none;
+}
+
+.hero-sub {
+  font-size: 15px;
+  color: var(--muted);
+  line-height: 1.4;
+}
+.hero-actions .text-link {
+  font-size: 16px;
+}
+
+/* chips */
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.chip {
+  display: inline-flex;
+  align-items: center;
+  min-height: 48px;
+  padding: 10px 16px;
+  border-radius: 999px;
+  border: 1.5px solid var(--line);
+  background: #fff;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.25;
+  transition:
+    border-color 0.15s,
+    transform 0.15s;
+}
+.chip::after {
+  content: "↗";
+  margin-left: 8px;
+  color: var(--blue);
+}
+.chip:hover {
+  border-color: var(--blue);
+}
+.chip:active {
+  transform: scale(0.97);
+}
+.hero-chips {
+  margin-top: 22px;
+}
+.hero-chips > p {
+  font-size: 16px;
+  font-weight: 800;
+  margin: 0 0 10px;
+}
+.chips-scroll {
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  scroll-snap-type: x proximity;
+  scroll-padding-inline: 20px;
+  margin-inline: -20px;
+  padding: 2px 20px 8px;
+  scrollbar-width: none;
+}
+.chips-scroll::-webkit-scrollbar {
+  display: none;
+}
+.chips-scroll .chip {
+  white-space: nowrap;
+  scroll-snap-align: start;
+}
+.chips-stack {
+  flex-direction: column;
+  align-items: stretch;
+  margin-top: 14px;
+}
+.chips-stack .chip {
+  justify-content: space-between;
+}
+
+/* burbuja */
+.team-avatars {
+  display: flex;
+  flex: none;
+}
+.team-avatars svg {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  border: 2px solid var(--paper);
+  background: #fff;
+  margin-left: -10px;
+}
+.team-avatars svg:first-child {
+  margin-left: 0;
+}
+.bubble {
+  position: fixed;
+  right: 14px;
+  bottom: max(14px, env(safe-area-inset-bottom));
+  z-index: 30;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 12px;
+  max-width: calc(100vw - 28px);
+}
+.bubble-panel {
+  width: min(350px, calc(100vw - 28px));
+  background: #fff;
+  border: 1.5px solid var(--ink);
+  border-radius: 22px;
+  padding: 18px;
+  box-shadow: 0 24px 50px -20px rgba(0, 0, 0, 0.45);
+  animation: bubble-in 0.22s ease-out;
+}
+.bubble-panel[hidden] {
+  display: none;
+}
+.bubble-head {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+.bubble-head p {
+  margin: 0;
+  font-size: 16px;
+  line-height: 1.35;
+}
+.bubble-head strong {
+  display: block;
+  font-size: 17px;
+}
+.bubble-panel .button {
+  margin-top: 14px;
+  width: 100%;
+}
+.bubble-toggle {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: var(--ink);
+  color: #fff;
+  border: 0;
+  border-radius: 999px;
+  padding: 8px 20px 8px 8px;
+  min-height: 60px;
+  box-shadow: 0 14px 30px -12px rgba(0, 0, 0, 0.6);
+  transition: transform 0.15s;
+}
+.bubble-toggle:active {
+  transform: scale(0.97);
+}
+.bubble-toggle .team-avatars svg {
+  border-color: var(--ink);
+}
+.bubble-toggle span {
+  font-weight: 800;
+  font-size: 16px;
+  text-align: left;
+  line-height: 1.2;
+}
+.bubble-toggle small {
+  display: block;
+  font-weight: 600;
+  font-size: 13px;
+  opacity: 0.85;
+}
+.bubble-toggle:focus-visible,
+.chip:focus-visible,
+.button:focus-visible {
+  outline: 3px solid var(--blue);
+  outline-offset: 3px;
+}
+.bubble-toggle:focus-visible {
+  outline-color: #fff;
+  box-shadow: 0 0 0 6px var(--blue);
+}
+@keyframes bubble-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px) scale(0.98);
+  }
+}
+
+/* contacto: sobre fondo azul */
+.contact-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 14px;
+}
+.contact .text-link {
+  font-size: 16px;
+  color: #fff;
+}
+.contact .text-link:hover {
+  color: #fff;
+  text-decoration-thickness: 2px;
+}
+.contact-wa {
+  margin-top: 28px;
+}
+
+/* formulario de calificación */
+.qualify {
+  margin-top: 40px;
+  background: var(--paper);
+  color: var(--ink);
+  border-radius: 22px;
+  padding: 24px 20px;
+  display: grid;
+  gap: 16px;
+  max-width: 560px;
+}
+.qualify h3 {
+  margin: 0;
+  font-size: 22px;
+  letter-spacing: -0.5px;
+}
+.contact .qualify .qualify-hint {
+  margin: 0;
+  font-size: 16px;
+  line-height: 1.5;
+  color: var(--muted);
+}
+.qualify label {
+  display: grid;
+  gap: 6px;
+  font-size: 16px;
+  font-weight: 700;
+}
+.qualify select,
+.qualify textarea {
+  font: inherit;
+  font-weight: 450;
+  min-height: 52px;
+  width: 100%;
+  padding: 12px 14px;
+  border: 1.5px solid var(--line);
+  border-radius: 12px;
+  background: #fff;
+  color: var(--ink);
+}
+.qualify textarea {
+  resize: vertical;
+}
+.qualify select:focus-visible,
+.qualify textarea:focus-visible {
+  outline: 3px solid var(--blue);
+  outline-offset: 2px;
+}
+.contact .qualify .qualify-preview {
+  margin: 0;
+  font-size: 16px;
+  line-height: 1.5;
+  background: #fff;
+  border: 1.5px dashed var(--line);
+  border-radius: 12px;
+  padding: 12px 14px;
+  color: var(--ink);
+}
+.qualify-preview span {
+  display: block;
+  font-size: 12px;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  font-weight: 800;
+  color: var(--muted);
+  margin-bottom: 4px;
+}
+.qualify .button {
+  width: 100%;
+}
+
+@media (min-width: 801px) {
+  .chips-scroll {
+    flex-wrap: wrap;
+    overflow: visible;
+    margin-inline: 0;
+    padding-inline: 0;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .bubble-panel {
+    animation: none;
+  }
+  .chip,
+  .bubble-toggle,
+  .button.wa {
+    transition: none;
+  }
+}
+
+/* la fila deslizable de chips no debe ensanchar la columna del hero */
+.hero-copy {
+  min-width: 0;
+}
+.hero-chips,
+.chips-scroll {
+  max-width: 100%;
+}

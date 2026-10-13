@@ -2,24 +2,28 @@ import { expect, test } from '@playwright/test'
 import AxeBuilder from '@axe-core/playwright'
 import { mkdir } from 'node:fs/promises'
 
+const WA_LINK = /^https:\/\/wa\.me\/5492996209136\?text=/
+
 test('layout, evidence, real links, loaded images and clean console', async ({ page }, testInfo) => {
   const errors: string[] = []
   page.on('pageerror', error => errors.push(error.message))
   page.on('console', message => { if (message.type() === 'error') errors.push(message.text()) })
   await page.goto('./')
   await page.evaluate(() => document.fonts.ready)
-  await expect(page.getByRole('heading', { level: 1 })).toHaveText('Software paratrabajo real.')
-  const heroCta = page.getByRole('link', { name: 'Ver proyectos', exact: true })
+  await expect(page.getByRole('heading', { level: 1 })).toHaveText('Tu negocio, ordenado en una app hecha a tu medida.')
+  const heroCta = page.locator('.hero').getByRole('link', { name: /Escribinos por WhatsApp/ })
   await expect(heroCta).toBeInViewport()
-  const evidence = await page.locator('.hero-evidence').boundingBox()
-  expect(evidence!.y).toBeLessThan(page.viewportSize()!.height)
+  await expect(heroCta).toHaveAttribute('href', WA_LINK)
   await page.locator('footer').scrollIntoViewIfNeeded()
   await page.evaluate(async () => { await Promise.all(Array.from(document.images).map(img => { img.loading = 'eager'; return img.decode().catch(() => {}) })) })
   const layout = await page.evaluate(() => ({ overflow: document.documentElement.scrollWidth > innerWidth, badImages: Array.from(document.images).filter(img => !img.complete || !img.naturalWidth).map(img => img.src), badAnchors: Array.from(document.querySelectorAll<HTMLAnchorElement>('a[href^="#"]')).filter(a => !document.getElementById(a.hash.slice(1))).map(a => a.hash) }))
   expect(layout).toEqual({ overflow: false, badImages: [], badAnchors: [] })
-  const cta = page.getByRole('link', { name: 'Contarnos el problema' })
-  await expect(cta).toHaveAttribute('href', 'https://www.instagram.com/lunaaproyectos')
+  const cta = page.locator('#contacto').getByRole('link', { name: /Contarnos el problema por WhatsApp/ })
+  await expect(cta).toHaveAttribute('href', WA_LINK)
   await expect(cta).toHaveAttribute('rel', /noopener/)
+  const insta = page.locator('#contacto').getByRole('link', { name: /Instagram/ })
+  await expect(insta).toHaveAttribute('href', 'https://www.instagram.com/lunaaproyectos')
+  await expect(insta).toHaveAttribute('rel', /noopener/)
   await expect(page.getByRole('link', { name: 'PROBAR DEMO' })).toHaveAttribute('href', 'https://bitflowapp.github.io/luna-catalogo-demo-preview/')
   await page.evaluate(() => window.scrollTo({ top: 0, behavior: 'instant' }))
   const dir = page.viewportSize()!.width < 768 ? 'screenshots-mobile' : 'screenshots-desktop'
@@ -61,7 +65,7 @@ test('commercial journey, menu and FAQ work with keyboard', async ({ page }) => 
   await expect(page.getByRole('link', { name: 'Ir al contenido' })).toBeFocused()
   await page.keyboard.press('Enter')
   await expect(page).toHaveURL(/#contenido$/)
-  await page.getByRole('link', { name: 'Ver proyectos', exact: true }).click()
+  await page.locator('.hero').getByRole('link', { name: /mirá primero lo que hicimos/ }).click()
   await expect(page).toHaveURL(/#proyectos$/)
   await page.evaluate(() => window.scrollTo(0, 0))
   const menu = page.getByRole('button', { name: /Menú/ })

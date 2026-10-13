@@ -1,6 +1,7 @@
 import { useRef, useState } from "react";
 import type { ReactNode } from "react";
 import { SITE, media } from "./content";
+import { ChatBubble, QualifyForm, QuickChips, WaLink } from "./chat";
 import "./App.css";
 
 function Arrow({ diagonal = false }: { diagonal?: boolean }) {
@@ -52,6 +53,7 @@ function ContactLink({
       href={SITE.instagram}
       target="_blank"
       rel="noopener noreferrer"
+      data-track="instagram"
     >
       {children}
       <Arrow diagonal />
@@ -177,26 +179,29 @@ function App() {
               <span className="dot" /> SOFTWARE A MEDIDA · NEUQUÉN, ARGENTINA
             </p>
             <h1 id="hero-title">
-              Software para
-              <br />
-              trabajo <em>real.</em>
+              Tu negocio, ordenado en una app <em>hecha a tu medida.</em>
             </h1>
             <p className="hero-description">
-              Construimos apps, sistemas y automatizaciones para ordenar tu
-              negocio, vender y trabajar mejor.
+              Hacemos apps y sistemas para comercios, gastronomía, oficios e
+              industria. Contanos qué se te traba y te decimos si tiene
+              arreglo.
             </p>
             <div className="hero-actions">
-              <a tabIndex={0} className="button blue" href="#proyectos">
-                Ver proyectos <Arrow />
-              </a>
-              <a tabIndex={0} className="text-link" href="#contacto">
-                Contanos qué querés resolver <Arrow diagonal />
-              </a>
+              <WaLink source="hero" className="button wa">
+                Escribinos por WhatsApp
+              </WaLink>
+              <span className="hero-sub">
+                Primera charla sin cargo · respondemos nosotros
+              </span>
+            </div>
+            <div className="hero-chips">
+              <p>¿Una duda rápida?</p>
+              <QuickChips source="hero" className="chips-scroll" />
             </div>
             <p className="hero-note">
-              No hace falta que sepas de tecnología.
-              <br />
-              Empecemos por cómo trabajás hoy.
+              <a className="text-link" href="#proyectos">
+                O mirá primero lo que hicimos <Arrow />
+              </a>
             </p>
           </div>
           <div className="hero-evidence">
@@ -377,9 +382,9 @@ function App() {
                 Capturas reales en modo demo. Pedidos y recorridos de ejemplo;
                 no representan actividad en producción.
               </p>
-              <a tabIndex={0} className="text-link" href="#contacto">
-                Quiero conectar mi negocio <Arrow diagonal />
-              </a>
+              <WaLink source="taba" className="text-link" icon={false}>
+                Quiero algo así para mi negocio <Arrow diagonal />
+              </WaLink>
             </div>
           </article>
 
@@ -424,9 +429,9 @@ function App() {
                     <span>03</span> Registrá lo que cobraste.
                   </li>
                 </ol>
-                <a tabIndex={0} className="text-link" href="#contacto">
+                <WaLink source="oficio" className="text-link" icon={false}>
                   Hablemos de tu forma de trabajar <Arrow diagonal />
-                </a>
+                </WaLink>
               </div>
               <div className="oficio-stage">
                 <div className="view-controls" aria-label="Pantallas de OFICIO">
@@ -549,6 +554,7 @@ function App() {
                   href={SITE.catalog}
                   target="_blank"
                   rel="noopener noreferrer"
+                  data-track="demo-catalogo"
                 >
                   PROBAR DEMO <Arrow diagonal />
                 </a>
@@ -825,15 +831,19 @@ function App() {
               </p>
             </div>
             <div className="contact-action">
-              <ContactLink className="button cream">
-                Contarnos el problema
-              </ContactLink>
+              <WaLink source="contacto" className="button wa wa-light">
+                Contarnos el problema por WhatsApp
+              </WaLink>
               <span>
-                Escribinos por Instagram
-                <br />
-                <strong>@lunaaproyectos</strong>
+                Primera charla sin cargo. Respondemos Marco y Sofía.
               </span>
+              <ContactLink className="text-link">
+                O escribinos por Instagram · @lunaaproyectos
+              </ContactLink>
             </div>
+          </div>
+          <div className="container">
+            <QualifyForm />
           </div>
         </section>
       </main>
@@ -850,6 +860,7 @@ function App() {
           href={SITE.instagram}
           target="_blank"
           rel="noopener noreferrer"
+          data-track="instagram-footer"
         >
           Instagram <Arrow diagonal />
         </a>
@@ -857,6 +868,7 @@ function App() {
           © {new Date().getFullYear()} LUNA Proyectos
         </span>
       </footer>
+      <ChatBubble />
       <dialog
         ref={dialog}
         className="lightbox"

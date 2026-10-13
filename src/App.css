@@ -107,15 +107,15 @@
   align-items: center;
 }
 .hero h1 {
-  font-size: clamp(62px, 6.25vw, 94px);
-  letter-spacing: -4px;
+  font-size: clamp(42px, 4.5vw, 66px);
+  letter-spacing: -2.4px;
   line-height: 1.04;
   margin-top: 27px;
 }
 .hero h1 em {
   color: var(--blue);
-  font-size: 1.12em;
-  letter-spacing: -3.5px;
+  font-size: 1.1em;
+  letter-spacing: -1.6px;
 }
 .hero-description {
   font-size: 17px;
@@ -1024,7 +1024,7 @@ body:has(dialog[open]) {
 }
 @media (min-width: 1500px) {
   .hero h1 {
-    font-size: 96px;
+    font-size: 70px;
   }
   .hero-evidence {
     min-height: 550px;
@@ -1051,8 +1051,8 @@ body:has(dialog[open]) {
     padding-top: 60px;
   }
   .hero h1 {
-    font-size: 72px;
-    letter-spacing: -4.7px;
+    font-size: 52px;
+    letter-spacing: -2.4px;
   }
   .hero-evidence {
     min-height: 455px;
@@ -1141,7 +1141,7 @@ body:has(dialog[open]) {
     max-width: 600px;
   }
   .hero h1 {
-    font-size: 84px;
+    font-size: 58px;
   }
   .hero-description {
     font-size: 17px;
@@ -1381,24 +1381,24 @@ body:has(dialog[open]) {
     padding-bottom: 24px;
   }
   .hero .eyebrow {
-    font-size: 7px;
-    letter-spacing: 1.15px;
-    gap: 7px;
+    font-size: 11px;
+    letter-spacing: 1.3px;
+    gap: 8px;
   }
   .hero h1 {
-    font-size: clamp(46px, 13vw, 56px);
-    line-height: 1.03;
-    letter-spacing: -2px;
+    font-size: clamp(31px, 8.8vw, 42px);
+    line-height: 1.06;
+    letter-spacing: -1.4px;
     margin-top: 14px;
   }
   .hero h1 em {
-    letter-spacing: -2px;
+    letter-spacing: -0.8px;
   }
   .hero-description {
-    font-size: 14px;
-    line-height: 1.85;
+    font-size: 17px;
+    line-height: 1.55;
     margin-top: 14px;
-    max-width: 355px;
+    max-width: none;
   }
   .hero-actions {
     flex-direction: column;

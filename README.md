@@ -10,6 +10,16 @@ Node 24 y npm. Ejecutar `npm ci` y `npm run dev`. Vite sirve el proyecto en `/lu
 
 Componentes React y TypeScript, Vite, CSS propio y renderizado estático al construir. El navegador usa `preact/compat` para ejecutar los componentes con un runtime pequeño: el bundle final ronda 14 KB gzip. Se eligió tras medir el costo de arranque móvil. La capa de compatibilidad no cambia los componentes ni su API; los recorridos completos se prueban en ambos motores. El HTML ya contiene todo el contenido comercial y SEO antes de ejecutar JavaScript. No hay backend.
 
+## Contacto y medición
+
+El canal principal es WhatsApp (`wa.me/5492996209136`, número en `src/content.ts`). Instagram queda como canal secundario. Todos los mensajes prellenados viven en `WA_MESSAGES` y se arman con `waLink()`.
+
+- **Burbuja flotante** (`ChatBubble` en `src/chat.tsx`): es el único elemento fijo de contacto. Despliega preguntas rápidas y el botón de WhatsApp.
+- **Chips de preguntas rápidas:** cada uno abre WhatsApp con la pregunta ya escrita (`QUICK_QUESTIONS`).
+- **Mini formulario de calificación:** **no envía nada y no tiene backend**. Solo arma el texto del mensaje (rubro, qué querés resolver, urgencia), lo muestra y lo deja listo en un enlace de WhatsApp.
+- **Analytics sin cookies (GoatCounter):** `src/analytics.ts`. Cada enlace lleva `data-track="..."` y un único listener registra el evento (WhatsApp por sección, chips, burbuja, Instagram, demo). Mientras `GOATCOUNTER_CODE` en `src/content.ts` sea `[COMPLETAR]` no se carga ningún script y los eventos no hacen nada. Las campañas (`?utm_*`, `?ref=`) las registra GoatCounter por su cuenta.
+- **Fotos del equipo:** hoy hay ilustraciones (`TeamAvatars`). Para usar fotos reales, colocarlas en `public/team/` (WebP con width/height) y reemplazar el componente.
+
 Fuentes libres Manrope e Instrument Serif, alojadas en el sitio. Las licencias están en `public/licenses/`. Las imágenes de los productos son capturas de software auténtico, optimizadas a WebP.
 
 ## Verificación y publicación

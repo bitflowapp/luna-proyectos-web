@@ -1,4 +1,4 @@
-/* ¿Qué negocio tenés? */
+/* ¿Qué negocio tenés? — grilla 2×2, cada rubro se despliega */
 .rubros {
   padding-block: 56px 24px;
 }
@@ -17,39 +17,98 @@
   margin: 28px 0 0;
   padding: 0;
   display: grid;
-  gap: 14px;
-  grid-template-columns: 1fr;
+  gap: 12px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
 }
-.rubro-card {
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  padding: 20px;
+/* el rubro abierto ocupa el ancho completo para que el texto respire */
+.rubros-grid > li:has(> details[open]) {
+  grid-column: 1 / -1;
+}
+.rubro {
   background: #fff;
   border: 1.5px solid var(--line);
   border-radius: 20px;
   transition:
-    transform 0.18s ease,
     border-color 0.18s ease,
     box-shadow 0.18s ease;
 }
-.rubro-card:hover {
-  transform: translateY(-3px);
+.rubro:hover {
+  border-color: var(--ink);
+}
+.rubro[open] {
   border-color: var(--ink);
   box-shadow: 0 16px 30px -22px rgba(0, 0, 0, 0.5);
 }
+.rubro summary {
+  list-style: none;
+  cursor: pointer;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  grid-template-areas:
+    "icon plus"
+    "title title";
+  gap: 10px 8px;
+  align-items: start;
+  padding: 16px;
+  min-height: 132px;
+  border-radius: 20px;
+}
+.rubro summary::-webkit-details-marker {
+  display: none;
+}
+.rubro summary:focus-visible {
+  outline: 3px solid var(--blue);
+  outline-offset: 2px;
+}
+.rubro-icon {
+  grid-area: icon;
+}
 .rubro-icon svg {
-  width: 52px;
-  height: 52px;
+  width: 48px;
+  height: 48px;
+  display: block;
 }
-.rubro-card h3 {
-  font-size: 22px;
-  line-height: 1.15;
-  letter-spacing: -0.5px;
-  margin: 6px 0 0;
+.rubro-title {
+  grid-area: title;
+  align-self: end;
+  font-size: 17px;
+  font-weight: 800;
+  line-height: 1.2;
+  letter-spacing: -0.3px;
 }
-.rubro-card p {
+.rubro-plus {
+  grid-area: plus;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 1.5px solid var(--ink);
+  display: grid;
+  place-items: center;
+  font-size: 20px;
+  line-height: 1;
+  transition: transform 0.2s ease;
+}
+.rubro[open] .rubro-plus {
+  transform: rotate(45deg);
+}
+.rubro[open] summary {
+  min-height: 0;
+  grid-template-areas: "icon title plus";
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  padding-bottom: 8px;
+}
+.rubro[open] .rubro-title {
+  align-self: center;
+  font-size: 20px;
+}
+.rubro-body {
+  padding: 4px 16px 18px;
+  display: grid;
+  gap: 8px;
+  animation: rubro-in 0.2s ease-out;
+}
+.rubro-body p {
   margin: 0;
   font-size: 16px;
   line-height: 1.5;
@@ -60,9 +119,13 @@
 .rubro-solves {
   font-weight: 650;
 }
+.rubro-credential {
+  border-left: 3px solid var(--blue);
+  padding-left: 12px;
+  font-size: 16px;
+}
 .rubro-actions {
-  margin-top: auto;
-  padding-top: 14px;
+  padding-top: 10px;
   display: grid;
   gap: 4px;
 }
@@ -89,26 +152,46 @@
 .rubro-case:hover span {
   transform: translateX(4px);
 }
+@keyframes rubro-in {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+}
 @media (min-width: 700px) {
   .rubros-grid {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+  .rubro-body {
+    grid-template-columns: 1fr 1fr;
+    column-gap: 28px;
+  }
+  .rubro-actions,
+  .rubro-credential {
+    grid-column: 1 / -1;
+  }
+  .rubro-actions {
+    grid-template-columns: auto auto;
+    justify-content: start;
+    align-items: center;
+    column-gap: 24px;
   }
 }
 @media (min-width: 1100px) {
   .rubros {
     padding-block: 90px 40px;
   }
-  .rubros-grid {
-    grid-template-columns: repeat(4, 1fr);
-    gap: 18px;
-  }
 }
 @media (prefers-reduced-motion: reduce) {
-  .rubro-card,
+  .rubro,
+  .rubro-plus,
   .rubro-case span {
     transition: none;
   }
-  .rubro-card:hover {
-    transform: none;
+  .rubro-body {
+    animation: none;
   }
+}
+.rubros-grid > li > .rubro {
+  height: 100%;
 }

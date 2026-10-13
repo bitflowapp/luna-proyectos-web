@@ -1,5 +1,6 @@
 import type { ReactElement } from "react";
 import { WaLink } from "./chat";
+import { MARCO_CREDENTIAL } from "./content";
 import "./rubros.css";
 
 const stroke = {
@@ -47,8 +48,10 @@ type Rubro = {
   title: string;
   problem: string;
   solves: string;
-  caseHref: string;
-  caseLabel: string;
+  /** Caso relevante. Industria no enlaza a Bit Flow: no se afirma que sea de ese rubro. */
+  caseHref?: string;
+  caseLabel?: string;
+  credential?: string;
   message: string;
 };
 
@@ -89,8 +92,7 @@ const RUBROS: Rubro[] = [
     problem: "Los registros de campo se pasan a mano y los reportes tardan.",
     solves:
       "Registros de campo, inspecciones, mantenimiento y reportes técnicos, hechos en el lugar de trabajo.",
-    caseHref: "#bit-flow",
-    caseLabel: "Ver un sistema técnico",
+    credential: MARCO_CREDENTIAL,
     message:
       "Hola, tengo una empresa de industria/energía y quiero digitalizar registros de campo, inspecciones o reportes técnicos.",
   },
@@ -109,33 +111,45 @@ export function Rubros() {
       <h2 id="rubros-title">
         ¿Qué negocio tenés?
         <br />
-        <em>Empecemos por el tuyo.</em>
+        <em>Tocá el tuyo.</em>
       </h2>
       <ul className="rubros-grid">
         {RUBROS.map((rubro) => (
           <li key={rubro.key}>
-            <article className="rubro-card">
-              <div className="rubro-icon">{ICONS[rubro.key]}</div>
-              <h3>{rubro.title}</h3>
-              <p className="rubro-problem">{rubro.problem}</p>
-              <p className="rubro-solves">{rubro.solves}</p>
-              <div className="rubro-actions">
-                <WaLink
-                  source={`rubro-${rubro.key}`}
-                  message={rubro.message}
-                  className="button wa"
-                >
-                  Contanos de tu negocio
-                </WaLink>
-                <a
-                  className="rubro-case"
-                  href={rubro.caseHref}
-                  data-track={`rubro-${rubro.key}-caso`}
-                >
-                  {rubro.caseLabel} <span aria-hidden="true">→</span>
-                </a>
+            <details className="rubro" name="rubro" data-rubro={rubro.key}>
+              <summary>
+                <span className="rubro-icon">{ICONS[rubro.key]}</span>
+                <span className="rubro-title">{rubro.title}</span>
+                <span className="rubro-plus" aria-hidden="true">
+                  +
+                </span>
+              </summary>
+              <div className="rubro-body">
+                <p className="rubro-problem">{rubro.problem}</p>
+                <p className="rubro-solves">{rubro.solves}</p>
+                {rubro.credential && (
+                  <p className="rubro-credential">{rubro.credential}</p>
+                )}
+                <div className="rubro-actions">
+                  <WaLink
+                    source={`rubro-${rubro.key}`}
+                    message={rubro.message}
+                    className="button wa"
+                  >
+                    Contanos de tu negocio
+                  </WaLink>
+                  {rubro.caseHref && (
+                    <a
+                      className="rubro-case"
+                      href={rubro.caseHref}
+                      data-track={`rubro-${rubro.key}-caso`}
+                    >
+                      {rubro.caseLabel} <span aria-hidden="true">→</span>
+                    </a>
+                  )}
+                </div>
               </div>
-            </article>
+            </details>
           </li>
         ))}
       </ul>

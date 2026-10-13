@@ -76,11 +76,12 @@ test('commercial journey, menu and FAQ work with keyboard', async ({ page }) => 
     await expect(page.locator('.menu-toggle')).toHaveAttribute('aria-expanded', 'false')
     await expect(page).toHaveURL(/#contacto$/)
   }
-  const faq = page.locator('summary').first()
+  const faq = page.locator('.faq summary').first()
   await faq.focus()
   await page.keyboard.press('Enter')
-  await expect(page.locator('details').first()).toHaveAttribute('open', '')
-  await expect(page.locator('details').first().locator('p')).toBeVisible()
+  const item = page.locator('.faq details').first()
+  await expect(item).toHaveAttribute('open', '')
+  await expect(item.locator('p')).toBeVisible()
 })
 
 test('Bit Flow is private, with no media, links or commercial availability', async ({ page }) => {

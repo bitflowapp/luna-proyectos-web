@@ -1924,3 +1924,91 @@ body:has(dialog[open]) {
     font-size: 11px;
   }
 }
+
+/* Etapa 3: casos con resultado esperable, Bit Flow entregado, más demos */
+.case-copy {
+  grid-template-columns: repeat(3, 1fr);
+  gap: 48px;
+}
+.case-copy p,
+.case-result {
+  font-size: 16px;
+  line-height: 1.6;
+}
+.case-result {
+  margin: 18px 0 0;
+  color: var(--muted);
+}
+.case-result .mini-label {
+  display: block;
+  font-size: 11px;
+  letter-spacing: 1.2px;
+  font-weight: 800;
+  color: var(--blue);
+  margin-bottom: 4px;
+}
+.mini-label {
+  font-size: 11px;
+  font-weight: 800;
+  color: var(--blue);
+}
+.project-footnote .button.wa,
+.oficio-copy .button.wa,
+.catalog-layout .button.wa {
+  margin-top: 18px;
+  width: 100%;
+  max-width: 420px;
+}
+.badge-delivered {
+  margin-left: 8px;
+  color: #d6ddcd;
+  border-color: #79836e;
+}
+.private-case {
+  margin: 22px 0 0;
+  display: grid;
+  gap: 12px;
+}
+.private-case dt {
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 1.2px;
+  color: #bbc3b1;
+}
+.private-case dd {
+  margin: 2px 0 0;
+  font-size: 16px;
+  line-height: 1.5;
+  color: #f1f3ec;
+}
+.more-demos {
+  margin-top: 40px;
+  padding: 22px;
+  border: 1.5px dashed var(--line);
+  border-radius: 18px;
+  display: grid;
+  gap: 12px;
+  justify-items: start;
+}
+.more-demos p {
+  margin: 0;
+  font-size: 16px;
+  line-height: 1.55;
+}
+.faq-cta {
+  margin-top: 24px;
+  width: 100%;
+  max-width: 420px;
+}
+@media (max-width: 800px) {
+  .case-copy {
+    grid-template-columns: 1fr;
+    gap: 18px;
+  }
+  .case-copy p {
+    font-size: 16px;
+  }
+  .mini-label {
+    font-size: 11px;
+  }
+}

@@ -1,42 +1,72 @@
 import { expect, test } from '@playwright/test'
 
-test('rubros: four businesses, each with its case and a prefilled WhatsApp message', async ({ page }) => {
+const CREDENTIAL = 'Marco es ingeniero eléctrico e instrumentista, con experiencia en protección catódica, puesta a tierra y proyectos industriales. Hablamos tu idioma técnico.'
+
+test('rubros: 2x2 grid, each one opens with its case and a prefilled WhatsApp message', async ({ page }) => {
   await page.goto('./')
   const section = page.locator('#rubros')
   await expect(section.getByRole('heading', { level: 2 })).toContainText('¿Qué negocio tenés?')
-  const cards = section.locator('article.rubro-card')
-  await expect(cards).toHaveCount(4)
+  await expect(section.locator('details.rubro')).toHaveCount(4)
   const expected = [
-    ['Gastronomía', '#taba', /gastronom/i],
-    ['Comercio, almacén o kiosco', '#catalogo', /comercio/i],
-    ['Oficios', '#oficio', /oficio/i],
-    ['Industria y energía', '#bit-flow', /industria\/energía/i],
+    ['gastronomia', 'Gastronomía', '#taba', /gastronom/i],
+    ['comercio', 'Comercio, almacén o kiosco', '#catalogo', /comercio/i],
+    ['oficios', 'Oficios', '#oficio', /oficio/i],
+    ['industria', 'Industria y energía', null, /industria\/energía/i],
   ] as const
-  for (const [title, caseHref, message] of expected) {
-    const card = cards.filter({ has: page.getByRole('heading', { name: title, exact: true }) })
-    await expect(card).toHaveCount(1)
-    await expect(card.locator('a.rubro-case')).toHaveAttribute('href', caseHref)
-    await expect(page.locator(caseHref)).toHaveCount(1)
-    const href = (await card.locator('a[href*="wa.me"]').getAttribute('href'))!
+  for (const [key, title, caseHref, message] of expected) {
+    const rubro = section.locator(`details[data-rubro="${key}"]`)
+    await expect(rubro.locator('summary')).toContainText(title)
+    await expect(rubro).not.toHaveAttribute('open', '')
+    await rubro.locator('summary').click()
+    await expect(rubro).toHaveAttribute('open', '')
+    if (caseHref) {
+      await expect(rubro.locator('a.rubro-case')).toHaveAttribute('href', caseHref)
+      await expect(page.locator(caseHref)).toHaveCount(1)
+    } else {
+      await expect(rubro.locator('a.rubro-case')).toHaveCount(0)
+    }
+    const href = (await rubro.locator('a[href*="wa.me"]').getAttribute('href'))!
     expect(href).toMatch(/^https:\/\/wa\.me\/5492996209136\?text=/)
     expect(decodeURIComponent(href)).toMatch(message)
   }
 })
 
-test('rubros: industry and energy names its use cases without inventing results', async ({ page }) => {
-  await page.goto('./')
-  const card = page.locator('#rubros article.rubro-card', { hasText: 'Industria y energía' })
-  for (const word of ['registros de campo', 'inspecciones', 'mantenimiento', 'reportes técnicos']) {
-    await expect(card).toContainText(word)
-  }
-  await expect(card).not.toContainText(/\d+\s?%/)
-})
-
-test('rubros: no horizontal overflow and thumb-sized actions', async ({ page }) => {
+test('rubros: closed state shows a 2x2 grid of thumb-sized tiles without horizontal overflow', async ({ page }) => {
   await page.goto('./')
   await page.locator('#rubros').scrollIntoViewIfNeeded()
   expect(await page.evaluate(() => document.documentElement.scrollWidth > innerWidth)).toBe(false)
-  for (const el of await page.locator('#rubros .button, #rubros .rubro-case').all()) {
-    expect((await el.boundingBox())!.height).toBeGreaterThanOrEqual(48)
+  const tiles = await page.locator('#rubros details.rubro summary').all()
+  expect(tiles).toHaveLength(4)
+  const boxes = await Promise.all(tiles.map(tile => tile.boundingBox()))
+  for (const box of boxes) expect(box!.height).toBeGreaterThanOrEqual(48)
+  if (page.viewportSize()!.width < 700) {
+    expect(Math.abs(boxes[0]!.y - boxes[1]!.y)).toBeLessThan(2)
+    expect(boxes[2]!.y).toBeGreaterThan(boxes[0]!.y + boxes[0]!.height - 1)
   }
+})
+
+test('rubros: opening one closes the previous; the open one spans the full width', async ({ page }) => {
+  await page.goto('./')
+  const first = page.locator('details[data-rubro="gastronomia"]')
+  const second = page.locator('details[data-rubro="oficios"]')
+  await first.locator('summary').click()
+  await second.locator('summary').click()
+  await expect(second).toHaveAttribute('open', '')
+  await expect(first).not.toHaveAttribute('open', '')
+  const width = (await second.boundingBox())!.width
+  const grid = (await page.locator('.rubros-grid').boundingBox())!.width
+  expect(width).toBeGreaterThan(grid * 0.95)
+})
+
+test('industria y energía: names real use cases, carries the credential and does not link to Bit Flow', async ({ page }) => {
+  await page.goto('./')
+  const rubro = page.locator('details[data-rubro="industria"]')
+  await rubro.locator('summary').click()
+  for (const word of ['registros de campo', 'inspecciones', 'mantenimiento', 'reportes técnicos']) {
+    await expect(rubro).toContainText(word)
+  }
+  await expect(rubro).toContainText(CREDENTIAL)
+  await expect(rubro.locator('a[href="#bit-flow"]')).toHaveCount(0)
+  await expect(rubro).not.toContainText(/\d+\s?%/)
+  await expect(page.locator('#nosotros')).toContainText(CREDENTIAL)
 })

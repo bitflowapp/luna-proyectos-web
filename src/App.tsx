@@ -1,8 +1,9 @@
 import { useRef, useState } from "react";
 import type { ReactNode } from "react";
-import { SITE, media } from "./content";
+import { FAQ_EXTRA, MARCO_CREDENTIAL, SITE, media } from "./content";
 import { ChatBubble, QualifyForm, QuickChips, WaLink } from "./chat";
 import { Rubros } from "./rubros";
+import { Pricing, SocialProof } from "./trust";
 import "./App.css";
 
 function Arrow({ diagonal = false }: { diagonal?: boolean }) {
@@ -158,6 +159,9 @@ function App() {
               onClick={() => setMenuOpen(false)}
             >
               Cómo trabajamos
+            </a>
+            <a tabIndex={0} href="#precios" onClick={() => setMenuOpen(false)}>
+              ¿Cuánto sale?
             </a>
             <a tabIndex={0} href="#nosotros" onClick={() => setMenuOpen(false)}>
               Somos LUNA
@@ -338,6 +342,13 @@ function App() {
                   seguimiento del pedido.
                 </p>
               </div>
+              <div>
+                <span className="mini-label">LO QUE ESPERÁS GANAR</span>
+                <p>
+                  Pedidos ordenados en un solo lugar, menos errores al
+                  cargarlos y clientes que saben en qué estado está lo suyo.
+                </p>
+              </div>
             </div>
             <div className="product-viewer">
               <div className="viewer-toolbar">
@@ -384,8 +395,8 @@ function App() {
                 Capturas reales en modo demo. Pedidos y recorridos de ejemplo;
                 no representan actividad en producción.
               </p>
-              <WaLink source="taba" className="text-link" icon={false}>
-                Quiero algo así para mi negocio <Arrow diagonal />
+              <WaLink source="taba" className="button wa">
+                ¿Algo así para tu negocio?
               </WaLink>
             </div>
           </article>
@@ -420,6 +431,11 @@ function App() {
                   materiales y los cobros. Con presupuestos en PDF y perfiles
                   para distintos oficios.
                 </p>
+                <p className="case-result">
+                  <span className="mini-label">LO QUE ESPERÁS GANAR</span>
+                  Menos tiempo armando presupuestos y los cobros pendientes
+                  siempre a la vista.
+                </p>
                 <ol className="oficio-journey">
                   <li>
                     <span>01</span> Mirá qué tenés para hoy.
@@ -431,8 +447,8 @@ function App() {
                     <span>03</span> Registrá lo que cobraste.
                   </li>
                 </ol>
-                <WaLink source="oficio" className="text-link" icon={false}>
-                  Hablemos de tu forma de trabajar <Arrow diagonal />
+                <WaLink source="oficio" className="button wa">
+                  ¿Algo así para tu negocio?
                 </WaLink>
               </div>
               <div className="oficio-stage">
@@ -492,10 +508,27 @@ function App() {
               </div>
               <div className="private-copy">
                 <span className="badge">PROYECTO PRIVADO</span>
+                <span className="badge badge-delivered">
+                  VENDIDO Y ENTREGADO
+                </span>
                 <p>
                   Desarrollamos y vendimos un sistema a medida para organizar un
                   flujo técnico de trabajo en una herramienta propia.
                 </p>
+                <dl className="private-case">
+                  <div>
+                    <dt>EL PROBLEMA</dt>
+                    <dd>Un flujo técnico de trabajo que pedía orden.</dd>
+                  </div>
+                  <div>
+                    <dt>LA SOLUCIÓN</dt>
+                    <dd>Una herramienta propia, hecha a su medida.</dd>
+                  </div>
+                  <div>
+                    <dt>LO QUE ESPERÁS GANAR</dt>
+                    <dd>El trabajo técnico ordenado en un solo lugar.</dd>
+                  </div>
+                </dl>
                 <p className="private-disclaimer">
                   Este proyecto fue desarrollado exclusivamente para un cliente
                   y no se encuentra disponible comercialmente.
@@ -563,6 +596,14 @@ function App() {
                 <p className="small-note">
                   Abre el catálogo de demostración en otra pestaña.
                 </p>
+                <p className="case-result">
+                  <span className="mini-label">LO QUE ESPERÁS GANAR</span>
+                  Menos preguntas repetidas y consultas más claras, con los
+                  productos siempre a un enlace.
+                </p>
+                <WaLink source="catalogo" className="button wa">
+                  ¿Algo así para tu negocio?
+                </WaLink>
               </div>
               <div className="catalog-stage">
                 <button
@@ -608,6 +649,23 @@ function App() {
               </div>
             </div>
           </article>
+          <aside className="more-demos" aria-labelledby="more-demos-title">
+            <p className="eyebrow" id="more-demos-title">
+              TAMBIÉN PODÉS PROBAR
+            </p>
+            <p>
+              <strong>Flete.</strong> Pedí un traslado, recibí una cotización y
+              seguí cada paso. Demo con datos ficticios: no se coordinan viajes
+              reales.
+            </p>
+            <a
+              className="button blue"
+              href="/luna-proyectos-web/demos/flete/"
+              data-track="demo-flete"
+            >
+              Probar la demo de Flete <Arrow diagonal />
+            </a>
+          </aside>
         </section>
 
         <section
@@ -719,6 +777,9 @@ function App() {
           </ol>
         </section>
 
+        <Pricing />
+        <SocialProof />
+
         <section
           className="team container"
           id="nosotros"
@@ -742,6 +803,7 @@ function App() {
               LUNA es nuestro proyecto. Nos interesa entender qué hay detrás de
               cada negocio y construir algo que tenga sentido para quien lo usa.
             </p>
+            <p>{MARCO_CREDENTIAL}</p>
             <p>
               Del otro lado de la conversación estamos nosotros. Podés contarnos
               el problema como te salga.
@@ -794,6 +856,18 @@ function App() {
                 falta llegar con un documento técnico.
               </p>
             </details>
+            {FAQ_EXTRA.map((item) => (
+              <details key={item.q}>
+                <summary>
+                  {item.q}
+                  <span aria-hidden="true">+</span>
+                </summary>
+                <p>{item.a}</p>
+              </details>
+            ))}
+            <WaLink source="faq" className="button wa faq-cta">
+              ¿Otra duda? Preguntanos
+            </WaLink>
           </div>
         </section>
 

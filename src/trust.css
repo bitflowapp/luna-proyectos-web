@@ -1,0 +1,126 @@
+/* ¿Cuánto sale? y prueba social honesta */
+.pricing h2,
+.proof-title {
+  font-size: clamp(30px, 8.4vw, 52px);
+  line-height: 1.06;
+  letter-spacing: -1.6px;
+  margin: 14px 0 0;
+}
+.pricing h2 em,
+.proof-title em {
+  color: var(--blue);
+  font-size: 1.1em;
+}
+.pricing-grid {
+  list-style: none;
+  margin: 28px 0 0;
+  padding: 0;
+  display: grid;
+  gap: 14px;
+}
+.pricing-card {
+  height: 100%;
+  background: #fff;
+  border: 1.5px solid var(--line);
+  border-radius: 20px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.pricing-card h3 {
+  margin: 0;
+  font-size: 22px;
+  letter-spacing: -0.5px;
+}
+.pricing-card p {
+  margin: 0;
+  font-size: 16px;
+  line-height: 1.5;
+  color: var(--muted);
+}
+.pricing-card dl {
+  margin: 6px 0 10px;
+  display: grid;
+  gap: 10px;
+}
+.pricing-card dt {
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  color: var(--blue);
+}
+.pricing-card dd {
+  margin: 2px 0 0;
+  font-size: 17px;
+  font-weight: 700;
+  line-height: 1.35;
+}
+.pricing-card .button {
+  margin-top: auto;
+  width: 100%;
+}
+.pricing-terms {
+  list-style: none;
+  margin: 22px 0 0;
+  padding: 0;
+  display: grid;
+  gap: 10px;
+}
+.pricing-terms li {
+  font-size: 16px;
+  line-height: 1.5;
+  padding: 14px 16px;
+  background: var(--paper);
+  border: 1.5px dashed var(--line);
+  border-radius: 14px;
+}
+.proof {
+  padding-block: 40px 56px;
+}
+.proof-facts {
+  list-style: none;
+  margin: 22px 0 0;
+  padding: 0;
+  display: grid;
+  gap: 12px;
+}
+.proof-facts li {
+  display: grid;
+  gap: 4px;
+  padding: 16px;
+  border-left: 3px solid var(--blue);
+  background: #fff;
+  border-radius: 0 14px 14px 0;
+}
+.proof-facts strong {
+  font-size: 17px;
+}
+.proof-facts span {
+  font-size: 16px;
+  line-height: 1.5;
+  color: var(--muted);
+}
+.proof-quotes {
+  list-style: none;
+  margin: 22px 0 0;
+  padding: 0;
+  display: grid;
+  gap: 14px;
+}
+.proof-quotes blockquote {
+  margin: 0;
+  font-family: var(--serif);
+  font-size: 26px;
+  line-height: 1.25;
+}
+@media (min-width: 800px) {
+  .pricing-grid,
+  .proof-facts {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  .proof-facts {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}

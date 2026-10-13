@@ -1,0 +1,109 @@
+/* Páginas de prueba de dirección visual. NO se despliegan (fuera de /public). */
+@font-face{font-family:"Manrope Variable";font-weight:400;font-display:swap;src:url("../node_modules/@fontsource/manrope/files/manrope-latin-400-normal.woff2") format("woff2")}
+@font-face{font-family:"Manrope Variable";font-weight:600;font-display:swap;src:url("../node_modules/@fontsource/manrope/files/manrope-latin-600-normal.woff2") format("woff2")}
+@font-face{font-family:"Manrope Variable";font-weight:800;font-display:swap;src:url("../node_modules/@fontsource/manrope/files/manrope-latin-800-normal.woff2") format("woff2")}
+@font-face{font-family:"Instrument Serif";font-style:italic;font-display:swap;src:url("../node_modules/@fontsource/instrument-serif/files/instrument-serif-latin-400-italic.woff2") format("woff2")}
+:root{
+  --paper:#f8f6f0;--paper-2:#efece3;--ink:#20211f;--muted:#56574f;--blue:#2549eb;--line:#d9d7ce;
+  --wa:#0f7a3d;--wa-dark:#0b5e2f;--serif:"Instrument Serif",Georgia,serif;
+  font-family:"Manrope Variable",Arial,sans-serif;font-size:16px;color:var(--ink);background:var(--paper);
+  -webkit-font-smoothing:antialiased;
+}
+*{box-sizing:border-box}
+body{margin:0;min-width:320px;line-height:1.55;padding-bottom:96px}
+a{color:inherit;text-decoration:none}
+button{font:inherit;cursor:pointer;color:inherit}
+img{max-width:100%;display:block}
+.wrap{width:min(560px,calc(100% - 40px));margin-inline:auto}
+:focus-visible{outline:3px solid var(--blue);outline-offset:3px;border-radius:4px}
+
+/* encabezado */
+.top{display:flex;align-items:center;justify-content:space-between;padding:14px 0}
+.brand{display:flex;flex-direction:column;line-height:.85}
+.brand b{font-size:30px;font-weight:800;letter-spacing:-2.4px}
+.brand b i{color:var(--blue);font-style:normal}
+.brand small{font-size:7px;letter-spacing:2.6px;font-weight:700;margin-top:7px}
+.top-wa{font-size:14px;font-weight:700;border:1.5px solid var(--ink);border-radius:999px;padding:10px 16px;min-height:44px;display:inline-flex;align-items:center;gap:8px}
+
+/* luna */
+.moon{display:inline-block;width:1em;height:1em;vertical-align:-.12em}
+.eyebrow{font-size:12px;letter-spacing:1.6px;font-weight:700;text-transform:uppercase;color:var(--muted);display:flex;gap:8px;align-items:center}
+.eyebrow .moon{color:var(--blue)}
+
+h1{font-size:clamp(30px,8.8vw,46px);line-height:1.06;letter-spacing:-1.6px;margin:18px 0 0;font-weight:800}
+h1 em{font-family:var(--serif);font-weight:400;color:var(--blue);font-size:1.08em;letter-spacing:-.5px}
+.lead{font-size:18px;color:#46473f;margin:18px 0 0}
+
+/* botones */
+.btn{display:flex;align-items:center;justify-content:center;gap:12px;min-height:56px;padding:15px 22px;border-radius:14px;font-weight:800;font-size:17px;
+  transition:transform .15s ease,box-shadow .15s ease,background .15s ease}
+.btn:active{transform:scale(.98)}
+.btn-wa{background:var(--wa);color:#fff;box-shadow:0 8px 22px -10px rgba(15,122,61,.7)}
+.btn-wa:hover{background:var(--wa-dark)}
+.btn-ghost{border:1.5px solid var(--ink);background:transparent}
+.btn-sub{display:block;text-align:center;font-size:13px;color:var(--muted);margin-top:10px}
+.wa-ico{width:22px;height:22px;flex:none}
+
+/* chips */
+.chips{display:flex;flex-wrap:wrap;gap:10px;margin:0;padding:0;list-style:none}
+.chip{display:inline-flex;align-items:center;min-height:48px;padding:10px 16px;border-radius:999px;border:1.5px solid var(--line);background:#fff;font-weight:600;font-size:15px;
+  transition:border-color .15s,transform .15s}
+.chip:hover{border-color:var(--blue)}
+.chip:active{transform:scale(.97)}
+.chip::after{content:"↗";margin-left:8px;color:var(--blue)}
+
+/* secciones */
+section{padding:56px 0}
+h2{font-size:clamp(30px,8.4vw,40px);line-height:1.08;letter-spacing:-1.4px;margin:12px 0 0;font-weight:800}
+h2 em{font-family:var(--serif);font-weight:400;color:var(--blue);font-size:1.1em}
+.rubros{display:grid;gap:12px;margin:26px 0 0;padding:0;list-style:none}
+.rubro{display:grid;grid-template-columns:48px 1fr auto;gap:14px;align-items:center;padding:16px;border:1.5px solid var(--line);border-radius:18px;background:#fff;min-height:84px;transition:transform .15s,border-color .15s,box-shadow .15s}
+.rubro:hover{border-color:var(--ink);transform:translateY(-2px);box-shadow:0 12px 24px -16px rgba(0,0,0,.4)}
+.rubro svg{width:48px;height:48px}
+.rubro strong{display:block;font-size:18px;letter-spacing:-.3px}
+.rubro span{font-size:14px;color:var(--muted)}
+.rubro i{font-style:normal;font-size:22px;color:var(--blue)}
+
+.case{background:var(--paper-2);border-radius:24px;padding:22px;margin-top:26px}
+.case img{border-radius:14px;margin-top:16px}
+.case dl{margin:16px 0 0;display:grid;gap:10px}
+.case dt{font-size:11px;letter-spacing:1.4px;text-transform:uppercase;font-weight:800;color:var(--blue)}
+.case dd{margin:2px 0 0;font-size:16px}
+.case .btn{margin-top:18px}
+
+/* avatares ilustrados */
+.avatars{display:flex}
+.avatars svg{width:44px;height:44px;border-radius:50%;border:2px solid var(--paper);background:#fff;margin-left:-10px}
+.avatars svg:first-child{margin-left:0}
+
+/* burbuja flotante (C) */
+.bubble{position:fixed;right:16px;bottom:16px;z-index:20;display:flex;flex-direction:column;align-items:flex-end;gap:12px;max-width:calc(100vw - 32px)}
+.bubble-panel{width:min(340px,calc(100vw - 32px));background:#fff;border:1.5px solid var(--ink);border-radius:22px;padding:18px;box-shadow:0 24px 50px -20px rgba(0,0,0,.45)}
+.bubble-panel[hidden]{display:none}
+.bubble-head{display:flex;gap:12px;align-items:center}
+.bubble-head p{margin:0;font-size:15px;line-height:1.35}
+.bubble-head strong{display:block;font-size:16px}
+.bubble-panel .chips{margin-top:14px;flex-direction:column;align-items:stretch}
+.bubble-panel .chip{font-size:15px;justify-content:space-between}
+.bubble-panel .btn{margin-top:14px}
+.bubble-toggle{display:flex;align-items:center;gap:12px;background:var(--ink);color:#fff;border:0;border-radius:999px;padding:8px 20px 8px 8px;min-height:60px;box-shadow:0 14px 30px -12px rgba(0,0,0,.6)}
+.bubble-toggle .avatars svg{border-color:var(--ink);width:40px;height:40px}
+.bubble-toggle span{font-weight:800;font-size:15px;text-align:left;line-height:1.2}
+.bubble-toggle small{display:block;font-weight:600;opacity:.8;font-size:12px}
+
+/* A: barra fija */
+.stickybar{position:fixed;left:0;right:0;bottom:0;z-index:20;padding:12px 16px calc(12px + env(safe-area-inset-bottom));background:rgba(248,246,240,.94);backdrop-filter:blur(8px);border-top:1px solid var(--line)}
+
+/* B: chat */
+.chat{margin-top:22px;display:grid;gap:12px}
+.msg{display:flex;gap:10px;align-items:flex-end}
+.msg .avatars svg{margin-left:0;width:38px;height:38px}
+.msg p{margin:0;background:#fff;border:1.5px solid var(--line);padding:13px 16px;border-radius:20px 20px 20px 6px;max-width:82%;font-size:17px}
+.msg.me{justify-content:flex-end}
+.msg.me p{background:var(--ink);color:#fff;border-radius:20px 20px 6px 20px;border-color:var(--ink)}
+.replies{padding-left:48px}
+.composer{position:fixed;left:0;right:0;bottom:0;z-index:20;padding:10px 16px calc(10px + env(safe-area-inset-bottom));background:var(--paper);border-top:1px solid var(--line)}
+.composer a{display:flex;align-items:center;justify-content:space-between;gap:10px;min-height:54px;border:1.5px solid var(--ink);border-radius:999px;padding:6px 6px 6px 20px;background:#fff;color:var(--muted);font-size:16px}
+.composer a b{background:var(--wa);color:#fff;width:42px;height:42px;border-radius:50%;display:grid;place-items:center}
+
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
